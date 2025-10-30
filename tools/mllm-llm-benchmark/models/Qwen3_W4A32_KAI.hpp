@@ -8,7 +8,7 @@
 
 #include "BenchmarkTemplate.hpp"
 #include <mllm/mllm.hpp>
-#include <mllm/models/qwen3/modeling_qwen3.hpp>
+#include <mllm/models/qwen3/modeling_qwen3_fa2.hpp>  // Use FA2 for better performance
 #include <mllm/models/qwen3/configuration_qwen3.hpp>
 
 class Qwen3_W4A32_KAI_Benchmark final : public BenchmarkTemplate {

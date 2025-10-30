@@ -92,7 +92,7 @@ MLLM_MAIN({
   // Actual run for 3 turns and gives avg results. Each turn will sleep for 5 seconds to let the SoC or GPU/NPU cool down.
   mllm::print("\n========================================");
   mllm::print("Starting Benchmark Tests");
-  mllm::print("========================================\n");
+  mllm::print("========================================\n");  
   
   for (auto [pp, tg] : pp_tg_pairs) {
     mllm::print("----------------------------------------");
