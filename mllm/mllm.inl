@@ -112,6 +112,55 @@ struct formatter<std::vector<int32_t>> {
 };
 
 template<>
+struct formatter<std::vector<std::string>> {
+  constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+  template<typename FormatContext>
+  auto format(const std::vector<std::string>& vec, FormatContext& ctx) const {
+    auto out = ctx.out();
+    *out++ = '[';
+    for (size_t i = 0; i < vec.size(); ++i) {
+      if (i > 0) {
+        *out++ = ',';
+        *out++ = ' ';
+      }
+      out = fmt::format_to(out, "{:?}", vec[i]);
+    }
+    *out++ = ']';
+    return out;
+  }
+};
+
+template<>
+struct formatter<std::vector<int64_t>> {
+  constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+  template<typename FormatContext>
+  auto format(const std::vector<int64_t>& vec, FormatContext& ctx) const {
+    auto out = ctx.out();
+    *out++ = '[';
+    for (size_t i = 0; i < vec.size(); ++i) {
+      if (i > 0) {
+        *out++ = ',';
+        *out++ = ' ';
+      }
+      out = fmt::format_to(out, "{}", vec[i]);
+    }
+    *out++ = ']';
+    return out;
+  }
+};
+
+template<>
+struct formatter<std::tuple<int, int>> {
+  constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
+  template<typename FormatContext>
+  auto format(const std::tuple<int, int>& tuple, FormatContext& ctx) const {
+    auto out = ctx.out();
+    out = fmt::format_to(out, "tuple[{}, {}]", std::get<0>(tuple), std::get<1>(tuple));
+    return out;
+  }
+};
+
+template<>
 struct formatter<mllm::Tensor> {
   constexpr auto parse(format_parse_context& ctx) { return ctx.begin(); }
 
@@ -131,6 +180,8 @@ struct formatter<mllm::Tensor> {
  private:
   template<typename OutputIt>
   OutputIt printTensorData(const mllm::Tensor& tensor, OutputIt out, int dim, const std::vector<int32_t>& indices) const {
+    // if in trace mode, we don't print the tensor data
+    if (mllm::Context::instance().thisThread()->trace_mode) { return fmt::format_to(out, "Tensor(...)"); }
     auto shape = tensor.shape();
 
     if (dim >= (int)shape.size()) { return printTensorValue(tensor, out, indices); }

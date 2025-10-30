@@ -324,6 +324,11 @@ Documents
 .. toctree::
    :maxdepth: 2
 
+   service/index
+
+.. toctree::
+   :maxdepth: 2
+
    arch/index
 
 .. toctree::
@@ -345,6 +350,11 @@ Documents
    :maxdepth: 2
 
    cpu_backend/index
+
+.. toctree::
+   :maxdepth: 2
+
+   qnn_backend/index
 
 .. toctree::
    :maxdepth: 2

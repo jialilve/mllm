@@ -42,10 +42,13 @@ class ModuleImpl : public AbstractNnNode {
 };
 
 template<typename T>
-class ModuleLists;
+class ModuleList;
 
 template<typename T>
-class ModuleListsSuffix;
+class ModuleListWithIdx;
+
+template<typename T>
+class ModuleListSuffixed;
 
 class Module {
  public:
@@ -72,8 +75,10 @@ class Module {
   auto reg(const std::string& name, Args&&... args) {
     // Register a module
     if constexpr (std::is_base_of_v<Module, T>) {
-      auto ret =
-          T((impl_->getAbsoluteName() == "" ? name : impl_->getAbsoluteName() + "." + name), std::forward<Args>(args)...);
+      auto ret = T((impl_->getAbsoluteName() == "" ? name
+                                                   : impl_->getAbsoluteName() + (name == "" ? "" : ".") +  // avoid double dot
+                                                         name),
+                   std::forward<Args>(args)...);
       impl_->regChildNode(ret.impl());
       ret.impl()->setName(name);
       return ret;
@@ -83,7 +88,10 @@ class Module {
     if constexpr (std::is_base_of_v<Layer, T>) {
       auto ret = T(std::forward<Args>(args)...);
       impl_->regChildNode(ret.impl());
-      ret.impl()->setAbsoluteName((impl_->getAbsoluteName() == "" ? name : impl_->getAbsoluteName() + "." + name));
+      ret.impl()->setAbsoluteName((impl_->getAbsoluteName() == ""
+                                       ? name
+                                       : impl_->getAbsoluteName() + (name == "" ? "" : ".") +  // avoid double dot
+                                             name));
       ret.impl()->setName(name);
 
       auto& ctx = Context::instance();
@@ -186,6 +194,29 @@ class ModuleList final : public Module {
   ModuleList(const std::string& name, int nums, Args&&... args) : Module(name) {
     for (int i = 0; i < nums; ++i) {
       layers_.emplace_back(reg<T>(/*name*/ std::to_string(i), /*args*/ std::forward<Args>(args)...));
+    }
+  };
+
+  std::vector<Tensor> forward(const std::vector<Tensor>& inputs, const std::vector<AnyValue>& args) override {
+    std::vector<Tensor> o = inputs;
+    for (auto& layer : layers_) { o = layer.forward(o, args); }
+    return o;
+  }
+
+  std::vector<T>& list() { return layers_; }
+};
+
+template<typename T>
+class ModuleListWithIdx final : public Module {
+  std::vector<T> layers_;
+
+ public:
+  ModuleListWithIdx() = default;
+
+  template<typename... Args>
+  ModuleListWithIdx(const std::string& name, int nums, Args&&... args) : Module(name) {
+    for (int i = 0; i < nums; ++i) {
+      layers_.emplace_back(reg<T>(/*name*/ std::to_string(i), /*args*/ std::forward<Args>(args)..., /*index*/ i));
     }
   };
 
