@@ -66,6 +66,9 @@ MLLM_MAIN({
       // Use for loop
       for (auto& step : qwen2vl.chat(inputs)) { std::wcout << qwen2vl_tokenizer.detokenize(step.cur_token_id) << std::flush; }
 
+      // Print performance summary
+      qwen2vl.perfSummary();
+
       // OR
       // Steam it!
       // qwen2vl.streamGenerate(inputs,
