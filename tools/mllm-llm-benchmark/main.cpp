@@ -95,13 +95,7 @@ MLLM_MAIN({
   // Actual run for 3 turns and gives avg results. Each turn will sleep for 5 seconds to let the SoC or GPU/NPU cool down.
   mllm::print("\n========================================");
   mllm::print("Starting Benchmark Tests");
-<<<<<<< HEAD
-  mllm::print("========================================\n");
-
-=======
   mllm::print("========================================\n");  
-  
->>>>>>> 7369b00d (feat: add Qwen3 FA2 model support and LLM benchmark tools)
   for (auto [pp, tg] : pp_tg_pairs) {
     mllm::print("----------------------------------------");
     mllm::print("Test Configuration:");
