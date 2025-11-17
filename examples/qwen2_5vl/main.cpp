@@ -71,6 +71,7 @@ MLLM_MAIN({
                                  auto str = qwen2_5vl_tokenizer.detokenize(token_id);
                                  std::wcout << str << std::flush;
                                });
+      qwen2_5vl.perfSummary();
 
       fmt::print("\n{}\n", std::string(60, '-'));
     } catch (const std::exception& e) { fmt::print("\n❌ Error: {}\n{}\n", e.what(), std::string(60, '-')); }

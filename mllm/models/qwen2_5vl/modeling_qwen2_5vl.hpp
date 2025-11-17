@@ -5,6 +5,9 @@
 #include <algorithm>
 #include <unordered_map>
 
+#include <fmt/core.h>
+#include <fmt/color.h>
+
 #include "mllm/mllm.hpp"
 #include "mllm/core/DataTypes.hpp"
 #include "mllm/nn/lmcache/StaticCache.hpp"
@@ -866,7 +869,9 @@ class Qwen2_5VLForCausalLM : public ARGeneration {
       auto pos_emb = makeVisualRotaryPosEmb(rotary_pos_emb_full, pos_ids, grid_thw);
       auto [visual_embedding_sin, visual_embedding_cos] = makeVisualRotarySinCos(pos_emb);
       auto start_time = std::chrono::high_resolution_clock::now();
+      customEventStartTimePoint("visual");
       auto visual_embeddings = visual(img, visual_embedding_sin, visual_embedding_cos, grid_thw)[0];
+      customEventEndTimePoint("visual");
       auto end_time = std::chrono::high_resolution_clock::now();
       auto all_time = std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
       print("ViT Processing: done, time cost: {} seconds", all_time.count());
@@ -909,7 +914,10 @@ class Qwen2_5VLForCausalLM : public ARGeneration {
         makeMultimodalPositionEmbedding(position_ids, llm.getBuffer("inv_freq"), cfg.max_position_embeddings,
                                         cfg.hidden_size / cfg.num_attention_heads, cfg.mrope_section);
 
+    bool is_prefill = (ar_steps_ == 0);
+    if (is_prefill) { customEventStartTimePoint("non_visual_prefill"); }
     sequence = llm(input_embeddings, llm_embedding_sin, llm_embedding_cos, AnyValue(&kv_cache_))[0];
+    if (is_prefill) { customEventEndTimePoint("non_visual_prefill"); }
 
     return {
         {"sequence", sequence},
@@ -929,6 +937,42 @@ class Qwen2_5VLForCausalLM : public ARGeneration {
       *ret_position_ids.offsettedPtr<int64_t>({1, 0, 0}) = last_pos + 1;
       *ret_position_ids.offsettedPtr<int64_t>({2, 0, 0}) = last_pos + 1;
       return ret_position_ids;
+    }
+  }
+
+  void perfSummary() override {
+    ARGeneration::perfSummary();
+    if (!custom_event_time_.empty()) {
+      bool has_visual = custom_event_time_.count("visual") > 0;
+      bool has_non_visual_prefill = custom_event_time_.count("non_visual_prefill") > 0;
+
+      if (has_visual || has_non_visual_prefill) {
+        fmt::print(fg(fmt::color::magenta), "\n{:=^50}\n", " Qwen2.5-VL Custom Events ");
+
+        if (has_visual) {
+          const auto& time_points = custom_event_time_["visual"];
+          auto duration =
+              std::chrono::duration_cast<std::chrono::microseconds>(time_points.second - time_points.first).count();
+          fmt::print(fg(fmt::color::white), "{:<20}: ", "Visual processing");
+          fmt::print(fg(fmt::color::yellow), "{:>10.2f} μs\n", (double)duration);
+        }
+
+        if (has_non_visual_prefill) {
+          const auto& time_points = custom_event_time_["non_visual_prefill"];
+          auto duration =
+              std::chrono::duration_cast<std::chrono::microseconds>(time_points.second - time_points.first).count();
+          fmt::print(fg(fmt::color::white), "{:<20}: ", "Non-visual prefill");
+          fmt::print(fg(fmt::color::yellow), "{:>10.2f} μs", (double)duration);
+
+          if (duration > 0 && ar_prefill_tokens_ > 0) {
+            double tokens_per_sec = (double)ar_prefill_tokens_ / (duration / 1000000.0);
+            fmt::print(fg(fmt::color::white), " ({:>6.2f} tokens/s)", tokens_per_sec);
+          }
+          fmt::print("\n");
+        }
+
+        fmt::print(fg(fmt::color::magenta), "{:=^50}\n", "");
+      }
     }
   }
 
