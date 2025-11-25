@@ -6,8 +6,10 @@
 
 // Ops
 #include "mllm/backends/cpu/ops/ArgsortOp.hpp"
+#include "mllm/backends/cpu/ops/AvgPool1dOp.hpp"
 #include "mllm/backends/cpu/ops/CastTypeOp.hpp"
 #include "mllm/backends/cpu/ops/CausalMaskOp.hpp"
+#include "mllm/backends/cpu/ops/CloneOp.hpp"
 #include "mllm/backends/cpu/ops/ConcatOp.hpp"
 #include "mllm/backends/cpu/ops/ContiguousOp.hpp"
 #include "mllm/backends/cpu/ops/Conv1DOp.hpp"
@@ -54,6 +56,9 @@
 #include "mllm/backends/cpu/ops/X2XOp.hpp"
 #include "mllm/backends/cpu/ops/StackOp.hpp"
 
+// Context
+#include "mllm/engine/Context.hpp"
+
 namespace mllm::cpu {
 
 CPUBackend::CPUBackend() : Backend(kCPU, createCPUAllocator()) {
@@ -69,9 +74,37 @@ CPUBackend::CPUBackend() : Backend(kCPU, createCPUAllocator()) {
                CPUSTFTOpFactory, CPUISTFTOpFactory, CPUIndexOpFactory, CPUTopKOpFactory, CPUClipOpFactory, CPUMeanOpFactory,
                CPUKVCacheOpFactory, CPUPagedAttnOpFactory, CPUScatter2ShardsOpFactory, CPURadixAttnOpFactory,
                CPUConv2DOpFactory, CPULayerNorm2DOpFactory, CPUInterpolateOpFactory, CPUPadOpFactory, CPUMaskedScatterOpFactory,
-               CPUArgsortOpFactory>();
+               CPUArgsortOpFactory, CPUCloneOpFactory, CPUAvgPool1dOpFactory>();
 }
 
+CPUBackend::~CPUBackend() {
+  if (thread_pool_) { thread_pool_->__threadPoolDestroy(); }
+}
+
+HpcThreadPool::ptr_t CPUBackend::getThreadPool() { return thread_pool_; }
+
+void CPUBackend::initThreadPool(int32_t num_threads) {
+  thread_pool_ = std::make_shared<HpcThreadPool>(num_threads);
+  thread_pool_->activate();
+  task_index_ = thread_pool_->acquireTaskSlot();
+}
+
+int32_t CPUBackend::taskIndex() { return task_index_; }
+
 std::shared_ptr<CPUBackend> createCPUBackend() { return std::make_shared<CPUBackend>(); }
+
+void idleHpcThreadPool() {
+  auto& ctx = Context::instance();
+  auto host_bk = std::static_pointer_cast<::mllm::cpu::CPUBackend>(ctx.getBackend(kCPU));
+  auto tp = host_bk->getThreadPool();
+  if (tp) { tp->idle(); }
+}
+
+void wakeupHpcThreadPool() {
+  auto& ctx = Context::instance();
+  auto host_bk = std::static_pointer_cast<::mllm::cpu::CPUBackend>(ctx.getBackend(kCPU));
+  auto tp = host_bk->getThreadPool();
+  if (tp) { tp->wakeup(); }
+}
 
 }  // namespace mllm::cpu

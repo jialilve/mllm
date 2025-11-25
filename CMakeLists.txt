@@ -23,6 +23,7 @@ option(MLLM_BUILD_ASCEND_BACKEND "Enable MLLM Ascend backend" OFF)
 option(MLLM_BUILD_SDK_C_BINDING "Enable MLLM C SDK binding" ON)
 option(MLLM_BUILD_EXPERIMENTS "Enable MLLM experiments" OFF)
 option(MLLM_BUILD_EXT_OP_SET "Enable building mllm extension op set." ON)
+option(MLLM_BUILD_EXT_OP_SET_TEST "Enable building mllm extension op set test." ON)
 
 # MLLM Compile Stack
 option(MLLM_ENABLE_MLLM_COMPILE_STACK "Enable compile stack of mllm. You need prebuilt mlir first." OFF)
@@ -38,12 +39,16 @@ option(MLLM_BLAS_VENDOR_ACCELERATE "Enable Accelerate BLAS on OSX" OFF)
 option(MLLM_BLAS_VENDOR_MKL "Enable MKL BLAS on X86" OFF)
 option(MLLM_BLAS_VENDOR_BLIS "Enable BLIS BLAS for multi-platform" OFF)
 
+# CPU Backend: SME2 and SVE2
+option(MLLM_CPU_BACKEND_USE_SME2 "Enable SME2" OFF)
+
 # Ascend Backend: Options
 option(MLLM_ASCEND_CPU_DEBUG_MODE "Enable CPU Debug mode in ascend" OFF)
 
 # Threads
 option(MLLM_KERNEL_USE_THREADS "Enable Threads" ON)
-option(MLLM_KERNEL_THREADS_VENDOR_OPENMP "Enable OpenMP Threads" ON)
+option(MLLM_KERNEL_USE_THREADS_VENDOR_MLLM "Enable mllm's thread pool" ON)
+option(MLLM_KERNEL_THREADS_VENDOR_OPENMP "Enable OpenMP Threads" OFF)
 option(MLLM_KERNEL_THREADS_VENDOR_APPLE_GCD "Enable Apple GCD Threads" OFF)
 
 # Performance profile components
@@ -114,6 +119,9 @@ CPMAddPackage(
 # ONLY APPLE CAN DO !
 # Apple clang's driver removes the -fopenmp flag, so we need to add it manually.
 if(MLLM_KERNEL_USE_THREADS)
+  if(MLLM_KERNEL_USE_THREADS_VENDOR_MLLM)
+    add_compile_definitions(MLLM_KERNEL_USE_THREADS_VENDOR_MLLM=1)
+  endif()
   # Compile Option
   add_compile_definitions(MLLM_KERNEL_USE_THREADS=1)
   if(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang" OR APPLE)
@@ -290,6 +298,15 @@ if(MLLM_PERFETTO_ENABLE)
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
     RUNTIME DESTINATION bin)
+
+  install(
+    DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/third_party/perfetto/sdk/
+    DESTINATION include
+    FILES_MATCHING
+    PATTERN "*.h"
+    PATTERN "*.hpp"
+    PATTERN "*.inl"
+    PATTERN "Vendors/*" EXCLUDE)
 endif()
 
 install(
@@ -327,6 +344,15 @@ endif()
 install(
   DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/mllm/
   DESTINATION include/mllm
+  FILES_MATCHING
+  PATTERN "*.h"
+  PATTERN "*.hpp"
+  PATTERN "*.inl"
+  PATTERN "Vendors/*" EXCLUDE)
+
+install(
+  DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/mllm-ext-opset/
+  DESTINATION include/mllm-ext-opset
   FILES_MATCHING
   PATTERN "*.h"
   PATTERN "*.hpp"
