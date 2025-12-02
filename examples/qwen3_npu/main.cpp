@@ -20,12 +20,19 @@ using mllm::Argparse;
 MLLM_MAIN({
   mllm::initQnnBackend();
 
-  const std::string config_path = "./config.json";
-  const std::string model_path = "./qwen3-model.mllm";
+  // Model paths - update these to match your actual file locations on Android device
+  // Files should be pushed to /data/local/tmp/zl/mllm-v2/bin_test/ via adb
+  const std::string config_path = "./config_qwen3_1.7B_qnn.json";
+  const std::string model_path = "./qwen3-1.7b-int8-rotated.mllm";
+  const std::string tokenizer_path = "./tokenizer_qwen3_1.7B.json";
 
-  auto qwen3_tokenizer = mllm::models::qwen3_npu::Qwen3Tokenizer("./tokenizer.json");
+  auto qwen3_tokenizer = mllm::models::qwen3_npu::Qwen3Tokenizer(tokenizer_path);
 
-  mllm::ModelFileVersion file_version = mllm::ModelFileVersion::kV1;
+  // Try V2 first (newer format), fallback to V1 if needed
+  mllm::ModelFileVersion file_version = mllm::ModelFileVersion::kV2;
+  
+  // Note: qwen3-1.7b-int8-rotated.mllm is likely V2 format
+  // If you get magic number mismatch, try changing to kV1
 
   auto cfg = mllm::models::qwen3_npu::Qwen3NPUConfig(config_path);
   auto model = mllm::models::qwen3_npu::Qwen3ForCausalLM("", cfg);
@@ -33,7 +40,9 @@ MLLM_MAIN({
   auto param = mllm::load(model_path, file_version);
   model.load(param);
 
-  mllm::models::ARGenerationOutputPast inputs{{"sequence", mllm::Tensor::empty({1, 128}, mllm::kInt64, mllm::kCPU).alloc()}};
+  const int chunk_size = 32;
+  mllm::models::ARGenerationOutputPast inputs{
+      {"sequence", mllm::Tensor::empty({1, chunk_size}, mllm::kInt64, mllm::kCPU).alloc()}};
 
   auto irs = model.trace(inputs, {});
 
@@ -58,7 +67,6 @@ MLLM_MAIN({
   print(raw_input_tokens);
   MLLM_INFO("raw_input_tokens shape: {} {}", raw_input_tokens.shape()[0], raw_input_tokens.shape()[1]);
 
-  const int chunk_size = 128;
   const int eos_token_id = cfg.eos_token_id;
   int prompt_tokens = static_cast<int>(raw_input_tokens.shape()[1]);
   if (prompt_tokens <= 0) {

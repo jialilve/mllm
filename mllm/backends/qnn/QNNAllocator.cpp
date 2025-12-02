@@ -13,7 +13,9 @@
 namespace mllm::qnn {
 
 namespace {
-constexpr bool kVerboseQnnAllocatorLogs = false;
+// Enable verbose allocator logs to help diagnose QNN HTP memory and buffer usage issues.
+// NOTE: This is primarily for debugging; consider turning it back to false once issues are resolved.
+constexpr bool kVerboseQnnAllocatorLogs = true;
 }  // namespace
 
 #define QNN_ALLOCATOR_VERBOSE(...)                                     \
@@ -68,6 +70,16 @@ bool QNNAllocator::alloc(Storage* storage) {
   uint8_t* ptr = (uint8_t*)rpcmem_alloc(RPCMEM_HEAP_ID_SYSTEM, RPCMEM_DEFAULT_FLAGS, request_bytes);
 
   MLLM_RT_ASSERT(ptr != nullptr);
+
+  // Verify that rpcmem_alloc returns 4-byte aligned pointer (required by QNN DSP/HTP)
+  uintptr_t ptr_value = reinterpret_cast<uintptr_t>(ptr);
+  if ((ptr_value % 4) != 0) {
+    MLLM_ERROR("QNNAllocator::alloc: rpcmem_alloc returned unaligned pointer: ptr={}, ptr_value={}, mod4={}",
+               static_cast<void*>(ptr), ptr_value, ptr_value % 4);
+    MLLM_ERROR("This will cause 'Mod 4 failed' error when registering with QNN DSP/HTP");
+    // Note: This is a critical issue. rpcmem_alloc should return aligned pointers.
+    // If this happens, we may need to allocate extra padding or use a different allocation method.
+  }
 
   storage->ptr_ = ptr;
   qnnMemPtrSet_.insert(ptr);
@@ -361,6 +373,17 @@ bool QNNAllocator::registerQnnTensorToSharedBuffer(Storage* storage, Qnn_Tensor_
     }
   }
 
+  // Verify pointer alignment (QNN DSP/HTP requires 4-byte alignment)
+  // "Mod 4 failed" error indicates alignment issue
+  uintptr_t ptr_value = reinterpret_cast<uintptr_t>(ptr);
+  if ((ptr_value % 4) != 0) {
+    MLLM_ERROR("QNNAllocator::registerQnnTensorToSharedBuffer: ptr={} is not 4-byte aligned (ptr_value={}, mod4={})",
+               ptr, ptr_value, ptr_value % 4);
+    MLLM_ERROR("This alignment issue may cause 'Mod 4 failed' error in QNN DSP/HTP");
+    // Note: rpcmem_alloc should return aligned pointers, but if it doesn't,
+    // we may need to allocate extra padding or use a different allocation method.
+  }
+
   // Get the file id of this memory space.
   int mem_fd = rpcmem_to_fd(ptr);
   MLLM_RT_ASSERT(mem_fd != -1);
@@ -392,6 +415,16 @@ bool QNNAllocator::registerQnnTensorToSharedBuffer(Storage* storage, Qnn_Tensor_
                "shape={}, dtype={}, tensor_id={}, tensor_name={}",
                status, ptr, mem_fd, total_bytes, shape_str, static_cast<int>(mem_descriptor.dataType), tensor_id, tensor_name);
     MLLM_ERROR("Current registered buffers: {} buffers, {} MB", stats.count, stats.total_bytes / (1024 * 1024));
+    
+    // Check if this is a memory exhaustion error (status 0x1f43 or device reports high usage)
+    if (status == 0x1f43) {
+      MLLM_ERROR("QNN device memory exhausted (status=0x1f43). Device reports ~2956MB in use (limit ~3GB).");
+      MLLM_ERROR("Possible solutions:");
+      MLLM_ERROR("  1. Restart the Android device to clear QNN device memory");
+      MLLM_ERROR("  2. Check for other processes using QNN device memory");
+      MLLM_ERROR("  3. Reduce model size or batch size");
+      MLLM_ERROR("  4. Check if previous QNN context was properly cleaned up");
+    }
 
     // Multi-level fallback strategy when registration fails
     // This is critical when QNN device memory is exhausted

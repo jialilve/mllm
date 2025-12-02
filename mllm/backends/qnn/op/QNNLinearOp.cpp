@@ -15,6 +15,64 @@
 
 namespace mllm::qnn {
 
+// Helper function to manually transpose int8/uint8 weight matrices
+// Since CPU TransposeOp doesn't support int8, we implement it manually
+static Tensor manualTranspose2D(Tensor input, int dim0, int dim1) {
+  auto shape = input.shape();
+  if (shape.size() != 2) {
+    return input.transpose(dim0, dim1);  // Fallback for non-2D or supported types
+  }
+  
+  DataTypes dtype = input.dtype();
+  if (dtype != kInt8 && dtype != kUInt8) {
+    return input.transpose(dim0, dim1);  // Use standard transpose for supported types
+  }
+  
+  // Manual transpose for int8/uint8
+  // Note: We need to create a new tensor with actual memory allocation.
+  // If input is kParamsMMAP (memory-mapped), we use kParamsNormal for the output
+  // to ensure proper memory management. This is necessary because transpose
+  // requires copying data, not just viewing it.
+  int32_t h = shape[0];
+  int32_t w = shape[1];
+  TensorMemTypes output_mem_type = input.memType();
+  // If input is memory-mapped (kParamsMMAP), output needs actual memory (kParamsNormal)
+  if (output_mem_type == kParamsMMAP) {
+    output_mem_type = kParamsNormal;
+  }
+  Tensor output = Tensor::empty({w, h}, dtype, input.device())
+                      .setMemType(output_mem_type)
+                      .setName(input.name())  // Copy tensor name
+                      .alloc();
+  
+  // Copy quantization scale if present
+  auto input_copy = input;  // Shadow copy for getQuantScale
+  if (input_copy.attachedViews().contains("qnn_quant_scale")) {
+    float scale = mllm::qnn::getQuantScale(input_copy);
+    mllm::qnn::setQuantScale(output, scale);
+  }
+  
+  if (dtype == kInt8) {
+    const int8_t* src = input.ptr<int8_t>();
+    int8_t* dst = output.ptr<int8_t>();
+    for (int32_t i = 0; i < h; ++i) {
+      for (int32_t j = 0; j < w; ++j) {
+        dst[j * h + i] = src[i * w + j];
+      }
+    }
+  } else if (dtype == kUInt8) {
+    const uint8_t* src = input.ptr<uint8_t>();
+    uint8_t* dst = output.ptr<uint8_t>();
+    for (int32_t i = 0; i < h; ++i) {
+      for (int32_t j = 0; j < w; ++j) {
+        dst[j * h + i] = src[i * w + j];
+      }
+    }
+  }
+  
+  return output;
+}
+
 /*
 QNN Linear in mllm uses W8A8/W8A16 per-tensor quantization scheme.
 The weight and the activation is using offline profiled scale to quantize the float32 data to int8/int16.
@@ -34,8 +92,16 @@ void QNNLinearOp::load(const ParameterFile::ptr_t& ploader) {
   switch (ploader->version()) {
     case ModelFileVersion::kV1: {
       weight_ = ploader->pull(getName() + ".weight");
+      // For qwen3-1.7b-int8-rotated.mllm, weights are stored as [out_dim, in_dim] without transpose
+      // Need to transpose to [in_dim, out_dim] before reshaping to 4D for QNN Conv2d
+      // QNN Conv2d expects weight shape [1, 1, in_channels, out_channels]
+      if (weight_.shape().size() == 2) {
+        // Transpose from [out_dim, in_dim] to [in_dim, out_dim]
+        weight_ = manualTranspose2D(weight_, 0, 1);
+      }
       // using Conv2d in QNN, need to reshape the weight to 4D
       weight_ = weight_.view({1, 1, options_.in_channels, options_.out_channels});
+
       if (options_.bias) {
         bias_ = ploader->pull(getName() + ".bias");
         bias_ = bias_.view({options_.out_channels});
@@ -54,6 +120,12 @@ void QNNLinearOp::load(const ParameterFile::ptr_t& ploader) {
     case ModelFileVersion::kUserTemporary:
     case ModelFileVersion::kV2: {
       weight_ = ploader->pull(getName() + ".weight");
+      // For qwen3-1.7b-int8-rotated.mllm, weights are stored as [out_dim, in_dim] without transpose
+      // Need to transpose to [in_dim, out_dim] before reshaping to 4D for QNN Conv2d
+      if (weight_.shape().size() == 2) {
+        // Transpose from [out_dim, in_dim] to [in_dim, out_dim]
+        weight_ = manualTranspose2D(weight_, 0, 1);
+      }
       // using Conv2d in QNN, need to reshape the weight to 4D
       weight_ = weight_.view({1, 1, options_.in_channels, options_.out_channels});
       if (options_.bias) {
@@ -63,7 +135,17 @@ void QNNLinearOp::load(const ParameterFile::ptr_t& ploader) {
         biasScale_ = ploader->pull(getName() + ".bias.scale");
       }
 
-      weightScale_ = ploader->pull(getName() + ".weight.scale");
+      // For Qwen3 converted models, scale is stored as {base_name}.scale, not {base_name}.weight.scale
+      // Try both formats for compatibility
+      std::string weight_scale_name = getName() + ".weight.scale";
+      std::string scale_name = getName() + ".scale";
+      if (ploader->has(scale_name)) {
+        weightScale_ = ploader->pull(scale_name);
+      } else if (ploader->has(weight_scale_name)) {
+        weightScale_ = ploader->pull(weight_scale_name);
+      } else {
+        MLLM_ERROR_EXIT(ExitCode::kIOError, "Parameter does not exist: {} or {}", scale_name, weight_scale_name);
+      }
 
       outputScale_ = ploader->pull(getName() + ".output_scale");
       break;
@@ -218,7 +300,7 @@ bool QNNLinearPattern::addNode(const std::string& graphName, const ir::op_ptr_t&
   // Add Conv2d node to graph
   std::string nodeName = qnnLinearOp->getName() + ".linear_w8a16";
   qnnBackend->graphAddNode(graphName, nodeName, "Conv2d", inputTensorNames, outputTensorNames, {strideParam, padParam}, {});
-
+  // TODO_qwen3_npu_modeling
   return true;
 }
 
