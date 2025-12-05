@@ -1,0 +1,101 @@
+mllm executable
+Build & Run
+cd scripts
+sh build_qnn_android.sh && adb push ../bin-arm/qnn_opt_smoothquant /data/local/tmp/mllm
+ 
+cd /data/local/tmp/mllm/bin && export LD_LIBRARY_PATH=/data/local/tmp/mllm/qnn-lib && export ADSP_LIBRARY_PATH=/data/local/tmp/mllm/qnn-lib
+
+
+cd /data/local/tmp/zhanghao/bin && export LD_LIBRARY_PATH=/data/local/tmp/zhanghao/qnn-lib && export ADSP_LIBRARY_PATH=/data/local/tmp/zhanghao/qnn-lib
+
+cd /data/local/tmp/demo/bin && export LD_LIBRARY_PATH=/data/local/tmp/demo/qnn-lib && export ADSP_LIBRARY_PATH=/data/local/tmp/demo/qnn-lib
+
+cd /data/local/tmp/mllm/bin && export LD_LIBRARY_PATH=/data/local/tmp/xdl/qnn-lib && export ADSP_LIBRARY_PATH=/data/local/tmp/xdl/qnn-lib
+Op package & QNN libs
+Op package develop
+# Under build/
+compiledb make htp_v75 -C ..
+
+# when using clangd: .vscode/settings.json
+{
+"clangd.path": "/mllm/HexagonSDK/5.4.0/tools/HEXAGON_Tools/8.7.06/Tools/bin/hexagon-clangd"
+}
+
+Op package
+# under mllm/
+cd LLaMAOpPackageHtp/LLaMAPackage
+
+# build cpu & htp
+make htp_aarch64 && make htp_v75
+
+# push to device
+DEVICE=10.29.208.59:9808
+OP_PATH=LLaMAOpPackageHtp/LLaMAPackage/build
+DEST=/data/local/tmp/mllm/qnn-lib
+
+adb -s $DEVICE push $OP_PATH/aarch64-android/libQnnLLaMAPackage.so $DEST/libQnnLLaMAPackage_CPU.so
+adb -s $DEVICE push $OP_PATH/hexagon-v75/libQnnLLaMAPackage.so $DEST/libQnnLLaMAPackage_HTP.so
+
+QNN libs
+LIBPATH=$QNN_SDK_ROOT
+ANDR_LIB=$LIBPATH/lib/aarch64-android
+DEST=/data/local/tmp/mllm/qnn-lib
+
+adb push $ANDR_LIB/libQnnHtp.so $DEST
+adb push $ANDR_LIB/libQnnHtpV75Stub.so $DEST
+adb push $ANDR_LIB/libQnnHtpPrepare.so $DEST
+adb push $ANDR_LIB/libQnnHtpProfilingReader.so $DEST
+adb push $ANDR_LIB/libQnnHtpOptraceProfilingReader.so $DEST
+adb push $ANDR_LIB/libQnnHtpV75CalculatorStub.so $DEST
+adb push $QNN_SDK_ROOT/lib/hexagon-v75/unsigned/libQnnHtpV75Skel.so $DEST
+adb push $QNN_SDK_ROOT/lib/hexagon-v75/unsigned/libQnnHtpV75.so $DEST
+
+adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnSystem.so $DEST
+hexagon-v75/unsigned
+
+OP_PATH=/qnn-projects/mllm/src/backends/qnn/LLaMAOpPackageHtp/LLaMAPackage/build
+DEST=/data/local/tmp/mllm/qnn-lib
+adb push $OP_PATH/aarch64-android/libQnnLLaMAPackage.so $DEST/libQnnLLaMAPackage_CPU.so
+adb push $OP_PATH/hexagon-v75/libQnnLLaMAPackage.so $DEST/libQnnLLaMAPackage_HTP.so
+
+mllm:
+cd /data/local/tmp/demo/bin && export LD_LIBRARY_PATH=/data/local/tmp/demo/qnn-lib && export ADSP_LIBRARY_PATH=/data/local/tmp/demo/qnn-lib
+./demo_qwen_pipeline
+
+llamacpp:
+cd /data/local/tmp/demo/llamacpp-demo && export LD_LIBRARY_PATH=.
+./llama-cli -t 4 -m qwen2.5-1.5b-instruct-q4_0.gguf
+
+"LLMs have become a household name thanks to the role they have played in bringing generative AI to the forefront of the public interest, as well as the point on which organizations are focusing to adopt artificial intelligence across numerous business functions and use cases.Outside of the enterprise context, it may seem like LLMs have arrived out of the blue along with new developments in generative AI. However, many companies, including IBM, have spent years implementing LLMs at different levels to enhance their natural language understanding (NLU) and natural language processing (NLP) capabilities. This has occurred alongside advances in machine learning, machine learning models, algorithms, neural networks and the transformer models that provide the architecture for these AI systems.LLMs are a class of foundation models, which are trained on enormous amounts of data to provide the foundational capabilities needed to drive multiple use cases and applications, as well as resolve a multitude of tasks. This is in stark contrast to the idea of building and training domain specific models for each of these use cases individually, which is prohibitive under many criteria (most importantly cost and infrastructure), stifles synergies and can even lead to inferior performance.LLMs represent a significant breakthrough in NLP and artificial intelligence, and are easily accessible to the public through interfaces like Open AI’s Chat GPT-3 and GPT-4, which have garnered the support of Microsoft. Other examples include Meta’s Llama models and Google’s bidirectional encoder representations from transformers (BERT/RoBERTa) and PaLM models. IBM has also recently launched its Granite model series on watsonx.ai, which has become the generative AI backbone for other IBM products like watsonx Assistant and watsonx Orchestrate. In a nutshell, LLMs are designed to understand and generate text like a human, in addition to other forms of content, based on the vast amount of data used to train them. They have the ability to infer from context, generate coherent and contextually relevant responses, translate to languages other than English, summarize text, answer questions (general conversation and FAQs) and even assist in creative writing or code generation tasks. They are able to do this thanks to billions of parameters that enable them to capture intricate patterns in language and perform a wide array of language-related tasks. LLMs are revolutionizing applications in various fields."\nGenerate a title based on the above text.
+
+mnn:
+cd /data/local/tmp/demo/mnn-demo && export LD_LIBRARY_PATH=.
+./llm_demo model/config.json promt.txt
+
+@startuml
+actor App as "Example App"
+participant Model as "Qwen Model"
+participant QNN as "QNN Backend"
+participant Pass as "Pass Manager"
+participant IR as "IR/Patterns"
+
+
+App -> Model : Load config & tokenizer
+App -> Model : Initialize QwenForCausalLM
+Model -> QNN : Create ops
+
+App -> Model : trace(input_ids, ...)
+Model -> IR : Trace ops & tensors to IR
+IR --> App : Traced IR
+
+App -> Pass : Graph naming, rewriting and building
+Pass -> IR :  Match patterns (Add, Linear, etc)
+
+IR -> QNN : Build QNN graph nodes
+QNN -> QNN : Graph Finalize
+
+App -> Model : forward(input_ids, ...)
+Model -> QNN : Execute QNN graphs
+QNN --> Model : Output logits
+Model --> App : Sampled tokens
+@enduml

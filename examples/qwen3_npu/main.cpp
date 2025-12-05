@@ -6,6 +6,7 @@
 #include "mllm/backends/qnn/passes/QNNGraphBuildPass.hpp"
 #include "mllm/backends/qnn/passes/QNNGraphIOTensorPass.hpp"
 #include "mllm/backends/qnn/passes/QNNOpNamingPass.hpp"
+#include "mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.hpp"
 #include "mllm/backends/qnn/QNNAllocator.hpp"
 #include "mllm/compile/PassManager.hpp"
 #include "mllm/core/DataTypes.hpp"
@@ -48,11 +49,19 @@ MLLM_MAIN({
 
   // QNN Graph Rewrite Pass
   mllm::ir::PassManager rewritePM(irs["model"]);
+
+  // have a look at the IR before QNN Graph Rewrite Pass
+  mllm::redirect("qwen3_npu_initial.mir", [&]() { mllm::print(irs["model"]); });
+
+  // Qwen3 专用：在构建 QNN Graph 之前，先识别并标记 decoder 相关的 QNN SubGraph
+  rewritePM.reg(mllm::qnn::createQwen3IRGraphFusionPass());
   rewritePM.reg(mllm::qnn::createQNNGraphIOTensorPass());
   rewritePM.reg(mllm::qnn::createQNNOpNamingPass());
   rewritePM.run();
 
   // have a look at the IR after QNN Graph Rewrite Pass
+  // Note: This file is written to the current working directory (usually /data/local/tmp/zl/mllm-v2/bin_test on device)
+  // Use adb pull to retrieve it: adb pull /data/local/tmp/zl/mllm-v2/bin_test/qwen3_npu.mir ./android_logs/qwen3_npu_after_fused.mir
   mllm::redirect("qwen3_npu.mir", [&]() { mllm::print(irs["model"]); });
 
   // QNN Graph Build Pass

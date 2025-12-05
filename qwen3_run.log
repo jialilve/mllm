@@ -1,0 +1,307 @@
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNUtils.cpp:23 QNN Backend Lib: libQnnHtp.so
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:306 Registered Op Package: libQnnLLaMAPackage_CPU.so and interface provider: LLaMAPackageInterfaceProvider
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:306 Registered Op Package: libQnnLLaMAPackage_HTP.so and interface provider: LLaMAPackageInterfaceProvider
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:47 QNN Backend Build Id: v2.36.0.250627101419_123260
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:49 QNN backend supports tensor sparsity
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:52 QNN backend supports dynamic dimensions
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/base/PluginSystem.cpp:89 Register customized op: DequantizeAdd:4097 -> QNN
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.0_2' (layer=0, seg=2) with 'model.layers.1_1' (layer=1, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.1_2' (layer=1, seg=2) with 'model.layers.2_1' (layer=2, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.2_2' (layer=2, seg=2) with 'model.layers.3_1' (layer=3, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.3_2' (layer=3, seg=2) with 'model.layers.4_1' (layer=4, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.4_2' (layer=4, seg=2) with 'model.layers.5_1' (layer=5, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.5_2' (layer=5, seg=2) with 'model.layers.6_1' (layer=6, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.6_2' (layer=6, seg=2) with 'model.layers.7_1' (layer=7, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.7_2' (layer=7, seg=2) with 'model.layers.8_1' (layer=8, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.8_2' (layer=8, seg=2) with 'model.layers.9_1' (layer=9, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.9_2' (layer=9, seg=2) with 'model.layers.10_1' (layer=10, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.10_2' (layer=10, seg=2) with 'model.layers.11_1' (layer=11, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.11_2' (layer=11, seg=2) with 'model.layers.12_1' (layer=12, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.12_2' (layer=12, seg=2) with 'model.layers.13_1' (layer=13, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.13_2' (layer=13, seg=2) with 'model.layers.14_1' (layer=14, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.14_2' (layer=14, seg=2) with 'model.layers.15_1' (layer=15, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.15_2' (layer=15, seg=2) with 'model.layers.16_1' (layer=16, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.16_2' (layer=16, seg=2) with 'model.layers.17_1' (layer=17, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.17_2' (layer=17, seg=2) with 'model.layers.18_1' (layer=18, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.18_2' (layer=18, seg=2) with 'model.layers.19_1' (layer=19, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.19_2' (layer=19, seg=2) with 'model.layers.20_1' (layer=20, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.20_2' (layer=20, seg=2) with 'model.layers.21_1' (layer=21, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.21_2' (layer=21, seg=2) with 'model.layers.22_1' (layer=22, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.22_2' (layer=22, seg=2) with 'model.layers.23_1' (layer=23, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.23_2' (layer=23, seg=2) with 'model.layers.24_1' (layer=24, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.24_2' (layer=24, seg=2) with 'model.layers.25_1' (layer=25, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.25_2' (layer=25, seg=2) with 'model.layers.26_1' (layer=26, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:282 Qwen3IRGraphFusionPass: plan to fuse 'model.layers.26_2' (layer=26, seg=2) with 'model.layers.27_1' (layer=27, seg=1)
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:287 Qwen3IRGraphFusionPass: identified 27 fusion pairs, will reduce graph count from 56 to approximately 29
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.0_2' -> 'model.layers.0_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.0_fused' from 'model.layers.0_2' + 'model.layers.1_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.1_2' -> 'model.layers.1_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.1_fused' from 'model.layers.1_2' + 'model.layers.2_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.2_2' -> 'model.layers.2_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.2_fused' from 'model.layers.2_2' + 'model.layers.3_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.3_2' -> 'model.layers.3_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.3_fused' from 'model.layers.3_2' + 'model.layers.4_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.4_2' -> 'model.layers.4_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.4_fused' from 'model.layers.4_2' + 'model.layers.5_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.5_2' -> 'model.layers.5_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.5_fused' from 'model.layers.5_2' + 'model.layers.6_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.6_2' -> 'model.layers.6_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.6_fused' from 'model.layers.6_2' + 'model.layers.7_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.7_2' -> 'model.layers.7_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.7_fused' from 'model.layers.7_2' + 'model.layers.8_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.8_2' -> 'model.layers.8_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.8_fused' from 'model.layers.8_2' + 'model.layers.9_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.9_2' -> 'model.layers.9_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.9_fused' from 'model.layers.9_2' + 'model.layers.10_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.10_2' -> 'model.layers.10_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.10_fused' from 'model.layers.10_2' + 'model.layers.11_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.11_2' -> 'model.layers.11_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.11_fused' from 'model.layers.11_2' + 'model.layers.12_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.12_2' -> 'model.layers.12_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.12_fused' from 'model.layers.12_2' + 'model.layers.13_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.13_2' -> 'model.layers.13_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.13_fused' from 'model.layers.13_2' + 'model.layers.14_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.14_2' -> 'model.layers.14_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.14_fused' from 'model.layers.14_2' + 'model.layers.15_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.15_2' -> 'model.layers.15_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.15_fused' from 'model.layers.15_2' + 'model.layers.16_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.16_2' -> 'model.layers.16_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.16_fused' from 'model.layers.16_2' + 'model.layers.17_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.17_2' -> 'model.layers.17_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.17_fused' from 'model.layers.17_2' + 'model.layers.18_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.18_2' -> 'model.layers.18_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.18_fused' from 'model.layers.18_2' + 'model.layers.19_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.19_2' -> 'model.layers.19_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.19_fused' from 'model.layers.19_2' + 'model.layers.20_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.20_2' -> 'model.layers.20_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.20_fused' from 'model.layers.20_2' + 'model.layers.21_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.21_2' -> 'model.layers.21_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.21_fused' from 'model.layers.21_2' + 'model.layers.22_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.22_2' -> 'model.layers.22_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.22_fused' from 'model.layers.22_2' + 'model.layers.23_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.23_2' -> 'model.layers.23_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.23_fused' from 'model.layers.23_2' + 'model.layers.24_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.24_2' -> 'model.layers.24_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.24_fused' from 'model.layers.24_2' + 'model.layers.25_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.25_2' -> 'model.layers.25_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.25_fused' from 'model.layers.25_2' + 'model.layers.26_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/compile/ir/graph/SubGraphCloneUtils.cpp:318 SubGraphCloneUtils::cloneSubGraph: cloned SubGraph 'model.layers.26_2' -> 'model.layers.26_fused'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:411 Qwen3IRGraphFusionPass: created fused SubGraph 'model.layers.26_fused' from 'model.layers.26_2' + 'model.layers.27_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.0_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.1_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.1_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.2_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.2_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.3_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.3_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.4_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.4_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.5_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.5_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.6_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.6_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.7_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.7_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.8_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.8_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.9_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.9_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.10_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.10_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.11_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.11_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.12_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.12_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.13_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.13_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.14_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.14_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.15_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.15_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.16_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.16_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.17_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.17_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.18_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.18_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.19_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.19_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.20_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.20_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.21_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.21_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.22_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.22_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.23_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.23_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.24_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.24_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.25_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.25_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.26_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.26_2'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:612 Qwen3IRGraphFusionPass: removed obsolete SubGraph 'model.layers.27_1'
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/passes/Qwen3IRGraphFusionPass.cpp:617 Qwen3IRGraphFusionPass: Graph fusion completed. Now using 27 fused graphs.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.0_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.1_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.2_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.3_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.4_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.5_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.6_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.7_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.8_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.9_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.10_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.11_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.12_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.13_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.14_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.15_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.16_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.17_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.18_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.19_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.20_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.21_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.22_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.23_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.24_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.25_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNGraphIOTensorPass.cpp:60 QNNGraphIOTensorPass: missing callee SubGraph 'model.layers.26_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.0_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.1_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.2_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.3_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.4_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.5_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.6_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.7_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.8_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.9_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.10_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.11_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.12_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.13_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.14_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.15_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.16_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.17_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.18_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.19_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.20_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.21_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.22_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.23_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.24_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.25_2' for CallGraphOp, skip visiting
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/passes/QNNOpNamingPass.cpp:79 QNNOpNamingPass: missing callee SubGraph 'model.layers.26_2' for CallGraphOp, skip visiting
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .quantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .quantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMAQuantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 59 has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Conv2d
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node model.layers.0.mlp.gate_proj.linear_w8a16 failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node model.layers.0.mlp.gate_proj.linear_w8a16 of type Conv2d to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .dequantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .dequantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMADequantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 5f has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node LLaMAPackage::LLaMAPackage::SiLU
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node model.layers.0.mlp.act failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node model.layers.0.mlp.act of type SiLU to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 63 has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Conv2d
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node model.layers.0.mlp.up_proj.linear_w8a16 failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node model.layers.0.mlp.up_proj.linear_w8a16 of type Conv2d to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .dequantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .dequantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMADequantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 69 has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_ElementWiseMultiply
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node  failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type ElementWiseMultiply to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .quantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .quantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMAQuantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 6e has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Conv2d
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node model.layers.0.mlp.down_proj.linear_w8a16 failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node model.layers.0.mlp.down_proj.linear_w8a16 of type Conv2d to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .dequantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .dequantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMADequantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 74 has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Reshape
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node  failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type Reshape to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Tensor name .quantize_scale already exists in the graph.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:247 QNNModel::addTensorWrapper() error creating tensor .quantize_scale
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node  of type LLaMAQuantize to graph model.layers.0_fused: error code 1
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 7c has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Conv2d
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to add node with err 6007
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNModel.cpp:302 QNNModel::addNode() adding node model.layers.1.self_attn.q_proj.linear_w8a16 failed.
+[1m[38;2;255;000;000m[ERROR][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:490 Failed to add node model.layers.1.self_attn.q_proj.linear_w8a16 of type Conv2d to graph model.layers.0_fused: error code 4
+
+[91m[ERROR][0m (0.0ms, 0) graph_prepare.cc:3483::ERROR:node 84 has input with id 0
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to append node qti.aisw::QNN_Conv2d
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91m[ERROR][0m (0.0ms, 0) QnnDsp <E> Failed to construct common node for graph 257
+[91mError: Received signal11 - SIGSEGV (Segmentation violation)
+Stack trace:
+#0 0x58bc12a888
+#1 0x58bc12a6a8
+#2 0x58bc12a394
+#3 0x70c30df860 __kernel_rt_sigreturn
+#4 0x6e19f7ff2c GraphPrepare::do_prepare1(HexagonNNEnv&, VtcmCacheInstance&, std::__ndk1::unique_ptr<ExternalTimePoint, std::__ndk1::default_delete<ExternalTimePoint>>&)
+#5 0x6e19f9201c GraphPrepare::prepare(HexagonNNEnv&)
+#6 0x6e1ca9f6cc
+#7 0x6e1ca98018
+#8 0x6e1ca97a90
+#9 0x6e1cb549dc
+#10 0x6e1cb54388
+#11 0x6e1cb31694
+#12 0x70beacd210 mllm::qnn::QNNModel::finalizeGraph(void*, void*)
+#13 0x70bea8e668 mllm::qnn::QNNBackend::graphFinalize(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>> const&)
+#14 0x70beb03a7c mllm::qnn::QNNGraphBuildPass::buildQnnGraph(std::__ndk1::shared_ptr<mllm::ir::graph::SubGraphOp> const&)
+#15 0x70beb012f0 mllm::qnn::QNNGraphBuildPass::run(std::__ndk1::shared_ptr<mllm::ir::Node> const&)
+#16 0x70be1860bc mllm::ir::PassManager::run(mllm::ir::PassManager::Pattern)
+#17 0x58bc12d124
+#18 0x58bc12a020
+#19 0x58bc129c40
+#20 0x70c18db154 __libc_init
+Possible causes: invalid memory access, dangling pointer, stack overflow.
+Shutting down...

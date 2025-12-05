@@ -1,0 +1,8 @@
+qnn/sdk/examples/Genie/Genie/src/qualla/engines/qnn-htp/nsp-model.cpp
+kvcache作为模型输入和输出，有个测试的model里对外只有一个LLM的qnn node，在自定义的llm_engine.oppackage里，tensor全是用的v1
+实现了paged attention和lora
+chunk prefill
+一个graph执行完后异步更新kvcache，整体的执行应该是全在npu上的
+'Bitwidth of KV$ values. Defaults to 8-bit KV$'  int8 & float16 cache
+实现了prefix cache
+GraphVariant::refreshTensorQuantParams？？

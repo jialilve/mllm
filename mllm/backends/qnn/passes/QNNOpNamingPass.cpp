@@ -66,8 +66,25 @@ void visitCallGraph(const std::shared_ptr<ir::IRContext>& ir_ctx, const ir::grap
   }
 
   // Lookup the subgraph and visit it
-  auto subgraph_op = ir_ctx->lookupSymbolTable(call_op->getSymbolAttr()->str())->cast_<ir::graph::SubGraphOp>();
-  MLLM_RT_ASSERT(subgraph_op != nullptr);
+  auto symbol_attr = call_op->getSymbolAttr();
+  if (!symbol_attr) {
+    MLLM_ERROR("QNNOpNamingPass: CallGraphOp has no symbol attribute, skip visiting");
+    return;
+  }
+
+  auto target_node = ir_ctx->lookupSymbolTable(symbol_attr->str());
+  if (!target_node) {
+    // FusionPass 后如果还有残留旧调用，这里会打日志并跳过，避免 SIGSEGV
+    MLLM_ERROR("QNNOpNamingPass: missing callee SubGraph '{}' for CallGraphOp, skip visiting",
+               symbol_attr->str());
+    return;
+  }
+
+  auto subgraph_op = target_node->cast_<ir::graph::SubGraphOp>();
+  if (!subgraph_op) {
+    MLLM_ERROR("QNNOpNamingPass: callee '{}' is not a SubGraphOp, skip visiting", symbol_attr->str());
+    return;
+  }
 
   visitSubGraph(ir_ctx, subgraph_op);
 }

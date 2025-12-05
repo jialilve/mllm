@@ -528,6 +528,10 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
   }
   auto model = qnnModels_[it->second];
 
+  MLLM_INFO("QNNBackend::graphExecute: graph '{}' found, expected inputs={}, outputs={}, current outputs size={}",
+            graphName, model->getGraphInputTensorWrappers().size(), 
+            model->getGraphOutputTensorWrappers().size(), outputs.size());
+
   // Validate input size matches expected input count
   if (inputs.size() != model->getGraphInputTensorWrappers().size()) {
     MLLM_ERROR("Input size mismatch: expected {}, got {} for graph '{}'", 
@@ -606,18 +610,62 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
   }
   
   // Prepare QNN outputs in QNN order
+  MLLM_INFO("QNNBackend::graphExecute: preparing {} output tensors for graph '{}'", 
+            model->getGraphOutputTensorWrappers().size(), graphName);
   std::vector<Tensor> qnn_output_tensors;  // Temporary storage for QNN outputs
   for (int j = 0; j < model->getGraphOutputTensorWrappers().size(); j++) {
     // alloc and register qnn tensor
     model->getGraphOutputTensorWrappers()[j]->alloc();  // QNNAllocator will handle registered memory descriptor
     qnn_outputs.push_back(*(model->getGraphOutputTensorWrappers()[j]->getNativeTensor()));
-    qnn_output_tensors.push_back(model->getGraphOutputTensorWrappers()[j]->getDataContainer());
+    // Get reference to wrapper's data container (this is the actual QNN-managed tensor)
+    auto& wrapper_tensor_ref = model->getGraphOutputTensorWrappers()[j]->getDataContainer();
+    // Check tensor state before QNN execution
+    void* ptr_before = wrapper_tensor_ref.ptr<void>();
+    MLLM_INFO("QNNBackend::graphExecute: output[{}] name='{}', shape={}, device={}, ptr_before={}, bytes={}", 
+              j, model->getGraphOutputTensorWrappers()[j]->getName(), 
+              wrapper_tensor_ref.shape(), static_cast<int>(wrapper_tensor_ref.device()),
+              static_cast<void*>(ptr_before), wrapper_tensor_ref.bytes());
+    // Copy the tensor - this should preserve the QNN buffer reference if Tensor uses shared storage
+    qnn_output_tensors.push_back(wrapper_tensor_ref);
+    // Verify the copied tensor has valid pointer
+    void* ptr_after_copy = qnn_output_tensors.back().ptr<void>();
+    if (ptr_before && !ptr_after_copy) {
+      MLLM_WARN("QNNBackend::graphExecute: output[{}] tensor lost pointer after copy (before={}, after={}), re-allocating", 
+                j, static_cast<void*>(ptr_before), static_cast<void*>(ptr_after_copy));
+      qnn_output_tensors.back().alloc();
+      ptr_after_copy = qnn_output_tensors.back().ptr<void>();
+      if (!ptr_after_copy) {
+        MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor still has null pointer after re-allocation", j);
+      }
+    }
+  }
+  
+  if (qnn_output_tensors.empty()) {
+    MLLM_ERROR("QNNBackend::graphExecute: No output tensors found for graph '{}'", graphName);
+    return;
   }
 
   CALL_QNN(runtime_->qnnInterface.graphExecute(model->getQnnGraph(), qnn_inputs.data(), qnn_inputs.size(), qnn_outputs.data(),
                                                qnn_outputs.size(), runtime_->profileHandle, nullptr));
 
   if (ProfilingLevel::OFF != profilingLevel_) { extractBackendProfilingInfo(runtime_->profileHandle); }
+
+  // After QNN execution, verify output tensors have valid pointers
+  for (size_t j = 0; j < qnn_output_tensors.size(); j++) {
+    void* ptr_after = qnn_output_tensors[j].ptr<void>();
+    if (!ptr_after) {
+      MLLM_WARN("QNNBackend::graphExecute: output[{}] tensor has null pointer after QNN execution, shape={}, bytes={}", 
+                j, qnn_output_tensors[j].shape(), qnn_output_tensors[j].bytes());
+      // Try to re-allocate - this should map to QNN buffer if wrapper is properly set up
+      qnn_output_tensors[j].alloc();
+      ptr_after = qnn_output_tensors[j].ptr<void>();
+      if (!ptr_after) {
+        MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor still has null pointer after re-allocation", j);
+      } else {
+        MLLM_INFO("QNNBackend::graphExecute: output[{}] tensor pointer restored after re-allocation: {}", j, static_cast<void*>(ptr_after));
+      }
+    }
+  }
 
   // Debug: Print last output shape from QNN actual return order (before reordering)
   // Uncomment below for debugging output order issues
@@ -633,7 +681,18 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
   const auto& expectedOrder = model->getExpectedOutputOrder();
 
   // Resize outputs to match QNN output count first
-  outputs.resize(qnn_output_tensors.size());  // Ensure outputs has enough space for all QNN outputs
+  // CRITICAL: Only resize if outputs is smaller than required - don't resize if already correct size
+  // Resizing when outputs.size() == qnn_output_tensors.size() may invalidate existing tensor references
+  MLLM_INFO("QNNBackend::graphExecute: current outputs={}, required={} for graph '{}'", 
+            outputs.size(), qnn_output_tensors.size(), graphName);
+  if (outputs.size() < qnn_output_tensors.size()) {
+    outputs.resize(qnn_output_tensors.size());  // Only resize if we need more space
+  } else if (outputs.size() > qnn_output_tensors.size()) {
+    // If outputs is larger, we'll only use the first qnn_output_tensors.size() elements
+    // Don't resize down as this may invalidate tensor references
+    MLLM_WARN("QNNBackend::graphExecute: outputs size ({}) > required size ({}) for graph '{}', will use first {} elements", 
+              outputs.size(), qnn_output_tensors.size(), graphName, qnn_output_tensors.size());
+  }
   if (!expectedOrder.empty() && expectedOrder.size() == qnn_output_tensors.size()) {
     // Debug: Log output order information
     // Uncomment below for debugging output order issues
@@ -679,7 +738,50 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
       const std::string& expected_name = expectedOrder[i];
       int qnn_index = model->getQnnOutputIndex(expected_name);
       if (qnn_index >= 0 && qnn_index < static_cast<int>(qnn_output_tensors.size())) {
-        outputs[i] = qnn_output_tensors[qnn_index];
+        // CRITICAL: Directly use wrapper's dataContainer to avoid losing QNN buffer reference
+        // Using qnn_output_tensors[qnn_index] creates a copy which may lose the QNN shared buffer reference
+        auto wrapper = model->getGraphOutputTensorWrappers()[qnn_index];
+        
+        // Ensure wrapper's tensor is allocated and has valid pointer
+        wrapper->alloc();
+        auto& wrapper_tensor = wrapper->getDataContainer();
+        
+        // Verify the wrapper tensor has valid pointer before assignment
+        void* src_ptr = wrapper_tensor.ptr<void>();
+        if (!src_ptr) {
+          MLLM_ERROR("QNNBackend::graphExecute: wrapper tensor '{}' has null pointer before assignment", expected_name);
+          // Try to re-allocate
+          wrapper->alloc();
+          src_ptr = wrapper_tensor.ptr<void>();
+          if (!src_ptr) {
+            MLLM_ERROR("QNNBackend::graphExecute: wrapper tensor '{}' still has null pointer after re-allocation", expected_name);
+          }
+        }
+        
+        // Directly assign from wrapper to avoid intermediate copies that may lose QNN buffer reference
+        outputs[i] = wrapper_tensor;
+        
+        // Verify the assigned tensor has valid pointer after assignment
+        void* dst_ptr = outputs[i].ptr<void>();
+        if (!dst_ptr) {
+          MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor '{}' lost pointer after direct assignment from wrapper (src_ptr={})", 
+                    i, expected_name, static_cast<void*>(src_ptr));
+          // This should not happen if Tensor copy constructor correctly preserves shared_ptr
+          // But if it does, try one more time
+          outputs[i] = wrapper->getDataContainer();
+          dst_ptr = outputs[i].ptr<void>();
+          if (!dst_ptr) {
+            MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor '{}' still has null pointer after second assignment", 
+                       i, expected_name);
+          } else {
+            MLLM_INFO("QNNBackend::graphExecute: output[{}] tensor '{}' pointer restored: {}", 
+                      i, expected_name, static_cast<void*>(dst_ptr));
+          }
+        } else if (dst_ptr != src_ptr) {
+          // Pointers differ - this might be okay if Tensor uses copy-on-write, but log for debugging
+          MLLM_INFO("QNNBackend::graphExecute: output[{}] tensor '{}' pointer changed after assignment (src={}, dst={})", 
+                    i, expected_name, static_cast<void*>(src_ptr), static_cast<void*>(dst_ptr));
+        }
         // Debug: Mapping information
         // Uncomment below for debugging output order issues
         // if (static_cast<int>(i) != qnn_index) {
@@ -693,10 +795,16 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
         // This is a critical error as we cannot determine the correct output order
         MLLM_ERROR("Cannot reorder outputs: missing QNN output index for tensor '{}'. Output order may be incorrect.", expected_name);
         // Note: We still try to copy what we can, but the order may be wrong
-        if (i < qnn_output_tensors.size()) {
-          outputs[i] = qnn_output_tensors[i];
+        if (i < model->getGraphOutputTensorWrappers().size()) {
+          // Directly use wrapper to avoid losing QNN buffer reference
+          auto wrapper = model->getGraphOutputTensorWrappers()[i];
+          wrapper->alloc();
+          outputs[i] = wrapper->getDataContainer();
+          if (!outputs[i].ptr<void>()) {
+            MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor still has null pointer after fallback assignment", i);
+          }
         } else {
-          MLLM_ERROR("Output index {} out of bounds (size: {})", i, qnn_output_tensors.size());
+          MLLM_ERROR("Output index {} out of bounds (size: {})", i, model->getGraphOutputTensorWrappers().size());
         }
       }
     }
@@ -709,8 +817,56 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
                 expectedOrder.size(), outputs.size(), graphName);
     }
     for (size_t i = 0; i < qnn_output_tensors.size(); i++) {
-      outputs[i] = qnn_output_tensors[i];
+      // Directly use wrapper to avoid losing QNN buffer reference
+      auto wrapper = model->getGraphOutputTensorWrappers()[i];
+      wrapper->alloc();
+      auto& wrapper_tensor = wrapper->getDataContainer();
+      void* src_ptr = wrapper_tensor.ptr<void>();
+      if (!src_ptr) {
+        MLLM_ERROR("QNNBackend::graphExecute: wrapper tensor[{}] has null pointer", i);
+      }
+      // Directly assign from wrapper to avoid intermediate copies
+      outputs[i] = wrapper_tensor;
+      // Ensure the output tensor has valid memory pointer after QNN execution
+      if (!outputs[i].ptr<void>()) {
+        MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor lost pointer after direct assignment from wrapper (src_ptr={})", 
+                  i, static_cast<void*>(src_ptr));
+        // Try one more time
+        outputs[i] = wrapper->getDataContainer();
+        if (!outputs[i].ptr<void>()) {
+          MLLM_ERROR("QNNBackend::graphExecute: output[{}] tensor still has null pointer after second assignment", i);
+        }
+      }
     }
+  }
+  
+  // Final verification: ensure all outputs have valid pointers before returning
+  // CRITICAL: Only re-acquire from wrapper if pointer is null - DO NOT re-assign if pointer is already valid
+  // Re-assigning valid tensors creates new copies that may lose QNN buffer references
+  // The key insight: Tensor copy semantics should preserve shared_ptr to storage, but we must avoid
+  // unnecessary re-assignments that could create new copies with different storage references
+  for (size_t i = 0; i < outputs.size(); i++) {
+    void* final_ptr = outputs[i].ptr<void>();
+    if (!final_ptr && outputs[i].bytes() > 0) {
+      MLLM_WARN("QNNBackend::graphExecute: output[{}] has null pointer before returning (bytes={}), re-acquiring from wrapper", 
+                 i, outputs[i].bytes());
+      // Re-acquire directly from wrapper to ensure QNN buffer reference is maintained
+      if (i < model->getGraphOutputTensorWrappers().size()) {
+        auto wrapper = model->getGraphOutputTensorWrappers()[i];
+        wrapper->alloc();
+        outputs[i] = wrapper->getDataContainer();
+        final_ptr = outputs[i].ptr<void>();
+        if (!final_ptr) {
+          MLLM_ERROR("QNNBackend::graphExecute: output[{}] still has null pointer after final fix attempt", i);
+        } else {
+          MLLM_INFO("QNNBackend::graphExecute: output[{}] pointer restored in final verification: {}", 
+                    i, static_cast<void*>(final_ptr));
+        }
+      }
+    }
+    // DO NOT re-assign if pointer is already valid - this can cause QNN buffer reference loss
+    // Even if pointers differ, the current tensor may still reference the correct QNN buffer
+    // Re-assignment creates a new copy which may have different storage->ptr_ that gets invalidated later
   }
 }
 

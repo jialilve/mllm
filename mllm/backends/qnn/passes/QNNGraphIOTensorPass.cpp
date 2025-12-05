@@ -51,8 +51,22 @@ void visitCallGraph(const std::shared_ptr<ir::IRContext>& ir_ctx, const ir::grap
   MLLM_RT_ASSERT(symbol_attr != nullptr);
 
   // Lookup the subgraph in the symbol table and visit it
-  auto subgraph_op = ir_ctx->lookupSymbolTable(symbol_attr->str())->cast_<ir::graph::SubGraphOp>();
-  MLLM_RT_ASSERT(subgraph_op != nullptr);
+  auto target_node = ir_ctx->lookupSymbolTable(symbol_attr->str());
+  if (!target_node) {
+    // 在某些 Pass（如 Qwen3IRGraphFusionPass）中，旧的 QNN 子图会被删除，
+    // 理论上所有 CallGraphOp 都应被重写到新的 fused 子图。
+    // 为了避免由于残留的旧调用导致崩溃，这里做一次健壮性检查并直接跳过。
+    MLLM_ERROR("QNNGraphIOTensorPass: missing callee SubGraph '{}' for CallGraphOp, skip visiting",
+               symbol_attr->str());
+    return;
+  }
+
+  auto subgraph_op = target_node->cast_<ir::graph::SubGraphOp>();
+  if (!subgraph_op) {
+    // 如果目标不是 SubGraphOp，同样不应该继续递归
+    MLLM_ERROR("QNNGraphIOTensorPass: callee '{}' is not a SubGraphOp, skip visiting", symbol_attr->str());
+    return;
+  }
 
   visitSubGraph(ir_ctx, subgraph_op);
 }

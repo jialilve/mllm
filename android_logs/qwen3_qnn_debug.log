@@ -1,0 +1,597 @@
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNUtils.cpp:23 QNN Backend Lib: libQnnHtp.so
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:306 Registered Op Package: libQnnLLaMAPackage_CPU.so and interface provider: LLaMAPackageInterfaceProvider
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:306 Registered Op Package: libQnnLLaMAPackage_HTP.so and interface provider: LLaMAPackageInterfaceProvider
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:47 QNN Backend Build Id: v2.36.0.250627101419_123260
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:49 QNN backend supports tensor sparsity
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:52 QNN backend supports dynamic dimensions
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/base/PluginSystem.cpp:89 Register customized op: DequantizeAdd:4097 -> QNN
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.0.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.0.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.0.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.1.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.1.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.1.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.2.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.2.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.2.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.3.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.3.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.3.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.4.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.4.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.4.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.5.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.5.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.5.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.6.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.6.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.6.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.7.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.7.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.7.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.8.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.8.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.8.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.9.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.9.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.9.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.10.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.10.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.10.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.11.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.11.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.11.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.12.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.12.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.12.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.13.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.13.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.13.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.14.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.14.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.14.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.15.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.15.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.15.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.16.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.16.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.16.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.17.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.17.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.17.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.18.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.18.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.18.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.19.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.19.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.19.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.20.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.20.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.20.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.21.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.21.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.21.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.22.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.22.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.22.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.23.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.23.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.23.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.24.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.24.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.24.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.25.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.25.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.25.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.26.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.26.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.26.self_attn.v_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.27.self_attn.q_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.27.self_attn.k_proj.bias not found, using zero bias
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/CustomLayers.cpp:56 Bias parameter model.layers.27.self_attn.v_proj.bias not found, using zero bias
+tensor(
+[[151644, 872, 198, 108386, 37945, 109432, ..., 77091, 198, 151667, 271, 151668, 271]], dtype=Int64, device=CPU) 
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/examples/qwen3_npu/main.cpp:68 raw_input_tokens shape: 1 17
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b8817000, tensor_id=1, tensor_name=1437, tensorIdToPtrMap_.size()=0
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b8817000, fd=329, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1, tensor_name=1437
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b5f11000, tensor_id=35, tensor_name=1459, tensorIdToPtrMap_.size()=1
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=35
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b5f11000, fd=330, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=35, tensor_name=1459
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b87f7000, tensor_id=37, tensor_name=1460, tensorIdToPtrMap_.size()=2
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=37
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b87f7000, fd=331, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=37, tensor_name=1460
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b1f24000, tensor_id=39, tensor_name=1461, tensorIdToPtrMap_.size()=3
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=39
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b1f24000, fd=332, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=39, tensor_name=1461
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79bac35000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79adbde000, tensor_id=41, tensor_name=1476, tensorIdToPtrMap_.size()=4
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=41
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79adbde000, fd=334, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=41, tensor_name=1476
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad9db000, tensor_id=42, tensor_name=1477, tensorIdToPtrMap_.size()=5
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=42
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79ad9db000, fd=335, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=42, tensor_name=1477
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad5cc000, tensor_id=87, tensor_name=1513, tensorIdToPtrMap_.size()=6
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=87
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79ad5cc000, fd=336, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=87, tensor_name=1513
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79bac35000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79b0814000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad5cc000, tensor_id=88, tensor_name=1513, tensorIdToPtrMap_.size()=7
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79bac35000, tensor_id=122, tensor_name=1535, tensorIdToPtrMap_.size()=8
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=122
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79bac35000, fd=327, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=122, tensor_name=1535
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b1f04000, tensor_id=124, tensor_name=1536, tensorIdToPtrMap_.size()=9
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=124
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b1f04000, fd=333, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=124, tensor_name=1536
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b1313000, tensor_id=126, tensor_name=1537, tensorIdToPtrMap_.size()=10
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=126
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b1313000, fd=337, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=126, tensor_name=1537
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aaeb4000, tensor_id=128, tensor_name=1552, tensorIdToPtrMap_.size()=11
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=128
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79aaeb4000, fd=339, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=128, tensor_name=1552
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad5cc000, tensor_id=129, tensor_name=1513, tensorIdToPtrMap_.size()=12
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aac40000, tensor_id=174, tensor_name=1588, tensorIdToPtrMap_.size()=13
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=174
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79aac40000, fd=340, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=174, tensor_name=1588
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79b0814000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aac40000, tensor_id=175, tensor_name=1588, tensorIdToPtrMap_.size()=14
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b0814000, tensor_id=209, tensor_name=1610, tensorIdToPtrMap_.size()=15
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=209
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b0814000, fd=338, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=209, tensor_name=1610
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79b07f4000, tensor_id=211, tensor_name=1611, tensorIdToPtrMap_.size()=16
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=211
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79b07f4000, fd=341, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=211, tensor_name=1611
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aff0a000, tensor_id=213, tensor_name=1612, tensorIdToPtrMap_.size()=17
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=213
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79aff0a000, fd=342, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=213, tensor_name=1612
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3858000, tensor_id=215, tensor_name=1627, tensorIdToPtrMap_.size()=18
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=215
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a3858000, fd=344, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=215, tensor_name=1627
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aac40000, tensor_id=216, tensor_name=1588, tensorIdToPtrMap_.size()=19
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3655000, tensor_id=261, tensor_name=1663, tensorIdToPtrMap_.size()=20
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=261
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a3655000, fd=345, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=261, tensor_name=1663
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79a432b000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3655000, tensor_id=262, tensor_name=1663, tensorIdToPtrMap_.size()=21
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a432b000, tensor_id=296, tensor_name=1685, tensorIdToPtrMap_.size()=22
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=296
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a432b000, fd=343, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=296, tensor_name=1685
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79adbbe000, tensor_id=298, tensor_name=1686, tensorIdToPtrMap_.size()=23
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=298
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79adbbe000, fd=346, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=298, tensor_name=1686
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad9bb000, tensor_id=300, tensor_name=1687, tensorIdToPtrMap_.size()=24
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=300
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79ad9bb000, fd=347, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=300, tensor_name=1687
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a2455000, tensor_id=302, tensor_name=1702, tensorIdToPtrMap_.size()=25
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=302
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a2455000, fd=349, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=302, tensor_name=1702
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3655000, tensor_id=303, tensor_name=1663, tensorIdToPtrMap_.size()=26
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a17b1000, tensor_id=348, tensor_name=1738, tensorIdToPtrMap_.size()=27
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=348
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a17b1000, fd=350, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=348, tensor_name=1738
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x79a345b000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a17b1000, tensor_id=349, tensor_name=1738, tensorIdToPtrMap_.size()=28
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a345b000, tensor_id=383, tensor_name=1760, tensorIdToPtrMap_.size()=29
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=383
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a345b000, fd=348, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=383, tensor_name=1760
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79ad5ac000, tensor_id=385, tensor_name=1761, tensorIdToPtrMap_.size()=30
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=385
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79ad5ac000, fd=351, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=385, tensor_name=1761
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79aae94000, tensor_id=387, tensor_name=1762, tensorIdToPtrMap_.size()=31
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=387
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79aae94000, fd=352, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=387, tensor_name=1762
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x799ca8d000, tensor_id=389, tensor_name=1777, tensorIdToPtrMap_.size()=32
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=389
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x799ca8d000, fd=354, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=389, tensor_name=1777
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a17b1000, tensor_id=390, tensor_name=1738, tensorIdToPtrMap_.size()=33
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7996a80000, tensor_id=435, tensor_name=1813, tensorIdToPtrMap_.size()=34
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=435
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7996a80000, fd=355, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=435, tensor_name=1813
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x799f393000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7996a80000, tensor_id=436, tensor_name=1813, tensorIdToPtrMap_.size()=35
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x799f393000, tensor_id=470, tensor_name=1835, tensorIdToPtrMap_.size()=36
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=470
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x799f393000, fd=353, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=470, tensor_name=1835
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a430b000, tensor_id=472, tensor_name=1836, tensorIdToPtrMap_.size()=37
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=472
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a430b000, fd=356, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=472, tensor_name=1836
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a4042000, tensor_id=474, tensor_name=1837, tensorIdToPtrMap_.size()=38
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=474
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a4042000, fd=357, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=474, tensor_name=1837
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x799275a000, tensor_id=476, tensor_name=1852, tensorIdToPtrMap_.size()=39
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=476
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x799275a000, fd=359, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=476, tensor_name=1852
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7996a80000, tensor_id=477, tensor_name=1813, tensorIdToPtrMap_.size()=40
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992557000, tensor_id=522, tensor_name=1888, tensorIdToPtrMap_.size()=41
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=522
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7992557000, fd=360, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=522, tensor_name=1888
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x7995390000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992557000, tensor_id=523, tensor_name=1888, tensorIdToPtrMap_.size()=42
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7995390000, tensor_id=557, tensor_name=1910, tensorIdToPtrMap_.size()=43
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=557
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7995390000, fd=358, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=557, tensor_name=1910
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3838000, tensor_id=559, tensor_name=1911, tensorIdToPtrMap_.size()=44
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=559
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a3838000, fd=361, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=559, tensor_name=1911
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a3635000, tensor_id=561, tensor_name=1912, tensorIdToPtrMap_.size()=45
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=561
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a3635000, fd=362, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=561, tensor_name=1912
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798fa30000, tensor_id=563, tensor_name=1927, tensorIdToPtrMap_.size()=46
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=563
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798fa30000, fd=364, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=563, tensor_name=1927
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992557000, tensor_id=564, tensor_name=1888, tensorIdToPtrMap_.size()=47
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798f7bc000, tensor_id=609, tensor_name=1963, tensorIdToPtrMap_.size()=48
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=609
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798f7bc000, fd=365, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=609, tensor_name=1963
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x7992148000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798f7bc000, tensor_id=610, tensor_name=1963, tensorIdToPtrMap_.size()=49
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992148000, tensor_id=644, tensor_name=1985, tensorIdToPtrMap_.size()=50
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=644
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7992148000, fd=363, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=644, tensor_name=1985
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a343b000, tensor_id=646, tensor_name=1986, tensorIdToPtrMap_.size()=51
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=646
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a343b000, fd=366, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=646, tensor_name=1986
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79a2435000, tensor_id=648, tensor_name=1987, tensorIdToPtrMap_.size()=52
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=648
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79a2435000, fd=367, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=648, tensor_name=1987
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a3d4000, tensor_id=650, tensor_name=2002, tensorIdToPtrMap_.size()=53
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=650
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798a3d4000, fd=369, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=650, tensor_name=2002
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798f7bc000, tensor_id=651, tensor_name=1963, tensorIdToPtrMap_.size()=54
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a1d1000, tensor_id=696, tensor_name=2038, tensorIdToPtrMap_.size()=55
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=696
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798a1d1000, fd=370, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=696, tensor_name=2038
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x798aea7000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a1d1000, tensor_id=697, tensor_name=2038, tensorIdToPtrMap_.size()=56
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798aea7000, tensor_id=731, tensor_name=2060, tensorIdToPtrMap_.size()=57
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=731
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798aea7000, fd=368, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=731, tensor_name=2060
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x799f373000, tensor_id=733, tensor_name=2061, tensorIdToPtrMap_.size()=58
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=733
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x799f373000, fd=371, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=733, tensor_name=2061
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7995e8f000, tensor_id=735, tensor_name=2062, tensorIdToPtrMap_.size()=59
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=735
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7995e8f000, fd=372, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=735, tensor_name=2062
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7988fd1000, tensor_id=737, tensor_name=2077, tensorIdToPtrMap_.size()=60
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=737
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7988fd1000, fd=374, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=737, tensor_name=2077
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a1d1000, tensor_id=738, tensor_name=2038, tensorIdToPtrMap_.size()=61
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798832d000, tensor_id=783, tensor_name=2113, tensorIdToPtrMap_.size()=62
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=783
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798832d000, fd=375, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=783, tensor_name=2113
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x7989fd7000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798832d000, tensor_id=784, tensor_name=2113, tensorIdToPtrMap_.size()=63
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7989fd7000, tensor_id=818, tensor_name=2135, tensorIdToPtrMap_.size()=64
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=818
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7989fd7000, fd=373, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=818, tensor_name=2135
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7995370000, tensor_id=820, tensor_name=2136, tensorIdToPtrMap_.size()=65
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=820
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7995370000, fd=376, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=820, tensor_name=2136
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7994a86000, tensor_id=822, tensor_name=2137, tensorIdToPtrMap_.size()=66
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=822
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7994a86000, fd=377, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=822, tensor_name=2137
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7983609000, tensor_id=824, tensor_name=2152, tensorIdToPtrMap_.size()=67
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=824
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7983609000, fd=379, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=824, tensor_name=2152
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798832d000, tensor_id=825, tensor_name=2113, tensorIdToPtrMap_.size()=68
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797d5fc000, tensor_id=870, tensor_name=2188, tensorIdToPtrMap_.size()=69
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=870
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797d5fc000, fd=380, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=870, tensor_name=2188
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x7985f0f000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797d5fc000, tensor_id=871, tensor_name=2188, tensorIdToPtrMap_.size()=70
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7985f0f000, tensor_id=905, tensor_name=2210, tensorIdToPtrMap_.size()=71
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=905
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7985f0f000, fd=378, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=905, tensor_name=2210
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x799273a000, tensor_id=907, tensor_name=2211, tensorIdToPtrMap_.size()=72
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=907
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x799273a000, fd=381, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=907, tensor_name=2211
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992537000, tensor_id=909, tensor_name=2212, tensorIdToPtrMap_.size()=73
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=909
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7992537000, fd=382, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=909, tensor_name=2212
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79792d6000, tensor_id=911, tensor_name=2227, tensorIdToPtrMap_.size()=74
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=911
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79792d6000, fd=384, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=911, tensor_name=2227
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797d5fc000, tensor_id=912, tensor_name=2188, tensorIdToPtrMap_.size()=75
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79790d3000, tensor_id=957, tensor_name=2263, tensorIdToPtrMap_.size()=76
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=957
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79790d3000, fd=385, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=957, tensor_name=2263
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x797bf0c000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79790d3000, tensor_id=958, tensor_name=2263, tensorIdToPtrMap_.size()=77
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797bf0c000, tensor_id=992, tensor_name=2285, tensorIdToPtrMap_.size()=78
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=992
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797bf0c000, fd=383, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=992, tensor_name=2285
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7992128000, tensor_id=994, tensor_name=2286, tensorIdToPtrMap_.size()=79
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=994
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7992128000, fd=386, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=994, tensor_name=2286
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798fa10000, tensor_id=996, tensor_name=2287, tensorIdToPtrMap_.size()=80
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=996
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798fa10000, fd=387, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=996, tensor_name=2287
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79765ac000, tensor_id=998, tensor_name=2302, tensorIdToPtrMap_.size()=81
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=998
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79765ac000, fd=389, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=998, tensor_name=2302
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79790d3000, tensor_id=999, tensor_name=2263, tensorIdToPtrMap_.size()=82
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7976338000, tensor_id=1044, tensor_name=2338, tensorIdToPtrMap_.size()=83
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1044
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7976338000, fd=390, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1044, tensor_name=2338
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x7978cc4000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7976338000, tensor_id=1045, tensor_name=2338, tensorIdToPtrMap_.size()=84
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7978cc4000, tensor_id=1079, tensor_name=2360, tensorIdToPtrMap_.size()=85
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1079
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7978cc4000, fd=388, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1079, tensor_name=2360
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798ae87000, tensor_id=1081, tensor_name=2361, tensorIdToPtrMap_.size()=86
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1081
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798ae87000, fd=391, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1081, tensor_name=2361
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798abbe000, tensor_id=1083, tensor_name=2362, tensorIdToPtrMap_.size()=87
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1083
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798abbe000, fd=392, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1083, tensor_name=2362
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796fa66000, tensor_id=1085, tensor_name=2377, tensorIdToPtrMap_.size()=88
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1085
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796fa66000, fd=394, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1085, tensor_name=2377
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7976338000, tensor_id=1086, tensor_name=2338, tensorIdToPtrMap_.size()=89
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796fa26000, tensor_id=1131, tensor_name=2413, tensorIdToPtrMap_.size()=90
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1131
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796fa26000, fd=395, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1131, tensor_name=2413
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796faa6000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796fa26000, tensor_id=1132, tensor_name=2413, tensorIdToPtrMap_.size()=91
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796faa6000, tensor_id=1166, tensor_name=2435, tensorIdToPtrMap_.size()=92
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1166
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796faa6000, fd=393, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1166, tensor_name=2435
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a3b4000, tensor_id=1168, tensor_name=2436, tensorIdToPtrMap_.size()=93
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1168
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798a3b4000, fd=396, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1168, tensor_name=2436
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x798a1b1000, tensor_id=1170, tensor_name=2437, tensorIdToPtrMap_.size()=94
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1170
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x798a1b1000, fd=397, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1170, tensor_name=2437
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f820000, tensor_id=1172, tensor_name=2452, tensorIdToPtrMap_.size()=95
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1172
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f820000, fd=399, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1172, tensor_name=2452
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796fa26000, tensor_id=1173, tensor_name=2413, tensorIdToPtrMap_.size()=96
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f7e0000, tensor_id=1218, tensor_name=2488, tensorIdToPtrMap_.size()=97
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1218
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f7e0000, fd=400, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1218, tensor_name=2488
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796f9e6000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f7e0000, tensor_id=1219, tensor_name=2488, tensorIdToPtrMap_.size()=98
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f9e6000, tensor_id=1253, tensor_name=2510, tensorIdToPtrMap_.size()=99
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1253
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f9e6000, fd=398, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1253, tensor_name=2510
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7989fb7000, tensor_id=1255, tensor_name=2511, tensorIdToPtrMap_.size()=100
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1255
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7989fb7000, fd=401, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1255, tensor_name=2511
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7988fb1000, tensor_id=1257, tensor_name=2512, tensorIdToPtrMap_.size()=101
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1257
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7988fb1000, fd=402, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1257, tensor_name=2512
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f760000, tensor_id=1259, tensor_name=2527, tensorIdToPtrMap_.size()=102
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1259
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f760000, fd=404, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1259, tensor_name=2527
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f7e0000, tensor_id=1260, tensor_name=2488, tensorIdToPtrMap_.size()=103
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f0d9000, tensor_id=1305, tensor_name=2563, tensorIdToPtrMap_.size()=104
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1305
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f0d9000, fd=405, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1305, tensor_name=2563
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796f7a0000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f0d9000, tensor_id=1306, tensor_name=2563, tensorIdToPtrMap_.size()=105
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f7a0000, tensor_id=1340, tensor_name=2585, tensorIdToPtrMap_.size()=106
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1340
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f7a0000, fd=403, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1340, tensor_name=2585
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7985eef000, tensor_id=1342, tensor_name=2586, tensorIdToPtrMap_.size()=107
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1342
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7985eef000, fd=406, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1342, tensor_name=2586
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797ca0b000, tensor_id=1344, tensor_name=2587, tensorIdToPtrMap_.size()=108
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1344
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797ca0b000, fd=407, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1344, tensor_name=2587
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f059000, tensor_id=1346, tensor_name=2602, tensorIdToPtrMap_.size()=109
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1346
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f059000, fd=409, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1346, tensor_name=2602
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f0d9000, tensor_id=1347, tensor_name=2563, tensorIdToPtrMap_.size()=110
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f019000, tensor_id=1392, tensor_name=2638, tensorIdToPtrMap_.size()=111
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1392
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f019000, fd=410, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1392, tensor_name=2638
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796f099000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f019000, tensor_id=1393, tensor_name=2638, tensorIdToPtrMap_.size()=112
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f099000, tensor_id=1427, tensor_name=2660, tensorIdToPtrMap_.size()=113
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1427
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f099000, fd=408, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1427, tensor_name=2660
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797beec000, tensor_id=1429, tensor_name=2661, tensorIdToPtrMap_.size()=114
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1429
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797beec000, fd=411, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1429, tensor_name=2661
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797b602000, tensor_id=1431, tensor_name=2662, tensorIdToPtrMap_.size()=115
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1431
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797b602000, fd=412, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1431, tensor_name=2662
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ef99000, tensor_id=1433, tensor_name=2677, tensorIdToPtrMap_.size()=116
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1433
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ef99000, fd=414, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1433, tensor_name=2677
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f019000, tensor_id=1434, tensor_name=2638, tensorIdToPtrMap_.size()=117
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ef59000, tensor_id=1479, tensor_name=2713, tensorIdToPtrMap_.size()=118
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1479
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ef59000, fd=415, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1479, tensor_name=2713
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796efd9000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ef59000, tensor_id=1480, tensor_name=2713, tensorIdToPtrMap_.size()=119
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796efd9000, tensor_id=1514, tensor_name=2735, tensorIdToPtrMap_.size()=120
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1514
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796efd9000, fd=413, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1514, tensor_name=2735
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79792b6000, tensor_id=1516, tensor_name=2736, tensorIdToPtrMap_.size()=121
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1516
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79792b6000, fd=416, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1516, tensor_name=2736
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x79790b3000, tensor_id=1518, tensor_name=2737, tensorIdToPtrMap_.size()=122
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1518
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x79790b3000, fd=417, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1518, tensor_name=2737
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796eed9000, tensor_id=1520, tensor_name=2752, tensorIdToPtrMap_.size()=123
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1520
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796eed9000, fd=419, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1520, tensor_name=2752
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ef59000, tensor_id=1521, tensor_name=2713, tensorIdToPtrMap_.size()=124
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ee99000, tensor_id=1566, tensor_name=2788, tensorIdToPtrMap_.size()=125
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1566
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ee99000, fd=420, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1566, tensor_name=2788
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796ef19000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ee99000, tensor_id=1567, tensor_name=2788, tensorIdToPtrMap_.size()=126
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ef19000, tensor_id=1601, tensor_name=2810, tensorIdToPtrMap_.size()=127
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1601
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ef19000, fd=418, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1601, tensor_name=2810
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x7978ca4000, tensor_id=1603, tensor_name=2811, tensorIdToPtrMap_.size()=128
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1603
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x7978ca4000, fd=421, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1603, tensor_name=2811
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x797658c000, tensor_id=1605, tensor_name=2812, tensorIdToPtrMap_.size()=129
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1605
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x797658c000, fd=422, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1605, tensor_name=2812
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ee19000, tensor_id=1607, tensor_name=2827, tensorIdToPtrMap_.size()=130
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1607
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ee19000, fd=424, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1607, tensor_name=2827
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ee99000, tensor_id=1608, tensor_name=2788, tensorIdToPtrMap_.size()=131
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796edd9000, tensor_id=1653, tensor_name=2863, tensorIdToPtrMap_.size()=132
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1653
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796edd9000, fd=425, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1653, tensor_name=2863
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796ee59000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796edd9000, tensor_id=1654, tensor_name=2863, tensorIdToPtrMap_.size()=133
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ee59000, tensor_id=1688, tensor_name=2885, tensorIdToPtrMap_.size()=134
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1688
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ee59000, fd=423, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1688, tensor_name=2885
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796f740000, tensor_id=1690, tensor_name=2886, tensorIdToPtrMap_.size()=135
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1690
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796f740000, fd=426, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1690, tensor_name=2886
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796edb9000, tensor_id=1692, tensor_name=2887, tensorIdToPtrMap_.size()=136
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1692
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796edb9000, fd=427, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1692, tensor_name=2887
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ed39000, tensor_id=1694, tensor_name=2902, tensorIdToPtrMap_.size()=137
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1694
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ed39000, fd=429, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1694, tensor_name=2902
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796edd9000, tensor_id=1695, tensor_name=2863, tensorIdToPtrMap_.size()=138
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796eb53000, tensor_id=1740, tensor_name=2938, tensorIdToPtrMap_.size()=139
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1740
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796eb53000, fd=430, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1740, tensor_name=2938
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796ed79000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796eb53000, tensor_id=1741, tensor_name=2938, tensorIdToPtrMap_.size()=140
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ed79000, tensor_id=1775, tensor_name=2960, tensorIdToPtrMap_.size()=141
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1775
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ed79000, fd=428, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1775, tensor_name=2960
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796eb33000, tensor_id=1777, tensor_name=2961, tensorIdToPtrMap_.size()=142
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1777
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796eb33000, fd=431, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1777, tensor_name=2961
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796df02000, tensor_id=1779, tensor_name=2962, tensorIdToPtrMap_.size()=143
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1779
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796df02000, fd=432, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1779, tensor_name=2962
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de82000, tensor_id=1781, tensor_name=2977, tensorIdToPtrMap_.size()=144
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1781
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796de82000, fd=434, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1781, tensor_name=2977
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796eb53000, tensor_id=1782, tensor_name=2938, tensorIdToPtrMap_.size()=145
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de42000, tensor_id=1827, tensor_name=3013, tensorIdToPtrMap_.size()=146
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1827
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796de42000, fd=435, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1827, tensor_name=3013
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796dec2000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de42000, tensor_id=1828, tensor_name=3013, tensorIdToPtrMap_.size()=147
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dec2000, tensor_id=1862, tensor_name=3035, tensorIdToPtrMap_.size()=148
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1862
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dec2000, fd=433, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1862, tensor_name=3035
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de22000, tensor_id=1864, tensor_name=3036, tensorIdToPtrMap_.size()=149
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1864
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796de22000, fd=436, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1864, tensor_name=3036
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de02000, tensor_id=1866, tensor_name=3037, tensorIdToPtrMap_.size()=150
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1866
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796de02000, fd=437, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1866, tensor_name=3037
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd82000, tensor_id=1868, tensor_name=3052, tensorIdToPtrMap_.size()=151
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1868
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dd82000, fd=439, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1868, tensor_name=3052
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796de42000, tensor_id=1869, tensor_name=3013, tensorIdToPtrMap_.size()=152
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd42000, tensor_id=1914, tensor_name=3088, tensorIdToPtrMap_.size()=153
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1914
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dd42000, fd=440, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1914, tensor_name=3088
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796ddc2000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd42000, tensor_id=1915, tensor_name=3088, tensorIdToPtrMap_.size()=154
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796ddc2000, tensor_id=1949, tensor_name=3110, tensorIdToPtrMap_.size()=155
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1949
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796ddc2000, fd=438, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=1949, tensor_name=3110
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd22000, tensor_id=1951, tensor_name=3111, tensorIdToPtrMap_.size()=156
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1951
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dd22000, fd=441, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1951, tensor_name=3111
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd02000, tensor_id=1953, tensor_name=3112, tensorIdToPtrMap_.size()=157
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1953
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dd02000, fd=442, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=1953, tensor_name=3112
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc82000, tensor_id=1955, tensor_name=3127, tensorIdToPtrMap_.size()=158
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=1955
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dc82000, fd=444, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=1955, tensor_name=3127
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dd42000, tensor_id=1956, tensor_name=3088, tensorIdToPtrMap_.size()=159
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc42000, tensor_id=2001, tensor_name=3163, tensorIdToPtrMap_.size()=160
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2001
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dc42000, fd=445, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2001, tensor_name=3163
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796dcc2000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc42000, tensor_id=2002, tensor_name=3163, tensorIdToPtrMap_.size()=161
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dcc2000, tensor_id=2036, tensor_name=3185, tensorIdToPtrMap_.size()=162
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2036
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dcc2000, fd=443, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=2036, tensor_name=3185
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc22000, tensor_id=2038, tensor_name=3186, tensorIdToPtrMap_.size()=163
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2038
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dc22000, fd=446, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2038, tensor_name=3186
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc02000, tensor_id=2040, tensor_name=3187, tensorIdToPtrMap_.size()=164
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2040
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dc02000, fd=447, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2040, tensor_name=3187
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796db82000, tensor_id=2042, tensor_name=3202, tensorIdToPtrMap_.size()=165
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2042
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796db82000, fd=449, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2042, tensor_name=3202
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dc42000, tensor_id=2043, tensor_name=3163, tensorIdToPtrMap_.size()=166
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796db42000, tensor_id=2088, tensor_name=3238, tensorIdToPtrMap_.size()=167
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2088
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796db42000, fd=450, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2088, tensor_name=3238
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796dbc2000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796db42000, tensor_id=2089, tensor_name=3238, tensorIdToPtrMap_.size()=168
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796dbc2000, tensor_id=2123, tensor_name=3260, tensorIdToPtrMap_.size()=169
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2123
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796dbc2000, fd=448, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=2123, tensor_name=3260
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796db22000, tensor_id=2125, tensor_name=3261, tensorIdToPtrMap_.size()=170
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2125
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796db22000, fd=451, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2125, tensor_name=3261
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d276000, tensor_id=2127, tensor_name=3262, tensorIdToPtrMap_.size()=171
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2127
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d276000, fd=452, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2127, tensor_name=3262
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d1f6000, tensor_id=2129, tensor_name=3277, tensorIdToPtrMap_.size()=172
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2129
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d1f6000, fd=454, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2129, tensor_name=3277
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796db42000, tensor_id=2130, tensor_name=3238, tensorIdToPtrMap_.size()=173
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d1b6000, tensor_id=2175, tensor_name=3313, tensorIdToPtrMap_.size()=174
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2175
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d1b6000, fd=455, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2175, tensor_name=3313
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:161 QNNAllocator::free freeing unregistered buffer ptr=0x796d236000
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d1b6000, tensor_id=2176, tensor_name=3313, tensorIdToPtrMap_.size()=175
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d236000, tensor_id=2210, tensor_name=3335, tensorIdToPtrMap_.size()=176
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2210
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d236000, fd=453, bytes=262144, shape=[1, 16, 32, 128], dtype=562, tensor_id=2210, tensor_name=3335
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d196000, tensor_id=2212, tensor_name=3336, tensorIdToPtrMap_.size()=177
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2212
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d196000, fd=456, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2212, tensor_name=3336
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d176000, tensor_id=2214, tensor_name=3337, tensorIdToPtrMap_.size()=178
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2214
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d176000, fd=457, bytes=131072, shape=[1, 8, 32, 128], dtype=562, tensor_id=2214, tensor_name=3337
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d0f6000, tensor_id=2216, tensor_name=3352, tensorIdToPtrMap_.size()=179
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:352 No existing mapping found for tensor_id=2216
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:498 Register shared buffer ptr=0x796d0f6000, fd=459, bytes=262144, shape=[1, 32, 2048], dtype=562, tensor_id=2216, tensor_name=3352
+[1m[38;2;000;128;000m[INFO][0m /root/mllm_v2/mllm/backends/qnn/QNNAllocator.cpp:264 registerQnnTensorToSharedBuffer: ptr=0x796d1b6000, tensor_id=2217, tensor_name=3313, tensorIdToPtrMap_.size()=180
+[1m[38;2;000;128;000m[INFO]/root/mllm_v2/mllm/backends/qnn/QNNBackend.cpp:618: void mllm::qnn::QNNBackend::graphExecute(const std::string &, std::vector<Tensor> &, std::vector<Tensor> &): assertion "errorCode == QNN_SUCCESS" failed
+Error: Received signal6 - SIGABRT (Abort signal from abort())
+Stack trace:
+#0 0x56e51cbdb0
+#1 0x56e51cbbd0
+#2 0x56e51cb8d8
+#3 0x7f31b2f860 __kernel_rt_sigreturn
+#4 0x7f302e17d8 abort
+#5 0x7f302e2078 __cxa_atexit
+#6 0x7f2b8c3b44 mllm::qnn::QNNBackend::graphExecute(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>> const&, std::__ndk1::vector<mllm::Tensor, std::__ndk1::allocator<mllm::Tensor>>&, std::__ndk1::vector<mllm::T °½åV   Ð»åV   Ø¸åV   `ø²1   Ø.0   x .0 #7 0x7f2b8f1514 mllm::qnn::QNNDispatcher::process(std::__ndk1::shared_ptr<mllm::Task> const&)
+#8 0x7f2b8f1008 mllm::qnn::QNNDispatcher::receive(std::__ndk1::shared_ptr<mllm::Task> const&)
+#9 0x7f29948b34 mllm::DispatcherManager::submit(int, std::__ndk1::shared_ptr<mllm::Task> const&)
+#10 0x7f299cef18 mllm::nn::Module::__main(std::__ndk1::vector<mllm::Tensor, std::__ndk1::allocator<mllm::Tensor>> const&, std::__ndk1::vector<mllm::AnyValue, std::__ndk1::allocator<mllm::AnyValue>> const&)
+#11 0x56e521e6a0 std::__ndk1::vector<mllm::Tensor, std::__ndk1::allocator<mllm::Tensor>> mllm::nn::Module::operator()<mllm::Tensor&>(mllm::Tensor&)
+#12 0x56e521ce2c
+#13 0x7f2d7adb70 mllm::cpu::CPUDispatcher::process(std::__ndk1::shared_ptr<mllm::Task> const&)
+#14 0x7f2d7ad774 mllm::cpu::CPUDispatcher::receive(std::__ndk1::shared_ptr<mllm::Task> const&)
+#15 0x7f29948b34 mllm::DispatcherManager::submit(int, std::__ndk1::shared_ptr<mllm::Task> const&)
+#16 0x7f299cef18 mllm::nn::Module::__main(std::__ndk1::vector<mllm::Tensor, std::__ndk1::allocator<mllm::Tensor>> const&, std::__ndk1::vector<mllm::AnyValue, std::__ndk1::allocator<mllm::AnyValue>> const&)
+#17 0x56e5226260
+#18 0x56e521c5f4
+#19 0x7f2d7adb70 mllm::cpu::CPUDispatcher::process(std::__ndk1::shared_ptr<mllm::Task> const&)
+#20 0x7f2d7ad774 mllm::cpu::CPUDispatcher::receive(std::__ndk1::shared_ptr<mllm::Task> const&)
+#21 0x7f29948b34 mllm::DispatcherManager::submit(int, std::__ndk1::shared_ptr<mllm::Task> const&)
+#22 0x7f299cef18 mllm::nn::Module::__main(std::__ndk1::vector<mllm::Tensor, std::__ndk1::allocator<mllm::Tensor>> const&, std::__ndk1::vector<mllm::AnyValue, std::__ndk1::allocator<mllm::AnyValue>> const&)
+#23 0x56e5226260
+#24 0x56e51d37b4
+#25 0x56e51cf5c8
+#26 0x56e51cb548
+#27 0x56e51cb168
+#28 0x7f302db154 __libc_init
+Possible causes: failed assertion, memory corruption, double-free.
+ Shutting down...

@@ -15,7 +15,7 @@ namespace mllm::qnn {
 namespace {
 // Enable verbose allocator logs to help diagnose QNN HTP memory and buffer usage issues.
 // NOTE: This is primarily for debugging; consider turning it back to false once issues are resolved.
-constexpr bool kVerboseQnnAllocatorLogs = true;
+constexpr bool kVerboseQnnAllocatorLogs = false;
 }  // namespace
 
 #define QNN_ALLOCATOR_VERBOSE(...)                                     \

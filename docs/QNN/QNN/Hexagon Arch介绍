@@ -1,0 +1,122 @@
+# Hexagon 架构
+
+参考：https://chipsandcheese.com/p/qualcomms-hexagon-dsp-and-now-npu
+
+https://zhuanlan.zhihu.com/p/424460522
+
+Hexagon 是一种四发射宽度的超长指令字（VLIW）处理器，结合了多线程（最多支持 6 路超线程）和协处理器模型，具备以下三个核心模块：
+
+**标量单元（Scalar Unit）**：32 位架构，支持每周期最多执行 4 条指令，适用于轻量级 DSP 任务，如音频解码和控制逻辑。
+
+**向量扩展（HVX）**：配备 32 个 1024 位向量寄存器，专为图像处理等高吞吐量任务设计。HVX 支持浮点运算，并通过 8 MB 的紧耦合内存（TCM）实现高效的散布/聚集操作。
+
+**张量****单元（****Tensor** **Unit/HTA单元/HMX扩展）**：新增的协处理器，专注于矩阵乘法等机器学习任务。该单元每周期可完成多达 16,000 次乘加运算，使用 4 位权重，理论性能可达约 18.8 TOPS（基于 576 MHz 时钟频率推算）。
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmZmYzVjZGEyMTYxYzM5ZGQyYWVlMzk3MWQ2ZTNhMDdfdnhzdVFabVoxMlA3VmRZS1BoTm1XWkRJT0tjeEVpQjlfVG9rZW46R0xMSWJuYmtMb0dDeHN4M3RSUWNBbzFGbmhmXzE3NjMxMDIyNzQ6MTc2MzEwNTg3NF9WNA)
+
+HotChip 23官方ppt：
+
+暂时无法在飞书文档外展示此内容
+
+## 一些概念
+
+Hexagon作为协处理器架构，起源于加速音频和图像处理的DSP单元，包含标量和向量处理单元。在骁龙888/8gen1 后，增加矩阵处理单元后改称NPU。目前骁龙芯片上仍存在DSP单元，推测为优化语音通话和录像的加速单元，并在8gen3后新增LPAI（low power AI）模块，推测为ISP单元后的两个micro NPU。
+
+QNN指高通的AI加速组件，提供了统一的CPU、GPU、NPU、DSP的AI开发接口，遵循计算图构建编译执行的接口设计，下层硬件有各自不同的开发工具链（GPU opencl hexagon，NPU hexagon sdk）。在8 elite后改名为qairt（Qualcomm AI runtime），包含QNN以及genai interface extention（Genie，高通基于QNN的推理框架https://www.qualcomm.com/developer/software/gen-ai-inference-extensions）
+
+## QNN
+
+mllm基于QNN实现高通NPU加速，具体设计参考知识库QNN库设计和QNN文档
+
+**开发主要参考**
+
+https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-50/overview.html#features
+
+## HVX指令
+
+HVX是高通NPU上的向量处理器指令，遵循SIMD，编译处理并行（bundle）
+
+部分指令（vector equals pair）存在lane shuffle操作（和预想排布顺序不同，参考文档图例和伪代码示例）
+
+v73 hvx参考文档：
+
+暂时无法在飞书文档外展示此内容
+
+## HMX suspect
+
+HMX为NPU上的矩阵单元，但目前没有开放开发接口，以下为使用gpt根据hmx头文件分析的大概设计
+
+从头文件中可以看到，Hexagon 的 HMX（Hexagon Matrix eXtensions）指令主要围绕以下几个核心要素展开，我们可以据此推测其 tensor 单元的大体架构特征。
+
+### **1. 矩阵累加器（Accumulator）与控制指令**
+
+- **`Q6_mxclracc[_hf]`**：清零累加器（32 位或 half-float 模式）。
+- **`Q6_acc_mxshl_acc`**：对累加器执行位左移后累加，支持高位饱和（`sat`）或保留精度（`retain`）。
+- **`Q6_mxswapacc[_hf]`**：交换当前累加器值，便于双缓冲交替累加。
+
+**推测**：Tensor 单元内部包含一组 128/256 位宽的矩阵累加寄存器（acc），支持向左移位（比如累加偏置或做斜向卷积时位移对齐）以及原地清零与交换，方便多通道、多核并行累加。
+
+### **2. “载入即乘加”（`mxmem`）指令**
+
+#### **2.1 基本模式**
+
+- **符号/精度**：`.ub`（unsigned byte）、`.uh`（unsigned halfword）、`.hf`（half-float）
+- **时序**：`before`/`after`，表示在累加前还是累加后进行饱和或量化
+- **饱和与保留**：`sat`（饱和）、`retain`（保留低位，舍弃高位的守护位），以及 `cm`（compare-and-mask）
+- **维度**：`2x1`、`2x2`，指示一次从内存加载并展开成几行几列的小块
+
+例如
+
+```Plain
+mxmem(Rs, Rt):after:retain:sat.uh=acc:2x1
+```
+
+表示从地址 `Rs` 加载 2×1 的 halfword 数据块，乘以寄存器 `Rt`，结果累加到 acc，再做饱和与保留处理。
+
+#### **2.2 专用卷积窗口模式**
+
+- **`blk_sm` / `blk_dm`**：block small/deep 模式，用于常规卷积小核（如 3×3）或深度可分离卷积。
+- **`deep`**：deep 模式，针对深度可分离或逐点卷积优化，通常加载更扁平的权重向量。
+- **`dilate`**：dilated 卷积，用于带空洞的大感受野运算。
+- **`drop`**：跳跃式采样（类似卷积 stride >1）时使用。
+- **`single`**：一次只做单个通道的卷积或激活加载，适合通道数较小的场景。
+- **`above`**：在滑窗卷积时加载上一行的激活，用于实现行间累加。
+
+这些模式都通过不同内存地址计算与累加策略，将滑动窗口、空洞、下采样等卷积分支内置于硬件。
+
+### **3. 权重（Weight）与偏置（Bias）载入**
+
+- **`Q6_bias_mxmem\*_A` / `Q6_mxmem\*_st_bias`**：偏置加载/存储
+- **`Q6_weight_\*_mxmem_RR[_after/_dilate/_deep/_drop/_single]`**：加载不同精度与模式下的权重
+
+硬件为常见的卷积核权重与偏置提供专门的加载路径，直接与累加单元耦合，减少指令开销。
+
+### **4. 激活（Activation）载入**
+
+- **`Q6_activation_ub_mxmem_RR[_cm/_dilate/_single/_above]`**
+- **`Q6_activation_hf_mxmem_RR[_deep]`**
+
+激活数据（feature map）同样有多种加载模式，与权重加载模式对应，保证卷积中权重与激活对齐累加。
+
+### **架构设计推测**
+
+1. **流水线与并行度**
+
+- **双缓冲累加器**：`mxswapacc` 支持双累加器交替使用，极大提升流水线利用率。
+- **SLOT0 vs SLOT01**：指令在不同执行单元中并行调度，`LD` 与 `ST`、`ST` 与 `ST`、或 `LD` 与 `LD` 可重叠执行。
+- **混合精度支持**
+
+- 同一套指令集支持 `ub`、`uh`、`hf` 数据格式，通过前/后饱和与保留保证量化精度。
+- **内存到乘加一体化**
+
+- `mxmem` 系列指令直接从内存读取数据并触发乘加，避免了显式 load + FMADD，降低指令带宽与寄存器压力。
+- **滑窗卷积硬件化**
+
+- 多种卷积模式（dilate、drop、above、deep、single、blk）表明硬件专门为 N×N、空洞卷积、stride、深度可分离等常见网络层做了专用路径。
+- **灵活的数据块尺寸**
+
+- 2×1 / 2×2 块尺寸，可以配置为行向或列向小块，方便组批（batch）与通道并行。
+
+### **总结**
+
+Hexagon 的 Tensor 单元由专门的矩阵累加寄存器阵列、混合精度算术单元、多模式内存到算子一体化路径，以及可编程的卷积滑窗控制逻辑组成。它不仅支持标准的点积累加，还对各种卷积拓扑（stride、dilation、depthwise、group convolution 等）进行了硬件加速，显著提高了在移动设备上运行深度神经网络的效率。

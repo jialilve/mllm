@@ -47,7 +47,10 @@ void Node::setBelongsTo(const node_ptr_t& node) { belongs_to_parent_ = node; }
 
 void Node::setBelongsTo(const node_weak_ptr_t& node) { belongs_to_parent_ = node; }
 
-void Node::setAttr(const std::string& str, const attr_ptr_t& attr) { attrs_.insert({str, attr}); }
+void Node::setAttr(const std::string& str, const attr_ptr_t& attr) {
+  // overwrite existing attribute to allow symbol/name updates
+  attrs_[str] = attr;
+}
 
 attr_ptr_t Node::getAttr(const std::string& str) {
   auto it = attrs_.find(str);

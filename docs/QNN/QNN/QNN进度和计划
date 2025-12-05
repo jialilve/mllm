@@ -1,0 +1,309 @@
+# 11.21周计划
+
+1. 基于SampleApp 代码 建立QNN backend框架
+2. 基于现有的Inception例子 + HTP QNN仿真做测试，验证框架正确性
+3. 算子输入可以暂时抛开前端结构，直接用QNN内的Model读写的
+
+# 12.6周计划
+
+1. 徐大亮 QNN backend框架建立 完成 libqnn_model_float.so 运行
+2. 张昊：
+   1. llama/bert -> convert -> QNN-model.so （量化 + 非量化） 
+   2.  模型转换需要pt格式文件（torchscript转换）
+
+   3.  torch.jit.trace较难对self.model.forward(tokens[:, prev_pos:cur_pos], prev_pos)格式进行处理
+
+   4. 
+
+   5.  bert模型能被转换为QNN模型，和算子主要为layer norm和matmul有关；执行存在输入文件无法对应的问题
+
+   6. Op package 学习
+   7.  sampleApp中通过调用m_qnnFunctionPointers.qnnInterface.backendRegisterOpPackage注册算子，推测创建了op->Op实例的表
+
+   8. 选择 backend时，如何加载libQnnCpu.so
+   9.  调用m_qnnFunctionPointers.qnnInterface.backendCreate进行后端加载，推测进行了动态库载入
+
+## 文档 
+
+1. http://10.109.246.210:8001/docs/QNN/
+2. http://10.109.246.210:8002/docs/     hexagon DSP SDK
+
+## Dokcer 编译环境
+
+executorch_build 
+
+NPU_build
+
+# 12.13周计划
+
+1. 徐大亮: HTP backend 跑通 build起来 + LLaMa评测
+2. 张昊：图和算子实现 + 测试 libQNNCPU.so，算子：linear(matmul), softmax, prelu (relu), RMSNorm
+
+Hexagon DSP 库和编译工具：**/data/xudaliang/projects/NPU/Hexagon5x_8gen3**
+
+QNN的库**/data/xudaliang/projects/NPU/**qualcomm_ai_engine_direct_new
+
+# 1.10周同步
+
+1. QNN add tensor/node string 问题 （张昊）
+2. _Input() 问题 mllm前端问题（张昊） 
+3. embedding QNN 算子实现（徐大亮）
+4. 量化的问题
+   1. Attention 部分，INT4模型weights -> INT8
+   2. 所有INT4weights 采用q4_0，是否与QNN 量化对应，直接可以用INT8 matmul和linear，要求与llama.cpp对齐测试
+   3. 所有的activation都要先量化，再做矩阵乘或者linear，是否支持
+   4. 现有 mllm 量化 32*32分块量化（weights + scale）<=>  QNN 整个tensor 量化
+   5. 能否直接用INT8 替换 q8_0
+5. **前端接入问题：所有算子用前端表达式构建，极大方便测试，要求单元测试 （张昊）写一个layer llama/tinyllama** 
+   1. 不用embeding， 一层
+6. **算子性能评测估计与优化 （徐大亮）**
+   1. Attention 和 linear 算子现有性能评测 和 理想（1.20）性能估计
+   2. backend支持profiling
+   3. 自定义算子优化，要求通过现有单元测试
+      1. ROPE, RMSNorm 统一用HVX 重写
+      2. HeadMatmul FP16重写实现
+   4. Android FP16 输入输出，算子 bug
+7. decoder带来的 KVCache 及 stateful的 问题
+   1. Attention 要支持KVCache的 store 和 load，是否需要考虑disk storage？
+   2. ROPE，cascual mask 需要存历史position
+
+## 量化待分析工作
+
+1. 32-128分组的速度 + 32-128 accuracy => 静态 k-quant 
+2. Activation 动态量化的开销 => 其他工作都需要
+3. INT8和INT16矩阵乘的差距 => 是否需要int16 不确定？？
+4. 是否有不dynamic activation的工作！！！ => smooth quant
+
+## QNN量化
+
+1. 量化algorithm   float_value = (quantized_value + offset) * scale 
+2. QNN_BW_SCALE_OFFSET_INIT 控制量化的位数， 可以设置为int4 
+3. matmul量化乘法规则
+   1. fp_out = fp_input * fp_weight
+   2. (quantized_out + offset_out) * scale_out =  (quantized_input + offset_input) * scale_input  * (quantized_weight + offset_weight) * scale_weight
+   3. 如果假设没有offset_out， 那么  quantized_out = quantized_input * scale_input  *quantized_weight / scale_out
+   4. 是否直接scale会损失精度需要根据算法分析
+4. 量化算法设计
+   1. Smooth quant 全静态量化，直接使用QNN
+   2. Activation 动态量化，和32个autoregressive复用一组，基于历史的sampling，可以adaptive
+   3. 分组的量化，W4A8，可以一次做16组分组乘法且不越界，记录历史值，逐步增加组，以增加推理效率
+   4. 基于smooth quant activation的outlier分布相对稳定，因此CPU sampling采样是否影响最终结果，如果影响，则直接回滚
+   5. outlier无法解决的话，NPU正常算，用CPU去补正outlier的结果，保证正确性
+
+## QNN end-to-end opt smoothquant
+
+1. 基本功能
+   1. Opt embedding
+   2. Prompt seq=32/ 64(20ms/token)  200ms 5ms
+   3. Autoregressive free + alloc生成  40ms 5ms
+   4. Prompt + autoregressive
+2. 测试
+   1.  Hello, how are you?
+
+   2.  I'm good, how are you?  I'm just 
+3. Smooth quant模型
+
+xinjin2 服务器
+
+/data/wecloudless/ylm/thirdpart/smoothquant/examples/models
+
+llama_sq_head.pt:量化了head的llama
+
+llama_sq_nohead.pt:没有量化head的llama
+
+opt-6.7b-sq_head.pt:量化了head的opt
+
+opt-6.7b-sq_nohead.pt:没量化head的opt
+
+## Memory分析
+
+1. 逐个 op accumate Memory analysis
+2. Static tensor Memory 加进去 Linear INT8
+   1. Add tesnor
+   2. finalize? Static + static
+3. Execute 模式
+   1. CPU： embedding Matmul 
+   2. NPU Linear...
+   3. 如果是finalize 加进去static tensor =>  多图   A图 setup finalize free -> B图setup finalize free
+   4. Static  A图 setup free finalize 
+   5. Dynamic load.
+
+## kvcache
+
+deepCopyFrom的执行逻辑
+
+K、V不同内存排布的代码位置（QNN目前均为BSHD）
+
+Linear的qnn转置
+
+# 2.23 周报
+
+1. QNN
+   1. **(已完成)** Smooth quant opt end-to-end model 实现 @张昊 
+      1. Smooth quant 模型加载
+      2. QNN embedding
+      3. INT8 Linear MatMul QNN算子对接
+   2. **(已完成)** Smooth  quant （全INT8） opt model支持，模拟end-to-end @徐大亮 @张昊 
+      1. Prompt = 32 大约 300 ms => 10ms / token  ->  45 ms
+      2. 单个token 大约45 ms -> 100ms
+      3. Autoregressive 单个token在实现中
+   3. **(部分完成)** Dynamic Shape支持 @徐大亮 
+      1. 支持 QNN和CPU同步
+      2. **(实现未完成)** 支持QNN和CPU同时计算 QKV Matmul 
+      3. **（TODO）** autoregressive qkv matmul 随token数增加，latency极大增加，甚至大于CPU，该现象在smooth quant 全INT8 场景好一些
+   4. **(部分完成)** 自回归
+      1. **(已完成)**支持 autoregressive 动态构建图@徐大亮 
+      2. **（TODO）**动态构建图开销过大@张昊   4s 32个token 构建一次
+         1.  context save /  load  1s
+      3. **（TODO）**动态构建图仍会带来double memory的问题@张昊 
+         1. Qkv matmul 
+         2. Weights 子图1  
+         3. Qkv matmul 子图2
+   5. Model FFN 
+   6. Scale
+   7. Qnn tensor type 支持动态调整成INT8的
+
+# 3.1 周报
+
+1. **（已完成）**Opt tokenizer （李翔 ）
+2. **（已完成）**Opt smooth quant 1-128 token 生成评测 @徐大亮 
+   1. 40->60 ms
+   2. INT8 matmul 没有明显的爆炸级增长
+3. **（已完成）**多图执行 @张昊 
+4. **（已完成）**smooth quant 在Python下的准确率验证 （杨礼铭）
+   1. opt模型只能续写
+   2. llama2 chat几乎无损量化（chatcompletion），但是回答质量会有偏差，instruct following一般
+      1. ![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=OTczMjA4MTZkNzRjM2I3NzM1MzgzYjcxOWI4N2VjYmJfdDBaeG1TZUNFdmVhU3oyWEFVaW5hT0tINVNpZVdPZm1fVG9rZW46RE5NOWJjWWlBb1pyRFp4UWhudWNIZzhYbnNlXzE3NjMxMDIzMjY6MTc2MzEwNTkyNl9WNA)
+
+      2.   [LLama2-7b-chat的smoothquant量化效果对比](https://lvzix253m9d.feishu.cn/docx/GqUKdHyVjosuZpxf1V7cLKTLnQh)
+   3. Qwen 中文性能会好一些
+5. **（Todo）**end-to-end all these things together!! @徐大亮 
+   1. Autoregressive + dynamic shape + dynamic free + CPU-NPU co-scheduling
+   2. Merge代码bugs
+   3. 子图支持多输入 @张昊 
+6. **（Todo）**Smooth quant 模型完全加载及验证 @张昊 
+7. **（Todo）**opt模型 最后的FFN 使用per-channel 或者 K-Quant 量化（杨礼铭）
+8. **（Todo）**opt模型 smooth quant int4
+
+# 3.15 周报
+
+1. **（已完成）**Opt smoothquant 模型@张昊 
+   1. 1.3B 模型完全运行了，正确性未验证，需要4GBmemory，模拟性能 prefill阶段 > 150 token/s ，小于tflite
+   2. 7B 模型无法运行，需要21G Memory，向Qualcomm提issue
+2. Tflite 性能速度之快的一些想法
+
+[不同模型的参数](https://lvzix253m9d.feishu.cn/docx/J82adlvNQolxh5xYsSxcpJ0jnmh)
+
+https://developers.googleblog.com/2024/03/running-large-language-models-on-device-with-mediapipe-andtensorflow-lite.html
+
+1. （Todo） opt模型正确性验证@徐大亮 
+2. （Todo）性能评测与pipeline technique 实现@张昊 
+3. （Todo） 量化算法模拟与实现 @杨礼铭
+
+# 3.22 周报
+
+1. **（在进行）QNN Attention 算子实现** **@张昊** 
+2. **（在进行） OPT模型端到端正确性联调**@徐大亮 
+   1. Fix了 OPT模型 没有QNN 所需要的activation 静态scale的问题，并验证静态scale 对accuracy几乎无影响 @杨礼铭
+   2. 验证了 embedding -> quantize -> linear 的正确性 @徐大亮 
+3. **（在进行）Tflite 性能评测 @刘瑞麒** 
+4. **（已完成）性能和memory评测** **@张昊** 
+   1. OPT 1.3B int8 需要4GB memory 
+   2. 1024 token prefill 峰值性能 500 token/s 
+   3. 模拟分析 OPT 6.7B 1024 token 峰值性能 200 token/s
+5. **（Todo）pipeline technique 实现****@张昊** 
+6. **（Todo） 量化算法模拟与实现 @杨礼铭**
+
+# 8.1日
+
+1. 正确性分析
+   1. CPU  I8乘法，能否达到和Pytorch仿真一致
+   2. SiLU NPU仅能计算-8.0~8.0 超过范围需要用hexagon core计算，十分缓慢
+   3. decoding阶段ROPE等算子的准确率分析
+2. 性能优化
+   1. INT8 in - out 算子实现
+   2. FP16
+   3. Shadow execution优化
+3. 开源和demo设计
+
+# 8.10日
+
+1. NPU + GPU/CPU prefilling执行 （理想情况能提升5-10倍速度） （rongjie 徐大亮）
+   1. Attention 算子 openmp执行优化瓶颈分析 
+   2. 执行线程绑定
+   3. 线程个数（4->6）对于性能几乎无影响
+2. NPU 算子优化 （徐大亮）
+   1. FFN和QKV， KVCache使用 FP16  （提升25%速度）
+   2. 去掉quantization和dequantize，融合在Op内部，是的Op均为INT8 inputs/outputs （提升2-4倍chunk 长度，进而提供50%速度）
+3. Prefilling Chunk优化：（理想情况能提升2倍速度）（张昊）
+   1. 问题：多chunk并行受限于CPU瓶颈，实际几乎无并行
+4. 加载和构建图优化（张昊）
+   1. 现有流程：NPU （prefilling） ，CPU （prefill和decoding） 加载weights，NPU构建图，存在的问题是，NPU构建图的memory不足，需要使用swapping，造成推理性能和sequence损失
+   2. 改进流程：NPU加载weighs，NPU构建图，CPU 加载weights，并且增加程序的分配内存大小。
+5. 更多模型支持 （徐大亮）
+   1. 模型文件的优化
+   2. mllm-NPU模型的生成 代码是否需要开源 （杨礼铭）
+   3. 多模态模型 （沈海洋 / 杨礼铭） llama.cpp  vit npu 实现
+6. NPU-only 推理 （沈海洋）
+   1. SpinQuant: rotation quantization
+   2. Medusa: speculative decoding
+   3. Visual encoding + SpinQuant
+7. 新前端 + NPU 模型适配 （rongjie）
+
+# 9.20
+
+新前端适配：[QNN 新前端适配](https://bwlvw7nk5ty.feishu.cn/docx/F69ldcJV1oTrQhx9jiKcJeUTnrd?from=from_copylink)
+
+可能的方向：跨后端的内存管理，权重懒加载，更好的pipeline（类似powerinfer2）
+
+# 10.10
+
+1. 算子优化（10.13）
+   1. **RMSNorm SiLU设计 （10.11 完成）**
+      1. **FP CAST INT8 算法设计**
+      2. **SiLU 算法优化**
+   2. ROPE in INT8（在新前端实现后）
+   3. KVCache INT8 替换成FP16 （在新前端实现后）
+   4. Shadow execution input outlier optimization
+   5. QKV Linear 输出 INT8，减少模型内存，但是效果估计一般（在新前端实现后）
+2. pipeline优化(10.20)
+   1. 验证算子如果不是多线程，能否并行CPU和NPU
+   2. 锁的设计及取消
+3. Accuracy loss问题回滚
+   1. 64 ground truth: The large language model (LLM) is a type of artificial intelligence system that is designed to generate human-like text based on input from users These models are trained on vast amounts of text data, including books, articles, and other written materials, and are capable of producing a wide range of text styles, including formal, academic, creative, and conversational
+   2. 256 ground truth: A large language model is a type of artificial intelligence (AI) that can generate human-like text based on the input it receives, such as text from a human writer or a large corpus of text These models are trained on large amounts of text data to learn the patterns and relationships between words, phrases, and sentences in the language, and can generate text that
+   3. CPUKVCache type，最开始的宏定义不要注释
+   4. Shadow execution 判定 1.5倍，对accuracy影响不大。 6b850fba0032de3e1ec8f86da6048d65f9aaf1c3 shadow execution optimization 崩了整个输出。。需要先解决。
+   5. 用了FP16 KVCache， QNN seq = 256 变化非常大，而64几乎不变，更离谱的是 256 没fix FP16 bug的时候，第一个token 还输出了The，是对的。。
+   6. 050ffcb99ad7d0f7e68c61cf028f3c526cff044c 这个版本 seq = 64 崩了，出现 sure, gpt-5
+   7. 99a0c4b8835cacb682b73dad9f966754a29ce55f 这个版本 seq = 64 首词不对，但是如果加上 fix KVCache的ffe4717eebe4ce6dea72ca824ac8ed493e592330 能正常输出后面的token 64结果：A large language model (LLM) is a type of artificial intelligence system that is designed to generate human-like text based on input from users These models are typically trained on large datasets of text, such as books, articles, and other written materials, and are able to learn patterns and structures in language that are difficult for humans to identify. （前面基本一致，后面不对，看起来问题不是很大） 256结果：A large language model is a type of artificial intelligence system that is designed to generate human-like text based on input provided by the user These models are typically trained on large datasets of text, such as books, articles, and web pages, and use statistical algorithms to learn patterns and relationships in the language data to generate coherent and contextually appropriate text.（64和256前面基本一致，后面不对，看起来问题不是很大）
+   8. 如果把int16 按照int8存（量化阶段），会输出big data xxxx，这个和256 很像，注意查相关的bug。
+   9. 如果把量化过的float值按着INT存，乃至是int32存，会出现Sure xxxx的bug，很奇怪。 为什么NEON round指令得到的结果和roundf 差距很大。。。
+   10. Merge 图以后，FFN dequantize view add res之后出现较大不一致，怀疑是res
+
+# 10.25
+
+1. PhoneLM 模型  不用加shadow
+2. warmup
+3. layername.clip_input true 判断shadow 建模型
+
+# 10.28 Demo 
+
+目标：PhoneLM  + 旧前段 +  seq = 1024
+
+第一阶段（周三之前）
+
+1. 确定一个 主分支 主仓库 commit branch 能够正确跑 Qwen 1.5-1.8B   seq=512 
+   1. 并行执行shadow的bug @徐大亮 
+   2. 结合新前端的 @张昊  （工作量越少） 
+2. AE前（11.8）就用旧前端
+   1. Common op shadow 的判断
+   2. Modeling shadow 动态控制
+3. chunk并行适配扩展成多个
+4. PhoneLM 模型
+5. CPU-NPU时，CPU跑的慢的问题
+   1. ROPE 放到 QNN上
+   2. Quantize 放到QNN上
+   3. INT8 KVCache
+   4. 增加seq length
+   5. INT8 matmul in attention refer to llamafile

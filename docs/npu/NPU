@@ -1,0 +1,203 @@
+# Resource
+
+**课程：**
+
+1. https://cs217.stanford.edu/ Hardware Accelerators for Machine Learning (CS 217)
+2. UCB, EE290-2, https://web.archive.org/web/20240413024622/http://inst.eecs.berkeley.edu/~ee290-2/sp21/
+   1. gemmini Arch (RISC-V Ext)
+   2. Systolic Array
+   3. Google TPU
+3. 体系结构量化研究方法 https://safari.ethz.ch/architecture/fall2024/doku.php?id=start
+4. miniTPU 项目(Accelerator Architectures for Machine Learning)：https://people.cs.nycu.edu.tw/~ttyeh/course/2024_Fall/IOC5009/outline.html
+
+**博客：**
+
+1. GPU-MODE: https://github.com/gpu-mode/lectures
+2. NPU 全流程设计笔记：https://zhuanlan.zhihu.com/c_1884673243505484052
+3. 软硬件协同设计 Henry Ko: https://henryhmko.github.io/index.html
+
+**开源项目：**
+
+1. 【断更】https://github.com/intel/fpga-npu
+2. 【最近】**coral-npu** https://github.com/google-coral/coralnpu
+3. 【缓慢更新】gemmini https://github.com/ucb-bar/gemmini
+4. nvdla-attn https://github.com/dzwduan/nvdla-attn-mechanism
+5. 【GPGPU】https://github.com/vortexgpgpu/vortex
+
+**工业界：**
+
+1. google TPU v4. [TPU Deep Dive] [June 18, 2025] https://henryhmko.github.io/posts/tpu/tpu.html
+2. google JAX: https://jax-ml.github.io/scaling-book/tpus/
+
+# Archs
+
+## Hexagon
+
+（hexagon sdk doc）
+
+https://www.qualcomm.com/products/technology/processors/hexagon
+
+**Is Hexagon a DSP?**
+
+In 2007, the first Hexagon DSP was launched on the Snapdragon Platform — the DSP control and scalar architecture was the basis for our future NPU generations. In 2015, the Snapdragon 820 processor was announced and included our first Qualcomm AI Engine to support imaging, audio, and sensor use cases. We added the tensor accelerator to the Hexagon NPU in the Snapdragon 855 in 2018. The following year, we expanded the use cases for on-device AI on Snapdragon 865 to include AI imaging, AI video, AI speech, and always-on sensing.  
+
+  
+
+In 2020, we achieved a major milestone with a revolutionary architecture update for the Hexagon NPU. We fused together the scalar, vector, and tensor accelerators for better performance and power efficiency. A large-shared memory was dedicated for the accelerators to share and move data efficiently. The fused AI accelerator architecture established a solid foundation for our NPU architecture moving forward.
+
+ **How is Hexagon different from competitors?**
+
+Hexagon NPU is unique through its system approach, custom design, and fast innovation. We fused together the scalar, vector, and tensor accelerators for better performance and power efficiency and on top of that, a large-shared memory cuts across these accelerators for them to share data at high speeds. The Hexagon NPU is also equip with micro tile inferencing, a new technique used to boost AI performance at ultra-low power. By running multiple micro tiles simultaneously, the scalar, vector, and tensor accelerators are all put to work at the same time, combining as many as 10 or more layers to eliminate almost all the intermediate memory reads and writes. Transform your AI capabilities and achieve the ultra-low power performance of micro tile inferencing with Hexagon NPU—setting a new standard in AI processing with unparalleled efficiency and speed.
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=ZjVlYTFmYmY3NzFlNTNmYWViMmVjNzc4MDE1MzEzMzRfZEFoRkdsd21iazdHbHcxNWtkd0tVTnJlWU9GZU0ySXJfVG9rZW46UnF4MWI4aE55b1ZPTDV4QkhZUGNOM2lubkhnXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+### HMX
+
+Q6_activation_hf_mxmem_RR
+
+hmx中含有MM MV Activation操作（暂未找到除qnn外的调用方式）
+
+[QNN/Hexagon Arch介绍](https://bwlvw7nk5ty.feishu.cn/wiki/LD27wOsdGiW8FikhEqJcam5VnDd)
+
+## Ascend
+
+Ascend: a Scalable and Unified Architecture for Ubiquitous Deep Neural Network Computing : Industry Track Paper
+
+https://ieeexplore.ieee.org/document/9407221
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=N2I5MTg1MGYzZTRkMWNiNDg3NDk4MTdjNmRkZTliMWJfRmUyTDl0V2JWQzM4QzBRVE5OV0pOZ1liSmw4aEpnRmFfVG9rZW46SFNBUWJRVm1Sb1JuelR4Y1Z3dmMwejNhbjFjXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+## AMD XDNA
+
+AMD XDNA is a spatial dataflow NPU architecture consisting of a tiled array of AI Engine processors. Each AI Engine tile includes a vector processor, a scalar processor, and local data and program memories. Unlike traditional architectures that require repeatedly fetching data from caches (which consumes energy), AI Engine uses on-chip memories and custom dataflow, to enable efficient, low power computing for AI and signal processing.
+
+Each AI Engine tile consists of a VLIW (Very Long Instruction Word), SIMD (Single Instruction Multiple Data) vector processor optimized for machine learning and advanced signal processing applications. The AI Engine processor can run up over 1.3GHz, enabling efficient, high throughput, low latency functions. Each tile also contains program and local memory to store data, weights, activations, and coefficients; a RISC scalar processor and different modes of interconnect to handle different types of data communication.
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=ZmQ1M2IxMjMwMjJjZGM0MDYwMGY0OGNkYmYxYTc2NjBfUzJDbml2eEdrcUFVb3EyQXZUbDZIZ2J1WkRzOFdrR3BfVG9rZW46VkhrNmI2eUx5b01vRlB4a1o5cGNjWk5hbldnXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+[AMD NPU — Linux 内核文档 - Linux 内核](https://linuxkernel.org.cn/doc/html/latest/accel/amdxdna/amdnpu.html)
+
+## 软件栈
+
+ascend npu Q4_0 matmul 
+
+https://github.com/ggml-org/llama.cpp/pull/8822/files
+
+other NPUs：
+
+工业AI加速解决方案有多种类型，包括通用GPU（GPGPU）、基于脉动阵列的方法、基于数据流的方法等，它们具有不同的特点。GPGPU 通常利用单指令多线程（SIMT）机制，该机制在分支发散方面具有优势。
+
+作为一种加载/存储架构，SIMT能够通过线程Warp（就 NVidia 术语而言）动态切换来隐藏内存加载时间。然而，DNN 计算通常不会从 SIMT 中受益。此外，SIMT 还需要额外的开销例如寄存器阵列，这会对性能密度（TFLOPS/mm2）严生不利影响。另外，为了兼容现有的SIMT机制（比如warp，以及寄存器和线程的对应关系），很难采用大尺寸的Cube（NVidia中称为Tensor Core）。
+
+Systolic Array因其高效的矩阵乘法而被TPU和Tesla FSD（推测）等商业芯片广泛采用。然而，Systolic Array的深层管道在运行小型网络时会产生较大的序言和尾声延迟开销，导致移动和物联网场景中的计算利用率较低。
+
+数据流架构是加速器设计的另一种典型范式，可以实现特定任务的高吞吐量。然而，数据流架构无法执行主流同步训练。此外，在汽车、移动和物联网场景中，数据流架构会导致计算利用率低和输出延迟大。
+
+| **厂商** | **框架**      | **可编写算子**                          | **其他**                     |
+| -------- | ------------- | --------------------------------------- | ---------------------------- |
+| 高通     | QNN           | 部分（HVX）                             | 计算图                       |
+| intel    | openvino      | ✅                                       | 计算图（xml IR+bin）         |
+| amd      | AI Engine/AIE | 部分（需要使用mlilr-aie，仍属于赛灵思） | 计算图（onnx runtime genai） |
+| 华为     | asendc        | ✅                                       |                              |
+
+Amd npu（25.9.17）：
+
+The Ryzen AI OGA flow supports Strix and Krackan Point processors. Phoenix (PHX) and Hawk (HPT) processors are not supported.
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTYyNDI3NjVlOWNlODFmZDliOGQ4OTI3NjAyMDNhOTRfV3ZiR0VhU1FreVkxNkwydVNFcW5nRWcxYVNwQktCSFVfVG9rZW46WE05OWJkazFUbzFqb1J4ZHQ3VmNUZFBLbkxkXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+# CPU vector & matrix
+
+arm SVE:
+
+https://dougallj.github.io/asil/
+
+apple AMX
+
+intel AMX
+
+# Inference Frameworks Support
+
+## QNN Backend
+
+### Genie
+
+高通官方llm框架
+
+推测内部实现：多图pipeline，shared weights，chunk profile，自投机解码decoding
+
+llama 7B context length 256 一加8elite 16G
+
+prefill 640 token/s （高通数据最快800）
+
+decoding 13+- token/s
+
+### MNN
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=M2JmNThiNTk5MTU5ZjI5MmQ1NjJjYmI2NWQyNjViOTJfMnU0bUR2YmZ3TTdTa0VvOXVXTVBNczFwbUNhWVZiM1lfVG9rZW46VjRwTGJrTXllb0paOWJ4eXpyMWNiNFUxblJoXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+有基于qnn sdk的计算图构建逻辑
+
+float16 (已开源)
+
+int4 (11.5暂未包含相关代码)
+
+Attention作为MNN算子，由多个op组合，使用Concat进行kvcache操作（作为input）
+
+同时，存在npu_convert.py脚本，使用qnn-model-lib-generator和qnn-context-binary-generator，qnn-model-lib-generator -> lib$graphName.so -> qnn-context-binary-generator -> context
+
+CMake：
+
+```CMake
+if (MNN_QNN_CONVERT_MODE)
+    target_compile_options(MNN_QNN PRIVATE -DENABLE_QNN_CONVERT_MODE)
+endif()
+
+if (MNN_QNN_ONLINE_FINALIZE)
+    target_compile_options(MNN_QNN PRIVATE -DENABLE_QNN_ONLINE_FINALIZE)
+endif()
+```
+
+相关代码：https://github.com/alibaba/MNN/blob/master/source/backend/qnn/convertor/QNNConvertor.cpp
+
+### Executorch
+
+ExecuTorch uses ahead-of-time (AOT) compilation to prepare PyTorch models for edge deployment:
+
+1. 🧩 Export — Capture your PyTorch model graph with `torch.export()`
+2. ⚙️ Compile — Quantize, optimize, and partition to hardware backends → `.pte`
+3. 🚀 Execute — Load `.pte` on-device via lightweight C++ runtime
+
+Models use a standardized [Core ATen operator set](https://docs.pytorch.org/executorch/main/compiler-ir-advanced.html#intermediate-representation). [Partitioners](https://docs.pytorch.org/executorch/main/compiler-delegate-and-partitioner.html) delegate subgraphs to specialized hardware (NPU/GPU) with CPU fallback.
+
+![img](https://bwlvw7nk5ty.feishu.cn/space/api/box/stream/download/asynccode/?code=ODhjYjA2NDYzNDA2ZjYxZDdiNWZmZDZmNDFiODlhNThfME42UGFZeVNkbU1ETWl2NGdTV1VaWUJOQ0dSUndEQTRfVG9rZW46RzdyMmI0WXpKb3VEeFN4cHVUZGNVcDloblZlXzE3NjMxMDI1MDU6MTc2MzEwNjEwNV9WNA)
+
+直接使用Flat buffer的序列化记录（算子名，输入输出信息）
+
+Backends https://docs.pytorch.org/executorch/main/backends-section.html
+
+##### Supported Quantization Schemes
+
+- **8a8w** (default)
+- **16a16w**
+- **16a8w**
+- **16a4w**
+- **16a4w_block**
+
+Executorch提供**QnnPartitioner** 接口指定算子offload
+
+LLama on Executorch QNN
+
+https://github.com/pytorch/executorch/blob/main/examples/qualcomm/qaihub_scripts/llama/llama2/qaihub_llama2_7b.py
+
+虽然executorch也存在通过exir逐算子进行计算图转换的代码，但llama demo中使用了执行高通离线转换方案（https://github.com/pytorch/executorch/blob/f32cdc3de6f7176d70a80228f1a60bcd45d93437/examples/qualcomm/qaihub_scripts/llama/README.md）的Runner程序，执行逻辑类似genie，其中io_memory(https://github.com/pytorch/executorch/blob/f32cdc3de6f7176d70a80228f1a60bcd45d93437/examples/qualcomm/qaihub_scripts/llama/runner/io_memory.cpp)实现了kvcache机制，大概逻辑为对于静态计算图，每一轮执行时，通过update_io对每层的qnn tensor进行索引更新和重新注册
+
+# Benchmark
+
+https://ai-benchmark.com/ranking_processors.html
+
+高通性能相对最强（int8）
+
+apple int8算力约为高通1/4，但精度极高
+
+https://zhuanlan.zhihu.com/p/1958786450960131249

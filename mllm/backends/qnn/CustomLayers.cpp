@@ -53,7 +53,7 @@ void DequantizeAddOp::load(const mllm::ParameterFile::ptr_t& ploader) {
   } else {
     // Bias doesn't exist, create a zero bias tensor
     // This is common for Qwen3 models using rotation quant with fused dequantize-add
-    MLLM_INFO("Bias parameter {} not found, using zero bias", weight_name);
+    // MLLM_INFO("Bias parameter {} not found, using zero bias", weight_name);
     weight_ = Tensor::empty({1, 1, 1, options_.out_channels}, options_.dtype, kCPU)
                   .setMemType(kParamsNormal)
                   .alloc();

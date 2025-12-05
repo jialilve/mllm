@@ -58,6 +58,8 @@ void QNNDispatcher::process(const Task::ptr_t& task) {
     }
     case TaskTypes::kExecuteModule: {
       auto moduleName = static_cast<nn::Module*>(task->custom_context_ptr)->getModuleName();
+      MLLM_INFO("QNNDispatcher: executing QNN module '{}', inputs={}, initial outputs={}", moduleName,
+                task->inputs.size(), task->outputs.size());
 #ifdef MLLM_PERFETTO_ENABLE
       MLLM_PERF_TRACE_EVENT("mllm.qnn.execute.", perfetto::DynamicString{moduleName}, [&](perfetto::EventContext ctx) {
         int cnt = 0;
@@ -69,9 +71,40 @@ void QNNDispatcher::process(const Task::ptr_t& task) {
       // here enters in a QNN module, execute it and not dive into its layers
       auto qnnBackend = std::static_pointer_cast<QNNBackend>(Context::instance().getBackend(kQNN));
 
+      // Module::forward typically returns empty vector for QNN modules
+      // graphExecute will populate outputs based on QNN graph definition
       task->outputs = ((nn::Module*)(task->custom_context_ptr))->forward(task->inputs, task->args);
-
+      
+      MLLM_INFO("QNNDispatcher: after forward, outputs={}", task->outputs.size());
+      
+      // graphExecute will resize and populate outputs based on QNN graph outputs
       qnnBackend->graphExecute(moduleName, task->inputs, task->outputs);
+      
+      MLLM_INFO("QNNDispatcher: after graphExecute, outputs={}", task->outputs.size());
+      if (!task->outputs.empty()) {
+        for (size_t i = 0; i < task->outputs.size(); ++i) {
+          void* ptr = task->outputs[i].ptr<void>();
+          void* storage_ptr = task->outputs[i].impl() ? 
+                              (task->outputs[i].impl()->storage() ? task->outputs[i].impl()->storage()->ptr_ : nullptr) : 
+                              nullptr;
+          MLLM_INFO("QNNDispatcher: output[{}] shape={}, device={}, ptr={}, storage_ptr={}, bytes={}, impl={}, storage={}", i, 
+                    task->outputs[i].shape(), static_cast<int>(task->outputs[i].device()),
+                    static_cast<void*>(ptr), static_cast<void*>(storage_ptr), task->outputs[i].bytes(),
+                    static_cast<void*>(task->outputs[i].impl().get()),
+                    static_cast<void*>(task->outputs[i].impl() && task->outputs[i].impl()->storage() ? 
+                                       task->outputs[i].impl()->storage().get() : nullptr));
+          if (!ptr && task->outputs[i].bytes() > 0) {
+            MLLM_ERROR("QNNDispatcher: output[{}] has null pointer but non-zero bytes ({}), this will cause X2XOp errors!", 
+                       i, task->outputs[i].bytes());
+          }
+          if (ptr != storage_ptr) {
+            MLLM_WARN("QNNDispatcher: output[{}] ptr ({}) != storage_ptr ({}), this may indicate a view tensor issue", 
+                      i, static_cast<void*>(ptr), static_cast<void*>(storage_ptr));
+          }
+        }
+      } else {
+        MLLM_ERROR("QNNDispatcher: graphExecute did not populate outputs for module '{}'", moduleName);
+      }
 
       break;
     }

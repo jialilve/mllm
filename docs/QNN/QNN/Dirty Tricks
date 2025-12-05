@@ -1,0 +1,118 @@
+记录QNN实现中部分有待设计的点
+
+# Modeling v2
+
+v2modeling使用SubGraphBegin和SubGraphFinalize显示进行计算图划分
+
+SubGraphBegin将input tensor更改为[qnn backend（tensor.to(MLLM_QNN)）](https://bwlvw7nk5ty.feishu.cn/wiki/HuSvw7zYziiFjSkz8EyceYCKnCb#share-WEVsdlhGKoniTuxhtwJcvBsQnvg)并进行alloc，调用QNNBackend::onSetUpStart构建计算图
+
+SubGraphFinalize在load阶段（module->doLoad, Layer.hpp）将qnn output tensor标记为GRAPH_OUTPUT（qnn计算图构建时添加qnn tensor需要）**（****reshape****重复做了该操作 TODO: 优化），**setup阶段将输出tensor转移到cpu（不改变内存）并调用QNNBackend::onSetUpEnd（动态构图时进行图编译）注册output tensor（shared buffer）
+
+# QNN Shared Buffer Tensor
+
+目前qnn graph的输入输出tensor使用QNN Shared Buffer（https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-50/htp_backend.html
+
+https://docs.qualcomm.com/bundle/publicresource/topics/80-63442-50/htp_shared_buffer_tutorial.html ）
+
+device指针保存在mllm::Tensor::hostPtr中，由于该内存可以被cpu直接访问，故在处理qnn->cpu时直接返回
+
+```c++
+/**
+     * Currently, there are following cases:
+     * CPU -> QNN, QNN -> CPU
+     * if it is CPU -> QNN, the buffer should be realloced
+     * (NOTE: not handling data copy as the tensor.to() shoudld be called before the data is set and tensor.device() should be checked in frontend)
+     * if it is QNN -> CPU, the data is sharable between CPU and QNN, no need to copy or realloc
+     */
+    if (device() == backend_type) {
+        return *this;
+    }
+    if (backend_type == MLLM_CPU && device() == MLLM_QNN) {
+        // data is sharable between CPU and QNN
+        return *this;
+    }
+    // realloc the tensor
+    if (backend_type == MLLM_QNN && device() == MLLM_CPU) {
+        this->free();
+        module()->activation_tensors[name()]->setBackend(Backend::global_backends[backend_type]);
+        this->setBackend(Backend::global_backends[backend_type]);
+        return *this;
+    }
+```
+
+# qwen 2 vl bug（April 2025）
+
+Cpu  embedding -> QNN prefill body
+
+QNN模型直接从decoder block开始，在qnn part2中input tensor被改为qnn tensor，但main函数中的tensor仍为cpu指针，导致残差计算输入为0
+
+目前解决方案：在main中显式创建qnn backend tensor
+
+TODO：加载cache执行，qnn prefill body放在embedding模型后面，embedding对输出进行tensor.to(MLLM_QNN)操作，直接传入qnn prefill body（shared buffer内存复用）**待讨论**
+
+相关优化：[减少加载cache后qnn model forward时间](https://bwlvw7nk5ty.feishu.cn/wiki/HuSvw7zYziiFjSkz8EyceYCKnCb#share-CS8cdLEFyoFLLtxvBpychMIWnBf)，shadowCopyFrom对backend以及backendType字段的支持
+
+附： Module.hpp对于input tensor的处理：
+
+```C++
+if (inputs[0].ttype() == TensorType::INPUT_TENSOR) {
+            if (prefilling_token_size_ == 0) { // first time init
+                prefilling_token_size_ = inputs[0].sequence();
+            } else if (decoding_token_size_ == 0) {
+                decoding_token_size_ = inputs[0].sequence();
+            }
+            for (int i = 0; i < inputs.size(); i++) {
+                auto &input = inputs[i];
+                input.setName("input" + std::to_string(i));
+                input.setTtype(TensorType::NORMAL_TENSOR);
+                activation_tensors[input.name()] = std::shared_ptr<Tensor>(&input, [](Tensor *) {});
+                activation_tensors[input.name()]->setName(input.name());
+                activation_tensors[input.name()]->setModule(this);
+            }
+...
+}
+```
+
+bug2: cpu中free activation会导致运行错误
+
+# QNN multi chunk
+
+qnn执行
+
+初次执行构建计算图
+
+构建计算图后做multi chunk prefill
+
+从cache中加载计算图然后执行：
+
+SubGraphBegin和SubGaphFinalize需要执行，begin时创建QnnModel但QnnModel不创建计算图，finalize时不做图编译但需注册qnn shared buffer
+
+TODO：待优化，加载cache后QNN的其他算子不需要执行load、setup（addTensor&addNode，目前在backend和QnnModel中做直接返回处理）
+
+# QNN memory layout
+
+mllm目前tensor为BSHD，qnn中对于matmul的内存布局要求为BHSD（batch维度在前）
+
+## QNN ViT实现
+
+**算子速度：**
+
+fp32 attention matmul，多算子组合实现quick gelu：46s
+
+fp16 attention matmul，多算子组合实现quick gelu：12s
+
+fp16 attention matmul，多算子组合实现quick gelu，HTP burst mode（QNNPerf）：3s
+
+fp16 attention matmul，QuickGeLU->内置GeLU算子：1.6s
+
+QNN elementwise算子组合速度会有很大问题
+
+float的sigmoid(2xdown proj)和ElementwiseMultiply（4xdown proj,速度不如HVX的自定义实现）
+
+**量化实现：**
+
+Rotation model（减少离群值，不使用shadow linear）
+
+W8A16（linear速度基本同W8A8）
+
+Float bias（dequantize add）

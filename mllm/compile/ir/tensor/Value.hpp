@@ -31,6 +31,10 @@ class TensorValue : public TensorIRValue, public SymbolInterface<TensorValue> {
   ~TensorValue() override;
   TensorValue();
 
+  inline const Tensor& tensor() const { return tensor_; }
+
+  inline void setTensor(const Tensor& tensor) { tensor_ = tensor; }
+
   static ptr_t build(IRContext* ctx, const Tensor& tensor);
 
   static inline bool classof(const Node* node) { RTTI_RK_VAL_TENSORIRVAL_TENSORVAL_IMPL(node); }
