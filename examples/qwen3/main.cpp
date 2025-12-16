@@ -4,6 +4,7 @@
 #include <mllm/models/qwen3/modeling_qwen3.hpp>
 #include <mllm/models/qwen3/tokenization_qwen3.hpp>
 #include <mllm/utils/AnyValue.hpp>
+#include <mllm/utils/Log.hpp>
 
 using mllm::Argparse;
 
@@ -34,6 +35,9 @@ MLLM_MAIN({
   }
 
   {
+    // Ensure we see INFO-level debug logs from Qwen3 modeling
+    mllm::Logger::level() = mllm::LogLevel::kInfo;
+
     auto qwen3_cfg = mllm::models::qwen3::Qwen3Config(config_path.get());
     auto qwen3_tokenizer = mllm::models::qwen3::Qwen3Tokenizer(tokenizer_path.get());
     auto qwen3 = mllm::models::qwen3::Qwen3ForCausalLM(qwen3_cfg);

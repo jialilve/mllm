@@ -106,6 +106,18 @@ ir::graph::SubGraphOp::ptr_t findSubGraph(const ir::Region::ptr_t& region, const
   return nullptr;
 }
 
+// 将 dst TensorValue 的底层 Tensor/Storage 与 src 对齐，用于避免“壳 Tensor”
+// （有 shape/bytes 但 storage->ptr 为空）的问题。直接拷贝 Tensor 对象即可共享
+// storage 引用，不需要深拷贝。
+void aliasTensorValueTensor(const val_ptr_t& dst, const val_ptr_t& src) {
+  if (!dst || !src) { return; }
+  auto dst_tv = std::dynamic_pointer_cast<ir::tensor::TensorValue>(dst);
+  auto src_tv = std::dynamic_pointer_cast<ir::tensor::TensorValue>(src);
+  if (!dst_tv || !src_tv) { return; }
+  dst_tv->setTensor(src_tv->tensor());
+  dst_tv->setDevice(src_tv->getDevice());
+}
+
 std::vector<ir::graph::CallGraphOp::ptr_t> findCallGraphOps(const ir::Region::ptr_t& region,
                                                             const std::string& symbol) {
   std::vector<ir::graph::CallGraphOp::ptr_t> result;
@@ -500,15 +512,18 @@ uint8_t Qwen3IRGraphFusionPass::run(const ir::node_ptr_t& op) {
       return false;
     }
 
+    // 不再 clone“壳” Value，直接复用 fused_graph 的真实输出 Value，
+    // 这样 runtime 能共享同一份 storage/buffer。
     while (call_outputs.size() < product.fused_outputs.size()) {
-      const auto& template_val = product.fused_outputs[call_outputs.size()];
-      auto new_val = cloneTensorValueLike(ir_ctx, template_val);
-      if (!new_val) {
-        MLLM_ERROR("Qwen3IRGraphFusionPass: failed to create call output placeholder");
+      const auto& shared_val = product.fused_outputs[call_outputs.size()];
+      if (!shared_val) {
+        MLLM_ERROR("Qwen3IRGraphFusionPass: fused_outputs[{}] is nullptr", call_outputs.size());
         return false;
       }
-      (*fused_call)-- > new_val;
-      call_outputs.push_back(new_val);
+      // 这些新增的输出在 fused graph 中本质是“新产出的 Q/K/V”，不应再被视为 graph input。
+      shared_val->setAttr("is_graph_input", ir_ctx->create<ir::BoolAttr>(false));
+      (*fused_call)-- > shared_val;
+      call_outputs.push_back(shared_val);
     }
 
     auto cpu_return_x = getReturnOp(cpu_layer_x);
@@ -534,18 +549,36 @@ uint8_t Qwen3IRGraphFusionPass::run(const ir::node_ptr_t& op) {
     }
 
     // Add new inputs to CPU layer X+1
+    //
+    // 关键点：这里不能再克隆一份“壳” Value，否则在运行时会对应到一套全新的 Tensor /
+    // Storage，无法与 QNN fused graph 的真实输出共享 buffer，最终导致
+    // storage->ptr 为空（X2XOp 报错）。
+    //
+    // 正确做法：直接复用 fused_call 的输出 Value（call_outputs[1..]），
+    // 让 CPU layer X+1 的新增输入与 fused graph 的 Q/K/V 输出在 IR 层就是同一个
+    // Value，运行时自然会共享同一份 Tensor / storage。
     std::vector<val_ptr_t> added_inputs;
+    if (call_outputs.size() < product.fused_outputs.size()) {
+      MLLM_ERROR("Qwen3IRGraphFusionPass: call_outputs size {} < fused_outputs size {} for '{}'",
+                 call_outputs.size(), product.fused_outputs.size(), cpu_layer_symbol);
+      return false;
+    }
     for (size_t idx = 1; idx < product.fused_outputs.size(); ++idx) {
-      const auto& template_val = product.fused_outputs[idx];
-      auto new_input = cloneTensorValueLike(ir_ctx, template_val);
-      if (!new_input) {
-        MLLM_ERROR("Qwen3IRGraphFusionPass: failed to create new input for '{}'",
-                   cpu_layer_next_symbol);
+      const auto& shared_val = call_outputs[idx];
+      const auto& fused_real = product.fused_outputs[idx];
+      if (!shared_val || !fused_real) {
+        MLLM_ERROR("Qwen3IRGraphFusionPass: nullptr in call_outputs/fused_outputs[{}] when wiring inputs for '{}'",
+                   idx, cpu_layer_next_symbol);
         return false;
       }
-      cpu_region_next->inputs().push_back(new_input);
-      (*new_input)-- > cpu_layer_next;
-      added_inputs.push_back(new_input);
+      // 确保调用点输出与 fused graph 的真实输出共享同一份 Tensor/storage
+      aliasTensorValueTensor(shared_val, fused_real);
+      // 这些输出只作为 fused graph 的输出，不应携带 “graph input” 标记，避免运行时为它们再创建占位输入 tensor
+      shared_val->setAttr("is_graph_input", ir_ctx->create<ir::BoolAttr>(false));
+      // 将 fused_call 的输出 Value 直接作为下一层 CPU 子图的输入
+      cpu_region_next->inputs().push_back(shared_val);
+      (*shared_val)-- > cpu_layer_next;
+      added_inputs.push_back(shared_val);
     }
 
     auto callers_graph2 = findCallGraphOps(cpu_region_next, pair.graph2_name);
@@ -584,16 +617,22 @@ uint8_t Qwen3IRGraphFusionPass::run(const ir::node_ptr_t& op) {
       MLLM_ERROR("Qwen3IRGraphFusionPass: model call to '{}' has no outputs", cpu_layer_symbol);
       return false;
     }
+    // 顶层 model 调用同样复用已有输出 Value，避免生成没有绑定 storage 的“壳”。
     while (model_call_outputs.size() < cpu_outputs_vector.size()) {
-      const auto& template_val = cpu_outputs_vector[model_call_outputs.size()];
-      auto new_val = cloneTensorValueLike(ir_ctx, template_val);
-      if (!new_val) {
-        MLLM_ERROR("Qwen3IRGraphFusionPass: failed to extend outputs for model call '{}'",
+      const auto& shared_val = cpu_outputs_vector[model_call_outputs.size()];
+      if (!shared_val) {
+        MLLM_ERROR("Qwen3IRGraphFusionPass: nullptr when extending model call '{}' outputs",
                    cpu_layer_symbol);
         return false;
       }
-      (*call_model_layer_x)-- > new_val;
-      model_call_outputs.push_back(new_val);
+      shared_val->setAttr("is_graph_input", ir_ctx->create<ir::BoolAttr>(false));
+      (*call_model_layer_x)-- > shared_val;
+      model_call_outputs.push_back(shared_val);
+    }
+    // 顶层调用输出也要别名到 CPU layer 内部真实输出，避免再次出现壳 Tensor
+    for (size_t idx = 0; idx < model_call_outputs.size() && idx < cpu_outputs_vector.size(); ++idx) {
+      aliasTensorValueTensor(model_call_outputs[idx], cpu_outputs_vector[idx]);
+      model_call_outputs[idx]->setAttr("is_graph_input", ir_ctx->create<ir::BoolAttr>(false));
     }
 
     std::vector<val_ptr_t> forwarded_qkv;

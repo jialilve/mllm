@@ -20,6 +20,8 @@
 #include "mllm/backends/qnn/op/QNNViewOp.hpp"
 #include "mllm/backends/qnn/op/QNNX2XOp.hpp"
 #include "mllm/utils/Log.hpp"
+#include "mllm/engine/Context.hpp"
+#include "mllm/compile/ir/tensor/Value.hpp"
 
 namespace mllm::qnn {
 
@@ -680,14 +682,29 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
   // Reorder outputs according to MLLM expected order
   const auto& expectedOrder = model->getExpectedOutputOrder();
 
-  // Resize outputs to match QNN output count first
-  // CRITICAL: Only resize if outputs is smaller than required - don't resize if already correct size
-  // Resizing when outputs.size() == qnn_output_tensors.size() may invalidate existing tensor references
+  // CRITICAL: Do NOT use outputs.resize() as it creates default-constructed Tensor objects
+  // Default-constructed Tensor objects have null impl_ and storage, which will lose QNN buffer references
+  // Instead, we'll directly assign from wrappers, and only push_back new elements if needed
   MLLM_INFO("QNNBackend::graphExecute: current outputs={}, required={} for graph '{}'", 
             outputs.size(), qnn_output_tensors.size(), graphName);
-  if (outputs.size() < qnn_output_tensors.size()) {
-    outputs.resize(qnn_output_tensors.size());  // Only resize if we need more space
-  } else if (outputs.size() > qnn_output_tensors.size()) {
+  
+  // Ensure outputs has enough space by pushing back wrapper tensors directly
+  // This avoids creating default-constructed Tensor objects that lose QNN buffer references
+  while (outputs.size() < qnn_output_tensors.size()) {
+    // Get the wrapper for the next output index
+    size_t idx = outputs.size();
+    if (idx < model->getGraphOutputTensorWrappers().size()) {
+      auto wrapper = model->getGraphOutputTensorWrappers()[idx];
+      wrapper->alloc();
+      outputs.push_back(wrapper->getDataContainer());
+    } else {
+      // Fallback: push back a nil tensor if wrapper not available
+      outputs.push_back(Tensor::nil());
+      MLLM_WARN("QNNBackend::graphExecute: no wrapper available for output[{}], pushing nil tensor", idx);
+    }
+  }
+  
+  if (outputs.size() > qnn_output_tensors.size()) {
     // If outputs is larger, we'll only use the first qnn_output_tensors.size() elements
     // Don't resize down as this may invalidate tensor references
     MLLM_WARN("QNNBackend::graphExecute: outputs size ({}) > required size ({}) for graph '{}', will use first {} elements", 
@@ -840,6 +857,98 @@ void QNNBackend::graphExecute(const std::string& graphName, std::vector<Tensor>&
     }
   }
   
+  // Cache runtime tensors by IR name / hash so Tensor::to can recover QNN buffers later
+  // NOTE: We accumulate the cache instead of clearing it, because multiple graphs may execute
+  // in sequence and later operations may need tensors from earlier graphs.
+  // However, we update existing entries to ensure we always have the latest tensor values.
+  MLLM_INFO("QNNBackend::graphExecute: storing runtime tensors in cache for graph '{}', expectedOrder.size()={}, "
+            "current cache size: name={}, hash={}, ordered={}",
+            graphName, expectedOrder.size(), runtime_tensor_cache_name_.size(), runtime_tensor_cache_hash_.size(),
+            runtime_tensor_cache_ordered_.size());
+  // Reset match counters and update current graph's tensor list when new tensors are added
+  shape_device_bytes_match_counter_.clear();
+  current_graph_tensors_.clear();  // Clear previous graph's tensors
+  for (size_t i = 0; i < outputs.size(); ++i) {
+    const std::string name = (i < expectedOrder.size() ? expectedOrder[i] : "");
+    const size_t tensor_hash = outputs[i].hash();
+    
+    // Update cache (don't clear, as other graphs may still need earlier tensors)
+    runtime_tensor_cache_hash_[tensor_hash] = outputs[i];
+    if (!name.empty()) { 
+      auto it = runtime_tensor_cache_name_.find(name);
+      if (it != runtime_tensor_cache_name_.end()) {
+        MLLM_INFO("QNNBackend: updating cached tensor '{}' (was hash={}, now hash={})", 
+                  name, it->second.hash(), tensor_hash);
+        // Remove old entry from ordered cache if it exists
+        runtime_tensor_cache_ordered_.erase(
+          std::remove_if(runtime_tensor_cache_ordered_.begin(), runtime_tensor_cache_ordered_.end(),
+                        [&name](const auto& p) { return p.first == name; }),
+          runtime_tensor_cache_ordered_.end());
+      }
+      runtime_tensor_cache_name_[name] = outputs[i]; 
+      // Add to ordered cache for shape/device/bytes matching
+      runtime_tensor_cache_ordered_.emplace_back(name, outputs[i]);
+      // Add to current graph's tensor list
+      current_graph_tensors_.emplace_back(name, outputs[i]);
+    } else {
+      // For unnamed tensors, add with empty name
+      runtime_tensor_cache_ordered_.emplace_back("", outputs[i]);
+      // Add to current graph's tensor list
+      current_graph_tensors_.emplace_back("", outputs[i]);
+    }
+    void* ptr = outputs[i].ptr<void>();
+    void* storage_ptr =
+        outputs[i].impl() && outputs[i].impl()->storage() ? outputs[i].impl()->storage()->ptr_ : nullptr;
+    MLLM_INFO("QNNBackend: cached runtime tensor '{}' (hash={}), ptr={}, storage_ptr={}", 
+              name.empty() ? "<unnamed>" : name, tensor_hash, ptr, storage_ptr);
+  }
+
+  // After graphExecute, update cached TensorValues to bind them to QNN output buffers
+  // This ensures that IR Values created by wrapTensors2TensorIR during compilation
+  // are updated with the actual QNN buffer references at runtime
+  auto ir_ctx = Context::instance().thisThread()->ir_context;
+  MLLM_INFO("QNNBackend::graphExecute: updating TensorValues for graph '{}', ir_ctx={}, expectedOrder.size()={}", 
+            graphName, ir_ctx != nullptr, expectedOrder.size());
+  if (ir_ctx && !expectedOrder.empty()) {
+    // Directly update TensorValues by name from symbol table
+    // The output names in expectedOrder correspond to IR Value names (e.g., "1451", "1452", "1453")
+    for (size_t i = 0; i < outputs.size() && i < expectedOrder.size(); ++i) {
+      const std::string& output_name = expectedOrder[i];
+      auto& output_tensor = outputs[i];
+      
+      // Try to find TensorValue by name from symbol table
+      auto tensor_val_node = ir_ctx->lookupSymbolTable(output_name);
+      if (tensor_val_node && tensor_val_node->isa_<ir::tensor::TensorValue>()) {
+        auto tensor_val = tensor_val_node->cast_<ir::tensor::TensorValue>();
+        void* old_ptr = tensor_val->tensor().ptr<void>();
+        void* new_ptr = output_tensor.ptr<void>();
+        MLLM_INFO("QNNBackend::graphExecute: updating TensorValue '{}' for output[{}], old_ptr={}, new_ptr={}", 
+                  output_name, i, old_ptr, new_ptr);
+        tensor_val->setTensor(output_tensor);
+        void* updated_ptr = tensor_val->tensor().ptr<void>();
+        MLLM_INFO("QNNBackend::graphExecute: after update, TensorValue '{}' tensor ptr={}", output_name, updated_ptr);
+      } else {
+        // Fallback: try hash-based lookup
+        size_t tensor_hash = output_tensor.hash();
+        if (ir_ctx->isCacheInputOutputTensor(tensor_hash)) {
+          auto cached_val = ir_ctx->getCacheInputOutputTensor(tensor_hash);
+          if (auto tensor_val = std::dynamic_pointer_cast<ir::tensor::TensorValue>(cached_val)) {
+            void* old_ptr = tensor_val->tensor().ptr<void>();
+            void* new_ptr = output_tensor.ptr<void>();
+            MLLM_INFO("QNNBackend::graphExecute: updating cached TensorValue '{}' for output[{}] via hash, old_ptr={}, new_ptr={}", 
+                      output_name, i, old_ptr, new_ptr);
+            tensor_val->setTensor(output_tensor);
+            void* updated_ptr = tensor_val->tensor().ptr<void>();
+            MLLM_INFO("QNNBackend::graphExecute: after update via hash, TensorValue '{}' tensor ptr={}", output_name, updated_ptr);
+          }
+        } else {
+          MLLM_WARN("QNNBackend::graphExecute: output[{}] name='{}' hash={} not found in cache, cannot update TensorValue", 
+                    i, output_name, tensor_hash);
+        }
+      }
+    }
+  }
+  
   // Final verification: ensure all outputs have valid pointers before returning
   // CRITICAL: Only re-acquire from wrapper if pointer is null - DO NOT re-assign if pointer is already valid
   // Re-assigning valid tensors creates new copies that may lose QNN buffer references
@@ -931,6 +1040,104 @@ std::shared_ptr<QNNTensorWrapper> QNNBackend::getTensorWrapper(const std::string
   auto& qnnModel = qnnModels_[modelIndex];
 
   return qnnModel->getTensorWrapper(tensorName);
+}
+
+bool QNNBackend::getRuntimeTensorByName(const std::string& name, Tensor& out) const {
+  auto it = runtime_tensor_cache_name_.find(name);
+  if (it == runtime_tensor_cache_name_.end()) { return false; }
+  out = it->second;
+  return out.impl() && out.impl()->storage() && out.impl()->storage()->ptr_;
+}
+
+bool QNNBackend::getRuntimeTensorByHash(size_t hash, Tensor& out) const {
+  auto it = runtime_tensor_cache_hash_.find(hash);
+  if (it == runtime_tensor_cache_hash_.end()) { return false; }
+  out = it->second;
+  return out.impl() && out.impl()->storage() && out.impl()->storage()->ptr_;
+}
+
+bool QNNBackend::getRuntimeTensorByShapeDevice(const Tensor& ref, Tensor& out) const {
+  // Create a key for shape/device/bytes matching
+  // Use a simple hash of shape, device, and bytes to group tensors with same properties
+  size_t shape_hash = 0;
+  for (const auto& dim : ref.shape()) {
+    shape_hash = shape_hash * 31 + dim;
+  }
+  size_t key = shape_hash ^ (static_cast<size_t>(ref.device()) << 16) ^ (ref.bytes() << 32);
+  
+  // Get current match counter for this key
+  size_t& match_count = shape_device_bytes_match_counter_[key];
+  
+  // First, try to match from current graph's tensor list (most recent graph execution)
+  // This ensures we match tensors from the most recent graph, not from previous graphs
+  size_t matched_count = 0;
+  for (const auto& kv : current_graph_tensors_) {
+    const auto& cand = kv.second;
+    if (cand.device() == ref.device() && cand.bytes() == ref.bytes() && cand.shape() == ref.shape()) {
+      // Check if the cached tensor has valid storage pointer
+      if (cand.impl() && cand.impl()->storage() && cand.impl()->storage()->ptr_) {
+        // If this is the Nth match for this key, use it
+        if (matched_count == match_count) {
+      out = cand;
+          match_count++;  // Increment for next match
+          MLLM_INFO("QNNBackend::getRuntimeTensorByShapeDevice: found matching tensor by name '{}' (match #{}) with valid ptr={}",
+                    kv.first.empty() ? "<unnamed>" : kv.first, matched_count,
+                    static_cast<void*>(cand.impl()->storage()->ptr_));
+          return true;
+        }
+        matched_count++;  // Increment matched_count for valid matches
+      } else {
+        MLLM_WARN("QNNBackend::getRuntimeTensorByShapeDevice: found matching tensor by name '{}' but ptr is invalid (ptr={})",
+                  kv.first.empty() ? "<unnamed>" : kv.first, cand.impl() && cand.impl()->storage() ? 
+                  static_cast<void*>(cand.impl()->storage()->ptr_) : nullptr);
+        // Continue searching - maybe another entry has valid ptr
+        // Note: We don't increment matched_count for invalid matches
+    }
+  }
+  }
+  
+  // If no match found in current graph's tensor list, fallback to ordered cache
+  // This handles edge cases where tensors from previous graphs might still be needed
+  // Reset match_count when falling back to ordered cache, as this is a fresh search
+  match_count = 0;
+  matched_count = 0;
+  for (const auto& kv : runtime_tensor_cache_ordered_) {
+    const auto& cand = kv.second;
+    if (cand.device() == ref.device() && cand.bytes() == ref.bytes() && cand.shape() == ref.shape()) {
+      // Check if the cached tensor has valid storage pointer
+      if (cand.impl() && cand.impl()->storage() && cand.impl()->storage()->ptr_) {
+        // If this is the Nth match for this key, use it
+        if (matched_count == match_count) {
+      out = cand;
+          match_count++;  // Increment for next match
+          MLLM_INFO("QNNBackend::getRuntimeTensorByShapeDevice: found matching tensor by name '{}' (match #{} from ordered cache) with valid ptr={}",
+                    kv.first.empty() ? "<unnamed>" : kv.first, matched_count,
+                    static_cast<void*>(cand.impl()->storage()->ptr_));
+          return true;
+        }
+        matched_count++;  // Increment matched_count for valid matches
+      }
+    }
+  }
+  
+  // If no match found in ordered cache, reset counter and try name cache as fallback
+  match_count = 0;
+  for (const auto& kv : runtime_tensor_cache_name_) {
+    const auto& cand = kv.second;
+    if (cand.device() == ref.device() && cand.bytes() == ref.bytes() && cand.shape() == ref.shape()) {
+      // Check if the cached tensor has valid storage pointer
+      if (cand.impl() && cand.impl()->storage() && cand.impl()->storage()->ptr_) {
+        out = cand;
+        MLLM_INFO("QNNBackend::getRuntimeTensorByShapeDevice: found matching tensor by name '{}' (fallback) with valid ptr={}",
+                  kv.first, static_cast<void*>(cand.impl()->storage()->ptr_));
+        return true;
+    }
+  }
+  }
+  
+  MLLM_WARN("QNNBackend::getRuntimeTensorByShapeDevice: no matching tensor found for shape={}, device={}, bytes={}",
+            ref.shape(), static_cast<int>(ref.device()), ref.bytes());
+  return false;
 }
 
 void QNNBackend::extractBackendProfilingInfo(Qnn_ProfileHandle_t profileHandle) {

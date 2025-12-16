@@ -62,7 +62,8 @@ MLLM_MAIN({
   // have a look at the IR after QNN Graph Rewrite Pass
   // Note: This file is written to the current working directory (usually /data/local/tmp/zl/mllm-v2/bin_test on device)
   // Use adb pull to retrieve it: adb pull /data/local/tmp/zl/mllm-v2/bin_test/qwen3_npu.mir ./android_logs/qwen3_npu_after_fused.mir
-  mllm::redirect("qwen3_npu.mir", [&]() { mllm::print(irs["model"]); });
+  mllm::redirect("qwen3_npu_after_fused_v2.mir", [&]() { mllm::print(irs["model"]); });
+  // mllm::redirect("qwen3_npu_after_Rewrite.mir", [&]() { mllm::print(irs["model"]); });
 
   // QNN Graph Build Pass
   mllm::ir::PassManager graphBuildPM(irs["model"]);
@@ -72,7 +73,8 @@ MLLM_MAIN({
   // cache has been updated due to trace, clear cache
   model.model.clearKVCache();
 
-  auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "你好，请介绍一下你自己。"})["sequence"];
+  // auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "What can you do?"})["sequence"];
+  auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "提示:海洋世界里，鲸鱼是体型庞大的哺乳动物，它们通过喷水孔呼吸。与鱼类不同，鲸鱼无法在水下直接呼吸氧气。它们会定时浮出水面进行换气，每次换气需要消耗大量的体力。当它们睡觉时，只会关闭大脑的一半，另一半则保持清醒，以确保不忘记浮出水面呼吸。问题：鲸鱼与鱼类在呼吸方式上的根本区别是什么？它们在睡觉时会采取什么特殊的措施来保证安全？"})["sequence"];
   print(raw_input_tokens);
   MLLM_INFO("raw_input_tokens shape: {} {}", raw_input_tokens.shape()[0], raw_input_tokens.shape()[1]);
 
@@ -149,7 +151,7 @@ MLLM_MAIN({
     chunk_output.clear();
 
     auto emit_token = [&](int64_t token_id) {
-      std::wcout << qwen3_tokenizer.detokenize(token_id) << std::flush;
+      std::wcout << "emit_token: " << qwen3_tokenizer.detokenize(token_id) << std::flush;
       if (token_id == eos_token_id) {
         MLLM_INFO("EOS token detected, stopping decode");
         reached_eos = true;

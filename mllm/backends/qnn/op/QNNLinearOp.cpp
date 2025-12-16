@@ -92,15 +92,45 @@ void QNNLinearOp::load(const ParameterFile::ptr_t& ploader) {
   switch (ploader->version()) {
     case ModelFileVersion::kV1: {
       weight_ = ploader->pull(getName() + ".weight");
+      // Debug log: inspect raw weight shape for V1 models (e.g. qwen1.5-1.8b-chat-rot-qnn.mllm)
+      {
+        auto shp = weight_.shape();
+        MLLM_INFO("[QNNLinearOp][V1] loading weight for '{}', raw ndim: {}, shape[0]: {}, shape[1]: {}",
+                  getName(),
+                  shp.size(),
+                  shp.size() > 0 ? shp[0] : -1,
+                  shp.size() > 1 ? shp[1] : -1);
+      }
       // For qwen3-1.7b-int8-rotated.mllm, weights are stored as [out_dim, in_dim] without transpose
       // Need to transpose to [in_dim, out_dim] before reshaping to 4D for QNN Conv2d
       // QNN Conv2d expects weight shape [1, 1, in_channels, out_channels]
       if (weight_.shape().size() == 2) {
+        MLLM_INFO("[QNNLinearOp][V1] '{}' weight is 2D, apply manualTranspose2D(0,1)", getName());
         // Transpose from [out_dim, in_dim] to [in_dim, out_dim]
         weight_ = manualTranspose2D(weight_, 0, 1);
+        {
+          auto shp = weight_.shape();
+          MLLM_INFO("[QNNLinearOp][V1] '{}' weight after transpose, ndim: {}, shape[0]: {}, shape[1]: {}",
+                    getName(),
+                    shp.size(),
+                    shp.size() > 0 ? shp[0] : -1,
+                    shp.size() > 1 ? shp[1] : -1);
+        }
+      } else {
+        MLLM_INFO("[QNNLinearOp][V1] '{}' weight is {}D (no 2D transpose)", getName(), weight_.shape().size());
       }
       // using Conv2d in QNN, need to reshape the weight to 4D
       weight_ = weight_.view({1, 1, options_.in_channels, options_.out_channels});
+      {
+        auto shp = weight_.shape();
+        MLLM_INFO("[QNNLinearOp][V1] '{}' weight reshaped to Conv2d 4D, ndim: {}, shape: [{}, {}, {}, {}]",
+                  getName(),
+                  shp.size(),
+                  shp.size() > 0 ? shp[0] : -1,
+                  shp.size() > 1 ? shp[1] : -1,
+                  shp.size() > 2 ? shp[2] : -1,
+                  shp.size() > 3 ? shp[3] : -1);
+      }
 
       if (options_.bias) {
         bias_ = ploader->pull(getName() + ".bias");
@@ -120,14 +150,44 @@ void QNNLinearOp::load(const ParameterFile::ptr_t& ploader) {
     case ModelFileVersion::kUserTemporary:
     case ModelFileVersion::kV2: {
       weight_ = ploader->pull(getName() + ".weight");
+      // Debug log: inspect raw weight shape for V2 models (e.g. qwen3-1.7b-int8-rotated.mllm)
+      {
+        auto shp = weight_.shape();
+        MLLM_INFO("[QNNLinearOp][V2] loading weight for '{}', raw ndim: {}, shape[0]: {}, shape[1]: {}",
+                  getName(),
+                  shp.size(),
+                  shp.size() > 0 ? shp[0] : -1,
+                  shp.size() > 1 ? shp[1] : -1);
+      }
       // For qwen3-1.7b-int8-rotated.mllm, weights are stored as [out_dim, in_dim] without transpose
       // Need to transpose to [in_dim, out_dim] before reshaping to 4D for QNN Conv2d
       if (weight_.shape().size() == 2) {
+        MLLM_INFO("[QNNLinearOp][V2] '{}' weight is 2D, apply manualTranspose2D(0,1)", getName());
         // Transpose from [out_dim, in_dim] to [in_dim, out_dim]
         weight_ = manualTranspose2D(weight_, 0, 1);
+        {
+          auto shp = weight_.shape();
+          MLLM_INFO("[QNNLinearOp][V2] '{}' weight after transpose, ndim: {}, shape[0]: {}, shape[1]: {}",
+                    getName(),
+                    shp.size(),
+                    shp.size() > 0 ? shp[0] : -1,
+                    shp.size() > 1 ? shp[1] : -1);
+        }
+      } else {
+        MLLM_INFO("[QNNLinearOp][V2] '{}' weight is {}D (no 2D transpose)", getName(), weight_.shape().size());
       }
       // using Conv2d in QNN, need to reshape the weight to 4D
       weight_ = weight_.view({1, 1, options_.in_channels, options_.out_channels});
+      {
+        auto shp = weight_.shape();
+        MLLM_INFO("[QNNLinearOp][V2] '{}' weight reshaped to Conv2d 4D, ndim: {}, shape: [{}, {}, {}, {}]",
+                  getName(),
+                  shp.size(),
+                  shp.size() > 0 ? shp[0] : -1,
+                  shp.size() > 1 ? shp[1] : -1,
+                  shp.size() > 2 ? shp[2] : -1,
+                  shp.size() > 3 ? shp[3] : -1);
+      }
       if (options_.bias) {
         bias_ = ploader->pull(getName() + ".bias");
         bias_ = bias_.view({options_.out_channels});

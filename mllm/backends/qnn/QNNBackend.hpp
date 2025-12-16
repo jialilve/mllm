@@ -3,6 +3,7 @@
 #include <map>
 #include <memory>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 #include "HTP/QnnHtpDevice.h"
@@ -112,6 +113,12 @@ class QNNBackend final : public Backend {
   // Get tensor wrapper by name from specific graph
   std::shared_ptr<QNNTensorWrapper> getTensorWrapper(const std::string& graphName, const std::string& tensorName);
 
+  // Runtime tensor cache helpers so Tensor::to can recover fresh QNN buffers
+  bool getRuntimeTensorByName(const std::string& name, Tensor& out) const override;
+  bool getRuntimeTensorByHash(size_t hash, Tensor& out) const override;
+  // Fallback: find any cached runtime tensor that matches device/shape/bytes
+  bool getRuntimeTensorByShapeDevice(const Tensor& ref, Tensor& out) const override;
+
   // Getters for runtime components
   [[nodiscard]] const QNN_INTERFACE_VER_TYPE& qnnInterface() const { return runtime_->qnnInterface; }
   [[nodiscard]] Qnn_BackendHandle_t backendHandle() const { return runtime_->backendHandle; }
@@ -128,6 +135,16 @@ class QNNBackend final : public Backend {
   std::map<std::string, int> qnnModelIndexMap_;
   std::vector<std::shared_ptr<QNNModel>> qnnModels_;
   int currentQnnModelIndex_ = -1;
+
+  // Cache most-recent QNN outputs keyed by IR name / tensor hash
+  mutable std::unordered_map<std::string, Tensor> runtime_tensor_cache_name_;
+  mutable std::unordered_map<size_t, Tensor> runtime_tensor_cache_hash_;
+  // Maintain insertion order for shape/device/bytes matching to handle multiple tensors with same properties
+  mutable std::vector<std::pair<std::string, Tensor>> runtime_tensor_cache_ordered_;
+  // Match counter for shape/device/bytes matching (thread-local would be better, but mutable is simpler)
+  mutable std::unordered_map<size_t, size_t> shape_device_bytes_match_counter_;
+  // Current graph's tensor list - only match tensors from the most recent graph execution
+  mutable std::vector<std::pair<std::string, Tensor>> current_graph_tensors_;
 
   // Helper methods
   void extractBackendProfilingInfo(Qnn_ProfileHandle_t profileHandle);

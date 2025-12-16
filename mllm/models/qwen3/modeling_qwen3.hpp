@@ -12,6 +12,32 @@
 
 namespace mllm::models::qwen3 {
 
+inline void debugPrintHiddenHead(const char* tag, const Tensor& t) {
+  auto s = t.shape();
+  if (s.size() != 3) { return; }  // expect [B, S, H]
+  int B = s[0];
+  int S = s[1];
+  int H = s[2];
+  if (B <= 0 || S <= 0 || H <= 0) { return; }
+
+  Tensor tmp = t;
+  if (tmp.dtype() != kFloat32) { tmp = tmp.to(kFloat32); }
+  auto ptr = tmp.ptr<float>();
+  int print_dim = H < 8 ? H : 8;
+  int64_t base = 0 * (int64_t)S * H + (S - 1) * (int64_t)H;  // batch 0, last token
+
+  std::string msg;
+  msg.reserve(256);
+  msg.append("[");
+  for (int i = 0; i < print_dim; ++i) {
+    msg.append(std::to_string(ptr[base + i]));
+    if (i + 1 != print_dim) { msg.append(", "); }
+  }
+  msg.append("]");
+
+  MLLM_INFO("[Qwen3][DEBUG] {} shape=[{}, {}, {}] head={}", tag, B, S, H, msg);
+}
+
 inline auto makeRoPEInvFreq(int output_dim, float rope_theta) -> Tensor {
   auto inv_freq = Tensor::empty({output_dim / 2}, kFloat32, kCPU).alloc();
   auto inv_freq_ptr = inv_freq.ptr<float>();
@@ -255,12 +281,18 @@ class Qwen3Text final : public nn::Module {
 
     // X is already embedded
     auto x = embedding_(inputs[0]);
+    debugPrintHiddenHead("CPU after embedding", x);
 
     auto llm_embedding_sin = inputs[1];
     auto llm_embedding_cos = inputs[2];
     auto& kv_cache = args[0];
 
-    for (auto& block : blocks) { x = block(x, llm_embedding_sin, llm_embedding_cos, kv_cache)[0]; }
+    for (size_t i = 0; i < blocks.size(); ++i) {
+      x = blocks[i](x, llm_embedding_sin, llm_embedding_cos, kv_cache)[0];
+      if (i == 0) {
+        debugPrintHiddenHead("CPU after layer0", x);
+      }
+    }
 
     x = norm_(x);
 

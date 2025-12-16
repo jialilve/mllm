@@ -47,12 +47,45 @@ TaskResult::sender_t QNNDispatcher::asyncReceive(const Task::ptr_t& task) {
 void QNNDispatcher::process(const Task::ptr_t& task) {
   switch (task->type) {
     case TaskTypes::kExecuteOp: {
+      // MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->reshape, inputs={}", task->inputs.size());
+      // for (size_t i = 0; i < task->inputs.size(); ++i) {
+      //   MLLM_INFO("QNNDispatcher: input[{}] shape={}, device={}, impl={}, storage={}", i, task->inputs[i].shape(), static_cast<int>(task->inputs[i].device()), static_cast<void*>(task->inputs[i].impl().get()), static_cast<void*>(task->inputs[i].impl() ? task->inputs[i].impl()->storage().get() : nullptr));
+      // }
+      // MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->reshape, outputs={}", task->outputs.size());
+      // for (size_t i = 0; i < task->outputs.size(); ++i) {
+      //   MLLM_INFO("QNNDispatcher: output[{}] shape={}, device={}, impl={}, storage={}", i, task->outputs[i].shape(), static_cast<int>(task->outputs[i].device()), static_cast<void*>(task->outputs[i].impl().get()), static_cast<void*>(task->outputs[i].impl() ? task->outputs[i].impl()->storage().get() : nullptr));
+      // }
       // the reshape should be called to init op output tensors
       task->op->reshape(task->inputs, task->outputs);
       // only X2X op is executed in QNN dispatcher
       if (task->op->getOpType() == OpTypes::kX2X || task->op->getOpType() == OpTypes::kEmbedding) {
+        // 在 mllm/backends/qnn/QNNDispatcher.cpp 的 TaskTypes::kExecuteOp 分支（约 47-58 行）进入 op->forward 前，再打印一次 inputs 的 impl/storage/ptr。
+        MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->setup, inputs={}", task->inputs.size());
+        for (size_t i = 0; i < task->inputs.size(); ++i) {
+          MLLM_INFO("QNNDispatcher: input[{}] shape={}, device={}, impl={}, storage={}", i, task->inputs[i].shape(), static_cast<int>(task->inputs[i].device()), static_cast<void*>(task->inputs[i].impl().get()), static_cast<void*>(task->inputs[i].impl() ? task->inputs[i].impl()->storage().get() : nullptr));
+        }
+        // 输出outputs的impl/storage/ptr
+        MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->setup, outputs={}", task->outputs.size());
+        for (size_t i = 0; i < task->outputs.size(); ++i) {
+          MLLM_INFO("QNNDispatcher: output[{}] shape={}, device={}, impl={}, storage={}", i, task->outputs[i].shape(), static_cast<int>(task->outputs[i].device()), static_cast<void*>(task->outputs[i].impl().get()), static_cast<void*>(task->outputs[i].impl() ? task->outputs[i].impl()->storage().get() : nullptr));
+        }
         task->op->setup(task->inputs, task->outputs);
+        // 在 op->forward 执行前，打印 inputs 的 impl/storage/ptr。
+        MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->forward, inputs={}", task->inputs.size());
+        for (size_t i = 0; i < task->inputs.size(); ++i) {
+          MLLM_INFO("QNNDispatcher: input[{}] shape={}, device={}, impl={}, storage={}", i, task->inputs[i].shape(), static_cast<int>(task->inputs[i].device()), static_cast<void*>(task->inputs[i].impl().get()), static_cast<void*>(task->inputs[i].impl() ? task->inputs[i].impl()->storage().get() : nullptr));
+        }
+        // 输出outputs的impl/storage/ptr
+        MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, before op->forward, outputs={}", task->outputs.size());
+        for (size_t i = 0; i < task->outputs.size(); ++i) {
+          MLLM_INFO("QNNDispatcher: output[{}] shape={}, device={}, impl={}, storage={}", i, task->outputs[i].shape(), static_cast<int>(task->outputs[i].device()), static_cast<void*>(task->outputs[i].impl().get()), static_cast<void*>(task->outputs[i].impl() ? task->outputs[i].impl()->storage().get() : nullptr));
+        }
         task->op->forward(task->inputs, task->outputs);
+        // 输出outputs的impl/storage/ptr
+        MLLM_INFO("in QNNDispatcher::process, TaskTypes::kExecuteOp, after op->forward, outputs={}", task->outputs.size());
+        for (size_t i = 0; i < task->outputs.size(); ++i) {
+          MLLM_INFO("QNNDispatcher: output[{}] shape={}, device={}, impl={}, storage={}", i, task->outputs[i].shape(), static_cast<int>(task->outputs[i].device()), static_cast<void*>(task->outputs[i].impl().get()), static_cast<void*>(task->outputs[i].impl() ? task->outputs[i].impl()->storage().get() : nullptr));
+        }
       }
       break;
     }
@@ -74,13 +107,18 @@ void QNNDispatcher::process(const Task::ptr_t& task) {
       // Module::forward typically returns empty vector for QNN modules
       // graphExecute will populate outputs based on QNN graph definition
       task->outputs = ((nn::Module*)(task->custom_context_ptr))->forward(task->inputs, task->args);
-      
+
       MLLM_INFO("QNNDispatcher: after forward, outputs={}", task->outputs.size());
       
       // graphExecute will resize and populate outputs based on QNN graph outputs
       qnnBackend->graphExecute(moduleName, task->inputs, task->outputs);
       
       MLLM_INFO("QNNDispatcher: after graphExecute, outputs={}", task->outputs.size());
+      
+      // After graphExecute, update cached TensorValues to bind them to QNN output buffers
+      // This is now handled in QNNBackend::graphExecute to have access to QNNModel
+      // The graphExecute method will update the cached TensorValues using output names
+      
       if (!task->outputs.empty()) {
         for (size_t i = 0; i < task->outputs.size(); ++i) {
           void* ptr = task->outputs[i].ptr<void>();

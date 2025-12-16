@@ -25,6 +25,9 @@
 #include "mllm/core/aops/X2XOp.hpp"
 #include "mllm/core/aops/ArgsortOp.hpp"
 #include "mllm/engine/Context.hpp"
+#include "mllm/backends/base/Backend.hpp"
+#include "mllm/compile/ir/Node.hpp"
+#include "mllm/compile/ir/tensor/Value.hpp"
 
 namespace mllm {
 
@@ -304,6 +307,113 @@ Tensor Tensor::T() { return transpose(-1, -2); }
 
 Tensor Tensor::to(DeviceTypes device) {
   if (device == impl_->device()) { return *this; }
+  // 加一行日志打印 impl、storage、storage->ptr_，看进入 .to(kCPU) 时是否已经是无效指针。
+  MLLM_INFO("in to(kCPU), Tensor::to from device {} to device {}, impl: {}, storage: {}, storage->ptr: {}", static_cast<int>(impl()->device()), static_cast<int>(device), static_cast<void*>(impl().get()), static_cast<void*>(impl()->storage().get()), static_cast<void*>(impl()->storage()->ptr_));
+
+  // When source is QNN, try to reuse the fresh runtime tensor cached by QNNBackend.
+  if (impl_->device() == kQNN) {
+    auto backend = Context::instance().getBackend(kQNN);
+    if (backend) {
+      Tensor cached;
+      bool found = false;
+      const auto tensor_name = name();
+      const auto tensor_hash = hash();
+      MLLM_INFO("Tensor::to: looking for cached tensor, name='{}', hash={}, shape={}, device={}, bytes={}",
+                tensor_name.empty() ? "<empty>" : tensor_name, tensor_hash, shape(), static_cast<int>(this->device()), bytes());
+      if (!tensor_name.empty()) { 
+        found = backend->getRuntimeTensorByName(tensor_name, cached);
+        if (found) {
+          MLLM_INFO("Tensor::to: found cached tensor by name '{}'", tensor_name);
+        }
+      }
+      if (!found) { 
+        found = backend->getRuntimeTensorByHash(tensor_hash, cached);
+        if (found) {
+          MLLM_INFO("Tensor::to: found cached tensor by hash {}", tensor_hash);
+        }
+      }
+      // If name and hash both fail, try to find via IR context
+      // This handles the case where IR tensor objects have different hashes than runtime QNN outputs
+        auto ir_ctx = Context::instance().thisThread()->ir_context;
+      if (!found && ir_ctx) {
+          // Try to find TensorValue by this tensor's uuid in IR cache
+          uint32_t tensor_uuid = uuid();
+          auto cached_val = ir_ctx->getCacheInputOutputTensor(tensor_uuid);
+          if (cached_val) {
+            if (auto tensor_val = std::dynamic_pointer_cast<ir::tensor::TensorValue>(cached_val)) {
+            // Get the tensor from TensorValue - it should have been updated in graphExecute
+              Tensor ir_tensor = tensor_val->tensor();
+            
+            // First, try to use the tensor directly from TensorValue if it has valid storage
+            if (ir_tensor.impl() && ir_tensor.impl()->storage() && ir_tensor.impl()->storage()->ptr_) {
+              MLLM_INFO("Tensor::to: found TensorValue in IR cache with valid tensor, using it directly (ptr={})",
+                        static_cast<void*>(ir_tensor.impl()->storage()->ptr_));
+              cached = ir_tensor;
+              found = true;
+            } else {
+              // If TensorValue's tensor doesn't have valid storage, try to find by name/hash
+              const auto ir_tensor_name = ir_tensor.name();
+              const auto ir_tensor_hash = ir_tensor.hash();
+              MLLM_INFO("Tensor::to: found TensorValue in IR cache, but tensor has invalid storage, trying lookup with name='{}', hash={}",
+                        ir_tensor_name.empty() ? "<empty>" : ir_tensor_name, ir_tensor_hash);
+              
+              // Try to get symbol name from TensorValue and use it for lookup
+              auto symbol_attr = tensor_val->getSymbolAttr();
+              if (symbol_attr) {
+                const std::string& symbol_name = symbol_attr->str();
+                MLLM_INFO("Tensor::to: TensorValue has symbol name '{}', trying lookup", symbol_name);
+                found = backend->getRuntimeTensorByName(symbol_name, cached);
+              }
+              
+              if (!found && !ir_tensor_name.empty()) {
+                found = backend->getRuntimeTensorByName(ir_tensor_name, cached);
+              }
+              if (!found) {
+                found = backend->getRuntimeTensorByHash(ir_tensor_hash, cached);
+              }
+            }
+          }
+        }
+      }
+      
+      // Last resort: try getRuntimeTensorByShapeDevice as fallback when IR context is unavailable
+      // WARNING: This can cause incorrect tensor matching when multiple tensors have the same shape/device/bytes,
+      // but it's better than failing completely. We log detailed information to help debug such cases.
+      if (!found && !ir_ctx) {
+        // IR context is unavailable, try shape/device/bytes matching as last resort
+        MLLM_WARN("Tensor::to: IR context unavailable, attempting shape/device/bytes matching as fallback. "
+                  "This may cause incorrect tensor matching if multiple tensors share the same shape/device/bytes.");
+        found = backend->getRuntimeTensorByShapeDevice(*this, cached);
+        if (found) {
+          const auto matched_name = cached.name();
+          const auto matched_hash = cached.hash();
+          MLLM_WARN("Tensor::to: matched tensor by shape/device/bytes - requested: name='{}', hash={}, shape={}; "
+                    "matched: name='{}', hash={}, shape={}. "
+                    "If these don't match, this indicates a potential data corruption issue.",
+                    tensor_name.empty() ? "<empty>" : tensor_name, tensor_hash, shape(),
+                    matched_name.empty() ? "<empty>" : matched_name, matched_hash, cached.shape());
+        }
+      }
+      
+      if (found && cached.impl() && cached.impl()->storage() && cached.impl()->storage()->ptr_) {
+        MLLM_INFO("Tensor::to: using cached tensor '{}' (ptr={}) instead of stale IR Value",
+                  tensor_name.empty() ? std::to_string(tensor_hash) : tensor_name,
+                  static_cast<void*>(cached.impl()->storage()->ptr_));
+        return Context::instance().buildOpAndSubmitTask(OpTypes::kX2X, aops::X2XOpOptions{.device = device},
+                                                        {cached}, device)[0];
+      } else if (!found) {
+        MLLM_WARN("Tensor::to: failed to find cached tensor for name='{}', hash={}, shape={}, bytes={}. "
+                  "This may indicate a mismatch between IR tensor names/hashes and runtime cache keys.",
+                  tensor_name.empty() ? "<empty>" : tensor_name, tensor_hash, shape(), bytes());
+      } else {
+        MLLM_WARN("Tensor::to: found cached tensor but it has invalid storage (ptr={}). "
+                  "This indicates the QNN buffer reference was lost. The tensor may need to be re-acquired from wrapper.",
+                  cached.impl() && cached.impl()->storage() ? 
+                  static_cast<void*>(cached.impl()->storage()->ptr_) : nullptr);
+      }
+    }
+  }
+
   return Context::instance().buildOpAndSubmitTask(OpTypes::kX2X, aops::X2XOpOptions{.device = device}, {*this}, device)[0];
 }
 

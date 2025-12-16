@@ -10,6 +10,9 @@
 
 namespace mllm {
 
+// Forward declaration
+class Tensor;
+
 class Backend {
  public:
   using ptr_t = std::shared_ptr<Backend>;
@@ -31,6 +34,12 @@ class Backend {
 
   // used when backend is not CPU, indicate whether to hold OP weights on CPU
   [[nodiscard]] virtual bool isWeightOnDevice() { return true; }
+
+  // Runtime tensor cache retrieval methods (for QNN backend)
+  // Default implementation returns false (no cache available)
+  virtual bool getRuntimeTensorByName(const std::string& name, Tensor& out) const { return false; }
+  virtual bool getRuntimeTensorByHash(size_t hash, Tensor& out) const { return false; }
+  virtual bool getRuntimeTensorByShapeDevice(const Tensor& ref, Tensor& out) const { return false; }
 
  protected:
   template<typename T>
