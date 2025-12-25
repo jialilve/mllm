@@ -1,6 +1,8 @@
 // Copyright (c) MLLM Team.
 // Licensed under the MIT License.
 
+#include <iostream>
+#include <cstdio>
 #include "mllm/mllm.hpp"
 #include "mllm/nn/Module.hpp"
 #include "mllm/nn/Nn.hpp"
@@ -14,11 +16,20 @@ namespace mllm::models::qwen3 {
 
 inline void debugPrintHiddenHead(const char* tag, const Tensor& t) {
   auto s = t.shape();
-  if (s.size() != 3) { return; }  // expect [B, S, H]
+  if (s.size() != 3) { 
+    // Print shape info even if not 3D for debugging
+    std::cerr << "[Qwen3][DEBUG] " << tag << " shape size=" << s.size() << " (not 3D, skipping)\n";
+    std::cerr.flush();
+    return;  // expect [B, S, H]
+  }
   int B = s[0];
   int S = s[1];
   int H = s[2];
-  if (B <= 0 || S <= 0 || H <= 0) { return; }
+  if (B <= 0 || S <= 0 || H <= 0) { 
+    std::cerr << "[Qwen3][DEBUG] " << tag << " invalid dimensions: B=" << B << " S=" << S << " H=" << H << "\n";
+    std::cerr.flush();
+    return; 
+  }
 
   Tensor tmp = t;
   if (tmp.dtype() != kFloat32) { tmp = tmp.to(kFloat32); }
@@ -35,7 +46,13 @@ inline void debugPrintHiddenHead(const char* tag, const Tensor& t) {
   }
   msg.append("]");
 
+  // Use std::cerr with flush to ensure immediate output on Android
+  std::cerr << "[Qwen3][DEBUG] " << tag << " shape=[" << B << ", " << S << ", " << H << "] head=" << msg << "\n";
+  std::cerr.flush();
+  
+  // Also use MLLM_INFO for consistency (though it may be buffered)
   MLLM_INFO("[Qwen3][DEBUG] {} shape=[{}, {}, {}] head={}", tag, B, S, H, msg);
+  std::fflush(stdout);  // Force flush stdout as well
 }
 
 inline auto makeRoPEInvFreq(int output_dim, float rope_theta) -> Tensor {

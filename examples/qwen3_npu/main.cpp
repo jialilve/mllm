@@ -73,8 +73,8 @@ MLLM_MAIN({
   // cache has been updated due to trace, clear cache
   model.model.clearKVCache();
 
-  // auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "What can you do?"})["sequence"];
-  auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "提示:海洋世界里，鲸鱼是体型庞大的哺乳动物，它们通过喷水孔呼吸。与鱼类不同，鲸鱼无法在水下直接呼吸氧气。它们会定时浮出水面进行换气，每次换气需要消耗大量的体力。当它们睡觉时，只会关闭大脑的一半，另一半则保持清醒，以确保不忘记浮出水面呼吸。问题：鲸鱼与鱼类在呼吸方式上的根本区别是什么？它们在睡觉时会采取什么特殊的措施来保证安全？"})["sequence"];
+  auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "What can you do?"})["sequence"];
+  // auto raw_input_tokens = qwen3_tokenizer.convertMessage({.prompt = "提示:海洋世界里，鲸鱼是体型庞大的哺乳动物，它们通过喷水孔呼吸。与鱼类不同，鲸鱼无法在水下直接呼吸氧气。它们会定时浮出水面进行换气，每次换气需要消耗大量的体力。当它们睡觉时，只会关闭大脑的一半，另一半则保持清醒，以确保不忘记浮出水面呼吸。问题：鲸鱼与鱼类在呼吸方式上的根本区别是什么？它们在睡觉时会采取什么特殊的措施来保证安全？"})["sequence"];
   print(raw_input_tokens);
   MLLM_INFO("raw_input_tokens shape: {} {}", raw_input_tokens.shape()[0], raw_input_tokens.shape()[1]);
 
@@ -165,40 +165,40 @@ MLLM_MAIN({
     sequence_ptr[current_chunk_len] = next_token;
     current_chunk_len++;
 
-    while (!reached_eos && current_chunk_len < chunk_size) {
-      total_decode_steps++;
+    // while (!reached_eos && current_chunk_len < chunk_size) {
+    //   total_decode_steps++;
       
-      // Calculate absolute sequence length from the start of the entire sequence
-      const int absolute_seq_len = chunk_start + current_chunk_len;
+    //   // Calculate absolute sequence length from the start of the entire sequence
+    //   const int absolute_seq_len = chunk_start + current_chunk_len;
       
-      // Keep padding clean for the remaining area
-      for (int i = current_chunk_len; i < chunk_size; ++i) { sequence_ptr[i] = -1; }
+    //   // Keep padding clean for the remaining area
+    //   for (int i = current_chunk_len; i < chunk_size; ++i) { sequence_ptr[i] = -1; }
 
-      // Set KV cache to absolute sequence length (where the next token will be written)
-      model.setKVCacheSeqCnt(chunk_start);
+    //   // Set KV cache to absolute sequence length (where the next token will be written)
+    //   model.setKVCacheSeqCnt(chunk_start);
       
-      // Prepare decode input with position_ids from previous step
-      mllm::models::ARGenerationOutputPast decode_inputs{
-          {"sequence", sequence_tensor},
-          {"position_ids", position_ids}};
+    //   // Prepare decode input with position_ids from previous step
+    //   mllm::models::ARGenerationOutputPast decode_inputs{
+    //       {"sequence", sequence_tensor},
+    //       {"position_ids", position_ids}};
       
-      // real_seq should be the effective length in the current input tensor (relative position)
-      // hidden_states shape is [1, chunk_size, hidden_size], we need to index it with current_chunk_len - 1
-      auto decode_output = model.forward(
-          decode_inputs, {{"seq_len", mllm::AnyValue(mllm::any_copy_tag, current_chunk_len)}});
+    //   // real_seq should be the effective length in the current input tensor (relative position)
+    //   // hidden_states shape is [1, chunk_size, hidden_size], we need to index it with current_chunk_len - 1
+    //   auto decode_output = model.forward(
+    //       decode_inputs, {{"seq_len", mllm::AnyValue(mllm::any_copy_tag, current_chunk_len)}});
       
-      auto& decode_logits = decode_output["sequence"];
-      next_token = model.sampleGreedy(decode_logits);
-      decode_logits.delete_();
-      decode_output.erase("sequence");
-      decode_output.clear();
+    //   auto& decode_logits = decode_output["sequence"];
+    //   next_token = model.sampleGreedy(decode_logits);
+    //   decode_logits.delete_();
+    //   decode_output.erase("sequence");
+    //   decode_output.clear();
 
-      emit_token(next_token);
-      if (reached_eos) { break; }
+    //   emit_token(next_token);
+    //   if (reached_eos) { break; }
 
-      sequence_ptr[current_chunk_len] = next_token;
-      current_chunk_len++;
-    }
+    //   sequence_ptr[current_chunk_len] = next_token;
+    //   current_chunk_len++;
+    // }
   }
 
   std::wcout << L"\n";

@@ -47,6 +47,24 @@ def main():
     # Get params
     params = convertor.load_model(args.input_path)
 
+    # If no pipeline specified, do format conversion only (no quantization)
+    if args.pipeline is None and args.cfg_path is None:
+        if args.verbose:
+            print("No pipeline specified, performing format conversion only (no quantization)")
+        # Direct format conversion without quantization
+        writer = ModelFileV2(
+            args.output_path,
+            args.model_name,
+            "Static",
+            max_params_descriptor_buffer_num=len(params),
+        )
+        writer.static_write(params)
+        writer.finalize()
+        writer.close()
+        if args.verbose:
+            print(f"Conversion completed: {args.output_path}")
+        return
+
     # Build pipeline
     if args.cfg_path is None and args.pipeline is not None and args.format == "v2":
         cfg = None
